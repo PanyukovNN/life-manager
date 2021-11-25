@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
-@Document(collection = "customer")
+@Document(collection = "task")
 public class Task implements Comparable<Task> {
 
     @Id
@@ -23,11 +23,10 @@ public class Task implements Comparable<Task> {
     private String description;
 
     /**
-     * Приоритет может иметь значения от 1 до 16
+     * Приоритет может иметь значения от 0 до 15
      */
     private int priority;
 
-    @CreatedDate
     private LocalDateTime creationDateTime;
 
     @Override
