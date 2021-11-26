@@ -1,7 +1,7 @@
 package org.panyukovnn.lifemanager.controller;
 
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.request.AddTaskRequest;
+import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +20,7 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public Task addTask(@RequestBody AddTaskRequest request) {
+    public Task addTask(@RequestBody CreateUpdateTaskRequest request) {
         Task task = new Task();
         task.setDescription(request.getDescription());
         task.setPriority(convertPriority(request.getPriority()));

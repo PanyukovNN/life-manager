@@ -1,7 +1,7 @@
 package org.panyukovnn.lifemanager;
 
 import org.panyukovnn.lifemanager.controller.TaskController;
-import org.panyukovnn.lifemanager.model.request.AddTaskRequest;
+import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,8 +22,8 @@ public class LifeManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        AddTaskRequest request = new AddTaskRequest();
-        request.setDescription("First task");
+        CreateUpdateTaskRequest request = new CreateUpdateTaskRequest();
+        request.setDescription("First task 2");
         request.setPriority("A4");
 
         taskController.addTask(request);
