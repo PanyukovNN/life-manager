@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 /**
  * Задача
@@ -54,11 +54,14 @@ public class Task implements Comparable<Task> {
     /**
      * Дата и время создания
      */
-    @CreationTimestamp
     private LocalDateTime creationDateTime;
 
     @Override
     public int compareTo(Task task) {
-        return Integer.compare(this.priority, task.priority);
+        // TODO вынести в отдельный класс несколько компараторов, в зависимости от порядка
+        return Comparator.comparing(Task::getPriority)
+                .thenComparing(
+                        Comparator.nullsFirst(Comparator.comparing(Task::getCompletionDateTime)))
+                .compare(this, task);
     }
 }

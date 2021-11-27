@@ -3,13 +3,15 @@ package org.panyukovnn.lifemanager.service;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskStatus;
-import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.panyukovnn.lifemanager.model.Constants.NULL_CREATE_UPDATE_TASK_REQUEST_ERROR_MSG;
 import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
 
 /**
@@ -32,28 +34,73 @@ public class TaskService {
     /**
      * Создать/обновить задачу
      *
-     * @param request запрос
+     * @param id идентификатор
+     * @param priority приортитет
+     * @param description текст
+     * @param status статус
+     * @param completionDateTime дата и время выполнения
      * @return созданная/обновленная задача
      */
-    public Task createUpdate(CreateUpdateTaskRequest request) {
-        Objects.requireNonNull(request, NULL_CREATE_UPDATE_TASK_REQUEST_ERROR_MSG);
+    //TODO методы должны получать подготовленные данные
+    public Task createUpdate(String id,
+                             String priority,
+                             String description,
+                             String status,
+                             LocalDateTime completionDateTime) {
+
 
         Task task = new Task();
 
-        if (StringUtils.isNotBlank(request.getId())) {
-            Task taskFromDb = taskRepository.findById(request.getId()).orElse(null);
+        if (StringUtils.isNotBlank(id)) {
+            Task taskFromDb = taskRepository.findById(id).orElse(null);
 
             if (taskFromDb != null) {
                 task = taskFromDb;
+            } else {
+                task.setCreationDateTime(LocalDateTime.now());
             }
         }
 
-        task.setPriority(definePriority(request.getPriority()));
-        task.setDescription(request.getDescription());
-        task.setStatus(TaskStatus.valueOf(request.getStatus()));
-        task.setCompletionDateTime(request.getCompletionDateTime());
+        task.setPriority(definePriority(priority));
+        task.setDescription(description);
+        task.setStatus(TaskStatus.valueOf(status));
+        task.setCompletionDateTime(completionDateTime);
 
         return taskRepository.save(task);
+    }
+
+    /**
+     * Поиск задач по набору параметров
+     * Если какой либо из параметров равен null, то он не учитывается
+     *
+     * @param priority приоритет
+     * @param taskStatuses список статусов
+     * @param categories список категорий
+     * @param startDate дата начала
+     * @param endDate дата окончания
+     * @return список найденных задач
+     */
+    public List<Task> findList(Integer priority,
+                               List<String> taskStatuses,
+                               List<String> categories,
+                               LocalDate startDate,
+                               LocalDate endDate) {
+        //TODO отсортировать
+//        return taskRepository.findList(priority, taskStatuses, categories, startDate, endDate);
+
+        return taskRepository.findList(priority, taskStatuses);
+    }
+
+    /**
+     * Вернуть все задачи, отсортированные сначала по приоритету, затем по дате
+     *
+     * @return список задач
+     */
+    public List<Task> findAll() {
+        List<Task> allTasks = taskRepository.findAll();
+        allTasks.sort(Collections.reverseOrder());
+
+        return allTasks;
     }
 
     /**

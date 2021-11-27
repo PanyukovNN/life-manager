@@ -22,10 +22,10 @@ public class LifeManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        CreateUpdateTaskRequest request = new CreateUpdateTaskRequest();
-        request.setDescription("First task 2");
-        request.setPriority("A4");
-
-        taskController.addTask(request);
+//        CreateUpdateTaskRequest request = new CreateUpdateTaskRequest();
+//        request.setDescription("First task 2");
+//        request.setPriority("A4");
+//
+//        taskController.addTask(request);
     }
 }
