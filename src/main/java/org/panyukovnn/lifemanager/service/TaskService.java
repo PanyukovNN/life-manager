@@ -1,6 +1,7 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
@@ -97,7 +98,7 @@ public class TaskService {
      */
     public List<Task> findList(Integer priority,
                                List<TaskStatus> taskStatuses,
-                               List<String> categories,
+                               List<Category> categories,
                                LocalDate startDate,
                                LocalDate endDate,
                                TaskCompareType compareType) {

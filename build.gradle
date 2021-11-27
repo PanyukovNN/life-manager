@@ -35,6 +35,7 @@ dependencies {
     implementation library.springBootDataJpa
     implementation library.springBootActuator
     implementation library.springBootDevTools
+    implementation library.springBootValidation
 
     testImplementation libraryTest.junit4
     testImplementation libraryTest.junit5api

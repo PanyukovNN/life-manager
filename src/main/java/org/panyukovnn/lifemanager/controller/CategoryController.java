@@ -2,9 +2,11 @@ package org.panyukovnn.lifemanager.controller;
 
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.request.CreateUpdateCategoryRequest;
+import org.panyukovnn.lifemanager.model.request.FindCategoryByNameRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,6 +42,19 @@ public class CategoryController {
         Objects.requireNonNull(request, NULL_CREATE_UPDATE_CATEGORY_REQUEST_ERROR_MSG);
 
         return categoryService.createUpdate(request.getId(), request.getName());
+    }
+
+    /**
+     * Найти категорию по наименованию
+     *
+     * @param request запрос
+     * @return категория
+     */
+    @GetMapping("/find-by-name")
+    public Category findByName(@RequestBody @Valid FindCategoryByNameRequest request) {
+        Objects.requireNonNull(request);
+
+        return categoryService.findByName(request.getName());
     }
 
     /**

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,5 +23,7 @@ public class FindTaskListRequest {
     public List<String> categories;
     public LocalDate startDate;
     public LocalDate endDate;
+
+    @NotNull
     public TaskCompareType compareType;
 }
