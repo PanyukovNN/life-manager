@@ -1,7 +1,6 @@
 package org.panyukovnn.lifemanager.controller;
 
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
 import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.service.TaskService;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
 
@@ -65,7 +63,8 @@ public class TaskController {
                 request.getTaskStatuses(),
                 request.getCategories(), //TODO переделать String на Category
                 request.getStartDate(),
-                request.getEndDate());
+                request.getEndDate(),
+                request.getCompareType());
     }
 
     /**

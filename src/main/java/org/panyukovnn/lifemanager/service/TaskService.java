@@ -2,15 +2,21 @@ package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import org.panyukovnn.lifemanager.model.Task;
+import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
+import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskCompareStrategyManager;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
 
@@ -21,14 +27,22 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_V
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final MongoTemplate mongoTemplate;
+    private final TaskCompareStrategyManager compareStrategyManager;
 
     /**
      * Конструктор
      *
      * @param taskRepository репозиторий задач
+     * @param mongoTemplate сервис работы с монго запросами
+     * @param compareStrategyManager менеджер стратегий сортировки задач
      */
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository,
+                       MongoTemplate mongoTemplate,
+                       TaskCompareStrategyManager compareStrategyManager) {
         this.taskRepository = taskRepository;
+        this.mongoTemplate = mongoTemplate;
+        this.compareStrategyManager = compareStrategyManager;
     }
 
     /**
@@ -78,17 +92,44 @@ public class TaskService {
      * @param categories список категорий
      * @param startDate дата начала
      * @param endDate дата окончания
+     * @param compareType способ сортировки задач
      * @return список найденных задач
      */
     public List<Task> findList(Integer priority,
-                               List<String> taskStatuses,
+                               List<TaskStatus> taskStatuses,
                                List<String> categories,
                                LocalDate startDate,
-                               LocalDate endDate) {
-        //TODO отсортировать
-//        return taskRepository.findList(priority, taskStatuses, categories, startDate, endDate);
+                               LocalDate endDate,
+                               TaskCompareType compareType) {
+        Query query = new Query();
+        List<Criteria> criteriaList = new ArrayList<>();
 
-        return taskRepository.findList(priority, taskStatuses);
+        if (priority != null) {
+            criteriaList.add(Criteria.where("priority").is(priority));
+        }
+
+        if (!CollectionUtils.isEmpty(taskStatuses)) {
+            criteriaList.add(Criteria.where("status").in(taskStatuses));
+        }
+
+        if (!CollectionUtils.isEmpty(categories)) {
+            criteriaList.add(Criteria.where("category").in(categories));
+        }
+
+        if (startDate != null) {
+            criteriaList.add(Criteria.where("completionDateTime").gte(startDate));
+        }
+
+        if (endDate != null) {
+            criteriaList.add(Criteria.where("completionDateTime").lte(endDate));
+        }
+
+        query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
+
+        List<Task> tasks = mongoTemplate.find(query, Task.class);
+        tasks.sort(compareStrategyManager.resolveStrategy(compareType));
+
+        return tasks;
     }
 
     /**

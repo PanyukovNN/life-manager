@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 
 /**
  * Задача
@@ -19,7 +17,7 @@ import java.util.Comparator;
 @ToString
 @NoArgsConstructor
 @Document(collection = "task")
-public class Task implements Comparable<Task> {
+public class Task {
 
     @Id
     private String id;
@@ -55,13 +53,4 @@ public class Task implements Comparable<Task> {
      * Дата и время создания
      */
     private LocalDateTime creationDateTime;
-
-    @Override
-    public int compareTo(Task task) {
-        // TODO вынести в отдельный класс несколько компараторов, в зависимости от порядка
-        return Comparator.comparing(Task::getPriority)
-                .thenComparing(
-                        Comparator.nullsFirst(Comparator.comparing(Task::getCompletionDateTime)))
-                .compare(this, task);
-    }
 }
