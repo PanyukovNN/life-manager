@@ -2,14 +2,18 @@ package org.panyukovnn.lifemanager.controller;
 
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
+import org.panyukovnn.lifemanager.model.TaskCompareType;
+import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
+import org.panyukovnn.lifemanager.model.request.DeleteCategoryByIdRequest;
 import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
+import org.panyukovnn.lifemanager.service.ControllerHelper;
 import org.panyukovnn.lifemanager.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -48,11 +52,16 @@ public class TaskController {
     public Task createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request) {
         Objects.requireNonNull(request, NULL_CREATE_UPDATE_TASK_REQUEST_ERROR_MSG);
 
+        int priority = ControllerHelper.convertPriority(request.getPriority());
+        TaskStatus status = TaskStatus.valueOf(request.getStatus());
+        Category category = categoryService.findByName(request.getCategory());
+
         return taskService.createUpdate(
                 request.getId(),
-                request.getPriority(),
+                priority,
                 request.getDescription(),
-                request.getStatus(),
+                category,
+                status,
                 request.getCompletionDateTime());
     }
 
@@ -62,7 +71,7 @@ public class TaskController {
      * @param request запрос
      * @return список задач
      */
-    @GetMapping("/list")
+    @GetMapping("/find-list")
     public List<Task> findTaskList(@RequestBody @Valid FindTaskListRequest request) {
         Objects.requireNonNull(request, NULL_FIND_LIST_REQUEST_ERROR_MSG);
 
@@ -88,22 +97,21 @@ public class TaskController {
      */
     @GetMapping("/find-all")
     public List<Task> findAll() {
-        List<Task> allTasks = taskService.findAll();
-        allTasks.sort(Collections.reverseOrder());
-
-        return allTasks;
+        return taskService.findAll(TaskCompareType.PRIORITY_FIRST);
     }
 
     /**
-     * Обработчик ошибок
+     * Удалить задачу по идентификатору
      *
-     * @param e исключение
-     * @return сообщение об ошибке
+     * @param request запрос
+     * @return сообщение об успешном удалении
      */
-    @ExceptionHandler(Exception.class)
-    public String handleException(Exception e) {
-        e.printStackTrace();
+    @DeleteMapping("/delete-by-id")
+    public String deleteById(@RequestBody @Valid DeleteCategoryByIdRequest request) {
+        Objects.requireNonNull(request);
 
-        return ERROR_OCCURRED_MSG + e.getMessage();
+        taskService.deleteById(request.getId());
+
+        return String.format(TASK_REMOVED_SUCCESSFULLY, request.getId());
     }
 }

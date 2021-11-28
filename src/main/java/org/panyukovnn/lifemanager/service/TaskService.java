@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
-
 /**
  * Сервис задач
  */
@@ -52,15 +50,16 @@ public class TaskService {
      * @param id идентификатор
      * @param priority приортитет
      * @param description текст
+     * @param category категория
      * @param status статус
      * @param completionDateTime дата и время выполнения
      * @return созданная/обновленная задача
      */
-    //TODO методы должны получать подготовленные данные
     public Task createUpdate(String id,
-                             String priority,
+                             int priority,
                              String description,
-                             String status,
+                             Category category,
+                             TaskStatus status,
                              LocalDateTime completionDateTime) {
 
 
@@ -71,14 +70,17 @@ public class TaskService {
 
             if (taskFromDb != null) {
                 task = taskFromDb;
-            } else {
-                task.setCreationDateTime(LocalDateTime.now());
             }
         }
 
-        task.setPriority(definePriority(priority));
+        if (task.getCreationDateTime() == null) {
+            task.setCreationDateTime(LocalDateTime.now());
+        }
+
+        task.setPriority(priority);
         task.setDescription(description);
-        task.setStatus(TaskStatus.valueOf(status));
+        task.setStatus(status);
+        task.setCategory(category);
         task.setCompletionDateTime(completionDateTime);
 
         return taskRepository.save(task);
@@ -136,11 +138,12 @@ public class TaskService {
     /**
      * Вернуть все задачи, отсортированные сначала по приоритету, затем по дате
      *
+     * @param compareType способ сортировки задач
      * @return список задач
      */
-    public List<Task> findAll() {
+    public List<Task> findAll(TaskCompareType compareType) {
         List<Task> allTasks = taskRepository.findAll();
-        allTasks.sort(Collections.reverseOrder());
+        allTasks.sort(compareStrategyManager.resolveStrategy(compareType));
 
         return allTasks;
     }
@@ -152,32 +155,5 @@ public class TaskService {
      */
     public void deleteById(String id) {
         taskRepository.deleteById(id);
-    }
-
-    /**
-     * Определить числовое значение приоритета по строчной записи
-     * Например строке А1 соответствует приоритет 15
-     *
-     * @param priorityParam строчная запись приоритета
-     * @return числовое значение приоритета
-     */
-    private int definePriority(String priorityParam) {
-        if (StringUtils.isBlank(priorityParam) || priorityParam.length() != 2) {
-            throw new IllegalArgumentException(WRONG_PRIORITY_STRING_VALUE_ERROR_MSG);
-        }
-
-        char letter = priorityParam.charAt(0);
-        int digit = Character.getNumericValue(priorityParam.charAt(1));
-
-        if (letter < 'A' || letter > 'D'
-                || digit < 1 || digit > 4) {
-            throw new IllegalArgumentException(WRONG_PRIORITY_STRING_VALUE_ERROR_MSG);
-        }
-
-        // Возвращает максимальное число диапазона по букве (Например, если А то 4, если D то 0)
-        int multiplier = 4 * (4 - letter + 'A');
-
-        // Уменьшаем максимальное число диапазона на число (Например, если А2 то 14, если C4 то 4)
-        return multiplier - digit;
     }
 }

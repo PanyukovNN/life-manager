@@ -4,6 +4,7 @@ import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.request.CreateUpdateCategoryRequest;
 import org.panyukovnn.lifemanager.model.request.FindCategoryByNameRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -65,19 +66,5 @@ public class CategoryController {
     @GetMapping("/find-all")
     public List<Category> findAll() {
         return categoryService.findAll();
-    }
-
-    /**
-     * Обработчик ошибок
-     *
-     * @param e исключение
-     * @return сообщение об ошибке
-     */
-    // TODO написать аспект
-    @ExceptionHandler(Exception.class)
-    public String handleException(Exception e) {
-        e.printStackTrace();
-
-        return ERROR_OCCURRED_MSG + e.getMessage();
     }
 }
