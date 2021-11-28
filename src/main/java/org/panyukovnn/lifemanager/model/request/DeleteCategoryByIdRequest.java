@@ -14,6 +14,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class DeleteCategoryByIdRequest {
 
-    @NotBlank(message = "Идентификатор не может быть пустым")
+    @NotBlank
     public String id;
 }

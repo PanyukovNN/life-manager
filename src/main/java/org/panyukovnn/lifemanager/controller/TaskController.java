@@ -71,11 +71,11 @@ public class TaskController {
      * @param request запрос
      * @return список задач
      */
-    @GetMapping("/find-list")
+    @PostMapping("/find-list")
     public List<Task> findTaskList(@RequestBody @Valid FindTaskListRequest request) {
         Objects.requireNonNull(request, NULL_FIND_LIST_REQUEST_ERROR_MSG);
 
-        //TODO неэффективно
+        //TODO искать сразу все категории (либо из кеша)
         List<Category> categories = request.getCategories()
                 .stream()
                 .map(categoryService::findByName)
