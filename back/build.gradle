@@ -1,0 +1,11 @@
+
+dependencies {
+    implementation library.springBootAOP
+    implementation library.springBootWeb
+    implementation library.springBootDataJpa
+    implementation library.springBootSecurity
+    implementation library.springBootActuator
+    implementation library.springBootDevTools
+    implementation library.springBootDataMongo
+    implementation library.springBootValidation
+}

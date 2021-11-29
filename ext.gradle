@@ -2,27 +2,22 @@
 ext.library = [
         'lombok':'org.projectlombok:lombok:1.18.20',
 
-        'springMongo':'org.springframework.boot:spring-boot-starter-data-mongodb',
         'springBootWeb':'org.springframework.boot:spring-boot-starter-web',
         'springBootDevTools':'org.springframework.boot:spring-boot-devtools',
         'springBootActuator':'org.springframework.boot:spring-boot-starter-actuator',
         'springBootDataJpa':'org.springframework.boot:spring-boot-starter-data-jpa',
         'springBootDataMongo':'org.springframework.boot:spring-boot-starter-data-mongodb',
         'springBootValidation':'org.springframework.boot:spring-boot-starter-validation',
-        'springSecurity':'org.springframework.security:spring-security-core:5.5.1',
-        'springAOP':'org.springframework.boot:spring-boot-starter-aop',
+        'springBootSecurity':'org.springframework.security:spring-security-core:5.5.1',
+        'springBootAOP':'org.springframework.boot:spring-boot-starter-aop',
 
         'jasypt':'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3',
-
-        'instagram4j':'com.github.instagram4j:instagram4j:2.0.5',
-        'okhttp':'com.squareup.okhttp3:okhttp:4.9.1',
 
         'kafkaClients':'org.apache.kafka:kafka-clients:2.8.0',
         'kafkaCommon':'org.apache.kafka:kafka_2.13:2.8.0',
 
         'springKafka':'org.springframework.kafka:spring-kafka:2.7.5',
 
-        'jImageHash':'com.github.kilianB:JImageHash:3.0.0',
         'commonsIo':'commons-io:commons-io:2.8.0',
 ]
 
@@ -30,7 +25,6 @@ ext.libraryTest = [
         'mockito' : 'org.mockito:mockito-all:1.10.19',
         'powerMockito' : 'org.powermock:powermock-api-mockito:1.7.4',
         'powerMockitoJunit' : 'org.powermock:powermock-module-junit4:1.7.4',
-        'junit4' : 'junit:junit:4.12',
         'junit5api' : 'org.junit.jupiter:junit-jupiter-api:5.3.1',
         'junit5engine' : 'org.junit.jupiter:junit-jupiter-engine:5.3.1',
         'springBootTest' : 'org.springframework.boot:spring-boot-starter-test',
