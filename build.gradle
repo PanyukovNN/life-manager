@@ -48,8 +48,7 @@ allprojects {
 }
 
 // Не собираем корневой проект, поскольку у него нет кода
+jar.enabled = false
 build.enabled = false
 bootJar.enabled = false
-bootRunMainClassName.enabled = false
-assemble.enabled = false
-check.enabled = false
+bootJarMainClassName.enabled = false

@@ -6,3 +6,4 @@
 build/
 /Dockerfile
 **.txt
+**.iml
