@@ -10,7 +10,6 @@ import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.panyukovnn.lifemanager.service.ControllerHelper;
 import org.panyukovnn.lifemanager.service.TaskService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +22,7 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
 /**
  * Контроллер задач
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/task")
 public class TaskController {

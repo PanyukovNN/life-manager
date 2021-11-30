@@ -1,7 +1,6 @@
 package org.panyukovnn.lifemanager.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -12,7 +11,6 @@ import static org.panyukovnn.lifemanager.model.Constants.ERROR_OCCURRED_MSG;
  * Адвайс для обработки исключений контроллеров
  */
 @ControllerAdvice
-@Controller
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**

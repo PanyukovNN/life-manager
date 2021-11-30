@@ -17,6 +17,7 @@ import static org.panyukovnn.lifemanager.model.Constants.NULL_CREATE_UPDATE_CATE
 /**
  * Контроллер категорий
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
