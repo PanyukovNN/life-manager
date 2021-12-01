@@ -7,7 +7,9 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Задача
@@ -45,9 +47,14 @@ public class Task {
     private TaskStatus status;
 
     /**
-     * Дата и время выполнения
+     * Дата выполнения
      */
-    private LocalDateTime completionDateTime;
+    private LocalDate completionDate;
+
+    /**
+     * Время выполнения (не может быть заполнен без даты выполнения)
+     */
+    private LocalTime completionTime;
 
     /**
      * Дата и время создания

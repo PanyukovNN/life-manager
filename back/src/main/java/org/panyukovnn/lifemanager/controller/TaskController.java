@@ -52,7 +52,7 @@ public class TaskController {
     public Task createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request) {
         Objects.requireNonNull(request, NULL_CREATE_UPDATE_TASK_REQUEST_ERROR_MSG);
 
-        int priority = ControllerHelper.convertPriority(request.getPriority());
+        int priority = ControllerHelper.paramToPriority(request.getPriority());
         TaskStatus status = TaskStatus.valueOf(request.getStatus());
         Category category = categoryService.findByName(request.getCategory());
 
@@ -62,7 +62,8 @@ public class TaskController {
                 request.getDescription(),
                 category,
                 status,
-                request.getCompletionDateTime());
+                request.getCompletionDate(),
+                request.getCompletionTime());
     }
 
     /**

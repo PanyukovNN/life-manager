@@ -6,7 +6,8 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * Запрос на создание/изменение задачи
@@ -29,5 +30,7 @@ public class CreateUpdateTaskRequest {
 
     public String status;
 
-    public LocalDateTime completionDateTime;
+    public LocalDate completionDate;
+
+    public LocalTime completionTime;
 }

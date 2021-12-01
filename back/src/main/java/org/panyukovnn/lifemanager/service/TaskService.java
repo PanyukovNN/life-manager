@@ -15,8 +15,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,7 +52,8 @@ public class TaskService {
      * @param description текст
      * @param category категория
      * @param status статус
-     * @param completionDateTime дата и время выполнения
+     * @param completionDate дата выполнения
+     * @param completionTime время выполнения
      * @return созданная/обновленная задача
      */
     public Task createUpdate(String id,
@@ -60,9 +61,8 @@ public class TaskService {
                              String description,
                              Category category,
                              TaskStatus status,
-                             LocalDateTime completionDateTime) {
-
-
+                             LocalDate completionDate,
+                             LocalTime completionTime) {
         Task task = new Task();
 
         if (StringUtils.isNotBlank(id)) {
@@ -81,7 +81,8 @@ public class TaskService {
         task.setDescription(description);
         task.setStatus(status);
         task.setCategory(category);
-        task.setCompletionDateTime(completionDateTime);
+        task.setCompletionDate(completionDate);
+        task.setCompletionTime(completionTime);
 
         return taskRepository.save(task);
     }

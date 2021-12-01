@@ -14,7 +14,8 @@ public class DateFirstStrategy implements TaskCompareStrategy {
 
     @Override
     public Comparator<Task> getComparator() {
-        return Comparator.nullsFirst(Comparator.comparing(Task::getCompletionDateTime))
+        return Comparator.nullsFirst(Comparator.comparing(Task::getCompletionDate))
+                .thenComparing(Comparator.nullsLast(Comparator.comparing(Task::getCompletionTime)))
                 .thenComparing(Task::getPriority);
     }
 

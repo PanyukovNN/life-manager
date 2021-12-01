@@ -3,6 +3,9 @@ package org.panyukovnn.lifemanager.service;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.experimental.UtilityClass;
 
+import java.time.format.DateTimeFormatter;
+
+import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_INT_VALUE_ERROR_MSG;
 import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
 
 /**
@@ -10,6 +13,9 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_V
  */
 @UtilityClass
 public class ControllerHelper {
+
+    public final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd:MM:yyyy");
+    public final DateTimeFormatter FRONT_T_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     /**
      * Конвертировать строчную запись приоритета в числовое значение
@@ -23,7 +29,7 @@ public class ControllerHelper {
      * @param priorityParam строчная запись приоритета
      * @return числовое значение приоритета
      */
-    public int convertPriority(String priorityParam) {
+    public int paramToPriority(String priorityParam) {
         if (StringUtils.isBlank(priorityParam) || priorityParam.length() != 2) {
             throw new IllegalArgumentException(WRONG_PRIORITY_STRING_VALUE_ERROR_MSG);
         }
@@ -41,5 +47,22 @@ public class ControllerHelper {
 
         // Уменьшаем максимальное число диапазона на число (Например, если А2 то 14, если C4 то 4)
         return multiplier - digit;
+    }
+
+    /**
+     * Конвертировать числовой приоритет в строчную запись
+     *
+     * @param priority приоритет в числовом виде
+     * @return строчная запись приоритета
+     */
+    public String priorityToParam(int priority) {
+        if (priority < 0 || priority > 15) {
+            throw new IllegalArgumentException(WRONG_PRIORITY_INT_VALUE_ERROR_MSG);
+        }
+
+        int digit = (priority + 1) % 4;
+        char letter = (char) ('A' + 4 - (priority / 4));
+
+        return letter + digit + "";
     }
 }
