@@ -1,4 +1,6 @@
 import './App.css';
+import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Task } from './components/Task'
 import { useEffect, useState } from 'react'
 
@@ -61,8 +63,19 @@ function App() {
         []
     );
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
         <div className="App">
+            <link
+                rel = "stylesheet"
+                href = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+                integrity = "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+                crossOrigin = "anonymous"/>
+
             <div className="filter-block">
                 <div className="filter-block-header">
                     Список задач
@@ -108,14 +121,43 @@ function App() {
                     </div>
                 </div>
 
-                <button>
-                    Показать
-                </button>
+                <div className="selector-block">
+                    <div className="selector-header">
+                        Сортировать по:
+                    </div>
+                    <div className="selector-wrapper">
+                        <select size="1">
+                            <option>Приоритету</option>
+                            <option>Дате исполнения</option>
+                            <option>Дате добавления</option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
 
             <div className="tasks-block">
                 {taskComponents}
+
+                <Button className="add-task-button" variant="primary" onClick={handleShow}>
+                    <span className="plus-sign">&#43;</span>
+                </Button>
             </div>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }

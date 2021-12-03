@@ -56,3 +56,32 @@
 .task-description {
     margin-left: 15px;
 }
+
+.add-task-button {
+    position: absolute;
+
+    width:  60px;
+    height: 60px;
+
+    right: 150px;
+    bottom: 100px;
+
+    color: black !important;
+    font-size: 40px !important;
+    font-weight: bold !important;
+
+    border-color: white !important;
+    background-color: white !important;
+
+    box-shadow: 0 0 30px rgba(0, 0, 0, .15);
+
+    border-radius: 100px !important;
+}
+
+.plus-sign {
+    display: flex;
+
+    top: -3px;
+    left: 15px;
+    position: absolute;
+}
