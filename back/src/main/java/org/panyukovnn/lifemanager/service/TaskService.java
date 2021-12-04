@@ -144,6 +144,7 @@ public class TaskService {
      */
     public List<Task> findAll(TaskCompareType compareType) {
         List<Task> allTasks = taskRepository.findAll();
+//        allTasks.forEach(System.out::println);
         allTasks.sort(compareStrategyManager.resolveStrategy(compareType));
 
         return allTasks;

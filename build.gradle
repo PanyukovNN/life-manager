@@ -2,9 +2,17 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.6.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+//    id 'net.ltgt.apt-idea' version "0.15"
 }
 
 allprojects {
+    compileJava {
+        sourceCompatibility = '11'
+        targetCompatibility = '11'
+    }
+
+//    apply plugin: 'net.ltgt.apt-idea'
+
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
@@ -31,7 +39,20 @@ allprojects {
         testAnnotationProcessor.extendsFrom annotaionProcessor
     }
 
+    compileJava {
+        options.annotationProcessorPath = configurations.annotationProcessor
+    }
+
     dependencies {
+        implementation library.springBootAOP
+        implementation library.springBootWeb
+        implementation library.springBootDataJpa
+        implementation library.springBootSecurity
+        implementation library.springBootActuator
+        implementation library.springBootDevTools
+        implementation library.springBootDataMongo
+        implementation library.springBootValidation
+
         annotationProcessor library.lombok
 
         testImplementation libraryTest.junit5api

@@ -4,6 +4,7 @@ import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
+import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
 import org.panyukovnn.lifemanager.model.request.DeleteCategoryByIdRequest;
 import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
@@ -49,14 +50,14 @@ public class TaskController {
      * @return созданная/обновленная задача
      */
     @PostMapping("/create-update")
-    public Task createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request) {
+    public TaskDto createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request) {
         Objects.requireNonNull(request, NULL_CREATE_UPDATE_TASK_REQUEST_ERROR_MSG);
 
         int priority = ControllerHelper.paramToPriority(request.getPriority());
         TaskStatus status = TaskStatus.valueOf(request.getStatus());
         Category category = categoryService.findByName(request.getCategory());
 
-        return taskService.createUpdate(
+        Task task = taskService.createUpdate(
                 request.getId(),
                 priority,
                 request.getDescription(),
@@ -64,6 +65,8 @@ public class TaskController {
                 status,
                 request.getCompletionDate(),
                 request.getCompletionTime());
+
+        return new TaskDto(task);
     }
 
     /**

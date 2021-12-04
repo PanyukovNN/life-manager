@@ -1,7 +1,6 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import lombok.experimental.UtilityClass;
 
 import java.time.format.DateTimeFormatter;
 
@@ -11,11 +10,10 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_V
 /**
  * Вспомогательные методы для контроллеров
  */
-@UtilityClass
 public class ControllerHelper {
 
-    public final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd:MM:yyyy");
-    public final DateTimeFormatter FRONT_T_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    public static final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd:MM:yyyy");
+    public static final DateTimeFormatter FRONT_T_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     /**
      * Конвертировать строчную запись приоритета в числовое значение
@@ -29,7 +27,7 @@ public class ControllerHelper {
      * @param priorityParam строчная запись приоритета
      * @return числовое значение приоритета
      */
-    public int paramToPriority(String priorityParam) {
+    public static int paramToPriority(String priorityParam) {
         if (StringUtils.isBlank(priorityParam) || priorityParam.length() != 2) {
             throw new IllegalArgumentException(WRONG_PRIORITY_STRING_VALUE_ERROR_MSG);
         }
@@ -55,7 +53,7 @@ public class ControllerHelper {
      * @param priority приоритет в числовом виде
      * @return строчная запись приоритета
      */
-    public String priorityToParam(int priority) {
+    public static String priorityToParam(int priority) {
         if (priority < 0 || priority > 15) {
             throw new IllegalArgumentException(WRONG_PRIORITY_INT_VALUE_ERROR_MSG);
         }

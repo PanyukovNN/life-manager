@@ -1,8 +1,9 @@
 import './App.css';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, FloatingLabel, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Task } from './components/Task'
 import { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 
 function App() {
     /*
@@ -63,10 +64,39 @@ function App() {
         []
     );
 
+    let newTaskComponentsElement = [];
+
     const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
+    // Нажатие на кнопку добавления задачи
+    const handleClose = async () => setShow(false);
+    const handleSave = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                description: taskText,
+                priority: 'A1',
+                category: 'Работа',
+                status: "TO_DO"
+            })
+        };
+
+        const response = await fetch('http://localhost:80/api/task/create-update', requestOptions);
+        // Обработать потенциальную ошибку
+        const task = await response.json();
+
+        newTaskComponentsElement.push(<Task task={task} />);
+        ReactDOM.render(newTaskComponentsElement, document.getElementById('newTaskComponentsWrap'));
+
+        setShow(false);
+    }
     const handleShow = () => setShow(true);
+
+    let taskText = "";
+    function handleChange(event) {
+        taskText = event.target.value;
+    }
 
     return (
         <div className="App">
@@ -137,7 +167,10 @@ function App() {
             </div>
 
             <div className="tasks-block">
-                {taskComponents}
+                <div id="newTaskComponentsWrap" className="new-task-components-wrap"></div>
+                <div className="task-components-wrap">
+                    {taskComponents}
+                </div>
 
                 <Button className="add-task-button" variant="primary" onClick={handleShow}>
                     <span className="plus-sign">&#43;</span>
@@ -146,15 +179,26 @@ function App() {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Новая задача</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+
+                <div className="task-textarea-wrap">
+                    <FloatingLabel id="taskTextarea" controlId="floatingTextarea2" label="Введите описание задачи">
+                        <Form.Control
+                            as="textarea"
+                            placeholder=""
+                            onChange={handleChange}
+                            style={{ height: '100px' }}
+                        />
+                    </FloatingLabel>
+                </div>
+
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Закрыть
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
+                    <Button variant="primary" onClick={handleSave}>
+                        Сохранить
                     </Button>
                 </Modal.Footer>
             </Modal>
