@@ -6,7 +6,7 @@ import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
-import org.panyukovnn.lifemanager.model.request.DeleteCategoryByIdRequest;
+import org.panyukovnn.lifemanager.model.request.DeleteByIdRequest;
 import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.panyukovnn.lifemanager.service.ControllerHelper;
@@ -114,7 +114,7 @@ public class TaskController {
      * @return сообщение об успешном удалении
      */
     @DeleteMapping("/delete-by-id")
-    public String deleteById(@RequestBody @Valid DeleteCategoryByIdRequest request) {
+    public String deleteById(@RequestBody @Valid DeleteByIdRequest request) {
         Objects.requireNonNull(request);
 
         taskService.deleteById(request.getId());

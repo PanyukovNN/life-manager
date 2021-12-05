@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 
 /**
- * Стратегия сортировки задач сначала по дате
+ * Стратегия сортировки задач в порядке даты исполенния
  */
 @Service
-public class DateFirstStrategy implements TaskCompareStrategy {
+public class DateCompletionFirstStrategy implements TaskCompareStrategy {
 
     @Override
     public Comparator<Task> getComparator() {
@@ -21,6 +21,6 @@ public class DateFirstStrategy implements TaskCompareStrategy {
 
     @Override
     public TaskCompareType getTaskCompareType() {
-        return TaskCompareType.DATE_FIRST;
+        return TaskCompareType.DATE_COMPLETION_FIRST;
     }
 }

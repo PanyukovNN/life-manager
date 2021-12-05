@@ -6,12 +6,17 @@ package org.panyukovnn.lifemanager.model;
 public enum TaskCompareType {
 
     /**
-     * Сначала по приортитету
+     * В порядке приоритета
      */
     PRIORITY_FIRST,
 
     /**
-     * Сначала по дате
+     * В порядке даты исполнения
      */
-    DATE_FIRST
+    DATE_COMPLETION_FIRST,
+
+    /**
+     * В порядке даты добавления
+     */
+    DATE_ADDED_FIRST
 }

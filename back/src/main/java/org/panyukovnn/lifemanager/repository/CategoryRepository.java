@@ -17,4 +17,11 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
      * @return категория
      */
     Optional<Category> findByName(String name);
+
+    /**
+     * Удалить по наименованию
+     *
+     * @param name наименование
+     */
+    void deleteByName(String name);
 }

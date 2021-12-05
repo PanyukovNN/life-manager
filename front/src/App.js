@@ -1,9 +1,15 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {React, useState} from 'react'
+import {useState} from 'react'
 import {TaskList} from './components/TaskList'
-import {CategoryOptions} from './components/CategoryOptions'
 import {AddTaskButtonModal} from './components/AddTaskButtonModal'
+import {SelectorComponent} from './components/SelectorComponent'
+import {SelectorCategoryComponent} from './components/SelectorCategoryComponent'
+
+const PERIOD_KEY     = "period";
+const CATEGORY_KEY   = "category";
+const PRIORITY_KEY   = "priority";
+const SORT_ORDER_KEY = "sortOrder";
 
 function App() {
 
@@ -22,59 +28,38 @@ function App() {
                     Список задач
                 </div>
 
-                <div className="selector-block">
-                    <div className="selector-header">
-                        Раздел:
-                    </div>
-                    <div className="selector-wrapper">
-                        <select size="1">
-                            <CategoryOptions />
-                        </select>
-                    </div>
-                </div>
+                {/* Селектор категорий */}
+                <SelectorCategoryComponent
+                    storageKey={CATEGORY_KEY}
+                    header={"Раздел:"}/>
 
-                <div className="selector-block">
-                    <div className="selector-header">
-                        Приоритет:
-                    </div>
-                    <div className="selector-wrapper">
-                        <select size="1">
-                            <option>Любой</option>
-                            <option>A</option>
-                            <option>B</option>
-                            <option>C</option>
-                            <option>D</option>
-                        </select>
-                    </div>
-                </div>
+                {/* Селектор приоритета */}
+                <SelectorComponent
+                    storageKey={PRIORITY_KEY}
+                    header={"Приоритет:"}
+                    optionMap={{"ALL" : "Любой",
+                        "A" : "A",
+                        "B" : "B",
+                        "C" : "C",
+                        "D" : "D"}}/>
 
-                <div className="selector-block">
-                    <div className="selector-header">
-                        За период:
-                    </div>
-                    <div className="selector-wrapper">
-                        <select size="1">
-                            <option>Все время</option>
-                            <option>День</option>
-                            <option>Неделя</option>
-                            <option>Месяц</option>
-                        </select>
-                    </div>
-                </div>
+                {/* Селектор периода */}
+                <SelectorComponent
+                    storageKey={PERIOD_KEY}
+                    header={"За период:"}
+                    optionMap={{"ALL" : "Все время",
+                        "DAY"   : "День",
+                        "WEEK"  : "Неделя",
+                        "MONTH" : "Месяц"}}/>
 
-                <div className="selector-block">
-                    <div className="selector-header">
-                        Сортировать по:
-                    </div>
-                    <div className="selector-wrapper">
-                        <select size="1">
-                            <option>Приоритету</option>
-                            <option>Дате исполнения</option>
-                            <option>Дате добавления</option>
-                        </select>
-                    </div>
-                </div>
-
+                {/* Селектор сортировки */}
+                <SelectorComponent
+                    storageKey={SORT_ORDER_KEY}
+                    header={"Сортировать по:"}
+                    optionMap={{"ALL" : "Все время",
+                        "PRIORITY_FIRST"   : "Приоритету",
+                        "DATE_FIRST"       : "Дате исполнения",
+                        "DATE_ADDED_FIRST" : "Дате добавления"}}/>
             </div>
 
             <div className="tasks-block">

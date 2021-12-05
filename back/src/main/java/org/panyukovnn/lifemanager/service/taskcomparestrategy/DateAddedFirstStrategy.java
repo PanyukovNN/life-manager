@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 
 /**
- * Стратегия сортировки задач в порядке приоритета
+ * Стратегия сортировки задач в порядке даты добавления
  */
 @Service
-public class PriorityFirstStrategy implements TaskCompareStrategy {
+public class DateAddedFirstStrategy implements TaskCompareStrategy {
 
     @Override
     public Comparator<Task> getComparator() {
-        return Comparator.comparing(Task::getPriority)
+        return Comparator.comparing(Task::getCreationDateTime)
+                .thenComparing(Task::getPriority)
                 .thenComparing(Task::getCompletionDate, Comparator.nullsFirst(Comparator.naturalOrder()))
                 .thenComparing(Task::getCompletionTime, Comparator.nullsFirst(Comparator.naturalOrder()))
                 .reversed();
@@ -22,6 +23,6 @@ public class PriorityFirstStrategy implements TaskCompareStrategy {
 
     @Override
     public TaskCompareType getTaskCompareType() {
-        return TaskCompareType.PRIORITY_FIRST;
+        return TaskCompareType.DATE_ADDED_FIRST;
     }
 }

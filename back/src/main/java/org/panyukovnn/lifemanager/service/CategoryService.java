@@ -69,4 +69,13 @@ public class CategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    /**
+     * Удалить категорию по наименованию
+     *
+     * @param name наименование
+     */
+    public void deleteByName(String name) {
+        categoryRepository.deleteByName(name);
+    }
 }
