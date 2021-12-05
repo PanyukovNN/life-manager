@@ -100,8 +100,11 @@ public class TaskController {
      * @return список задач
      */
     @GetMapping("/find-all")
-    public List<Task> findAll() {
-        return taskService.findAll(TaskCompareType.PRIORITY_FIRST);
+    public List<TaskDto> findAll() {
+        return taskService.findAll(TaskCompareType.PRIORITY_FIRST)
+                .stream()
+                .map(TaskDto::new)
+                .collect(Collectors.toList());
     }
 
     /**

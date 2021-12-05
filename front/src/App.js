@@ -1,102 +1,13 @@
 import './App.css';
-import { Modal, Button, FloatingLabel, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Task } from './components/Task'
-import { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
+import {React, useState} from 'react'
+import {TaskList} from './components/TaskList'
+import {CategoryOptions} from './components/CategoryOptions'
+import {AddTaskButtonModal} from './components/AddTaskButtonModal'
 
 function App() {
-    /*
-        Необходимо:
-        - добавить компонент задачи
-        - добавить блок выбора приоритета
-        - добавить кнопку "показать" (временно)
-        - добавить возможность фильтра по параметрам из гет запроса
-     */
-    const [categoryOptions, setCategoryOptions] = useState([<option> </option>]);
 
-    // localStorage.setItem();
-    // localStorage.getItem();
-
-    useEffect(
-        () => {
-            const fetchCategories = async () => {
-                // запрашиваем список категорий
-                const response = await fetch("http://localhost:80/api/category/find-all")
-                const data = await response.json();
-
-                // создаем функцию возврата элементов селектора в categoryOptions
-                setCategoryOptions(() => {
-                    let options = [];
-                    data.forEach(category => options.push(
-                        <option key={category.name} value={category.name}>{category.name}</option>
-                    ));
-
-                    return options;
-                });
-            }
-            fetchCategories();
-        },
-        []
-    );
-
-    const [taskComponents, setTasks] = useState();
-
-    useEffect(
-        () => {
-            const fetchTasks = async () => {
-                // запрашиваем список задач
-                const response = await fetch("http://localhost:80/api/task/find-all")
-                const data = await response.json();
-
-                // создаем функцию возврата компонентов задач
-                setTasks(() => {
-                    let taskComponents = [];
-                    data.forEach(task => taskComponents.push(
-                        <Task task={task} />
-                    ));
-
-                    return taskComponents;
-                });
-            }
-            fetchTasks();
-        },
-        []
-    );
-
-    let newTaskComponentsElement = [];
-
-    const [show, setShow] = useState(false);
-
-    // Нажатие на кнопку добавления задачи
-    const handleClose = async () => setShow(false);
-    const handleSave = async () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                description: taskText,
-                priority: 'A1',
-                category: 'Работа',
-                status: "TO_DO"
-            })
-        };
-
-        const response = await fetch('http://localhost:80/api/task/create-update', requestOptions);
-        // Обработать потенциальную ошибку
-        const task = await response.json();
-
-        newTaskComponentsElement.push(<Task task={task} />);
-        ReactDOM.render(newTaskComponentsElement, document.getElementById('newTaskComponentsWrap'));
-
-        setShow(false);
-    }
-    const handleShow = () => setShow(true);
-
-    let taskText = "";
-    function handleChange(event) {
-        taskText = event.target.value;
-    }
+    const [newTaskComponentsElement, setNewTaskComponentsElement] = useState([]);
 
     return (
         <div className="App">
@@ -117,7 +28,7 @@ function App() {
                     </div>
                     <div className="selector-wrapper">
                         <select size="1">
-                            {categoryOptions}
+                            <CategoryOptions />
                         </select>
                     </div>
                 </div>
@@ -167,41 +78,18 @@ function App() {
             </div>
 
             <div className="tasks-block">
-                <div id="newTaskComponentsWrap" className="new-task-components-wrap"></div>
-                <div className="task-components-wrap">
-                    {taskComponents}
+                <div id="newTaskComponentsWrap" className="new-task-components-wrap">
+                    {newTaskComponentsElement}
                 </div>
+                <TaskList/>
 
-                <Button className="add-task-button" variant="primary" onClick={handleShow}>
-                    <span className="plus-sign">&#43;</span>
-                </Button>
+                <AddTaskButtonModal
+                    appendNewTask={(taskComponent) => {
+                        setNewTaskComponentsElement(
+                            newTaskComponentsElement => [...newTaskComponentsElement, taskComponent]
+                        );
+                    }}/>
             </div>
-
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Новая задача</Modal.Title>
-                </Modal.Header>
-
-                <div className="task-textarea-wrap">
-                    <FloatingLabel id="taskTextarea" controlId="floatingTextarea2" label="Введите описание задачи">
-                        <Form.Control
-                            as="textarea"
-                            placeholder=""
-                            onChange={handleChange}
-                            style={{ height: '100px' }}
-                        />
-                    </FloatingLabel>
-                </div>
-
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Закрыть
-                    </Button>
-                    <Button variant="primary" onClick={handleSave}>
-                        Сохранить
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </div>
     );
 }

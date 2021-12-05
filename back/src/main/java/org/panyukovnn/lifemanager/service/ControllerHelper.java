@@ -58,9 +58,9 @@ public class ControllerHelper {
             throw new IllegalArgumentException(WRONG_PRIORITY_INT_VALUE_ERROR_MSG);
         }
 
-        int digit = (priority + 1) % 4;
-        char letter = (char) ('A' + 4 - (priority / 4));
+        int digit = (priority + 1) % 4 + 1;
+        char letter = (char) ('A' + 3 - (priority / 4));
 
-        return letter + digit + "";
+        return letter + "" + digit;
     }
 }

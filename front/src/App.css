@@ -10,8 +10,8 @@
     display: flex;
     flex-wrap: wrap;
 
+    padding-top: 40px;
     padding-left: 115px;
-    padding-top: 115px;
     margin-bottom: auto;
 }
 .filter-block-header {
