@@ -1,5 +1,6 @@
 import '../App.css';
-import {useEffect, useState} from 'react';
+import {Form} from "react-bootstrap";
+import {React, useEffect, useState} from 'react';
 
 /**
  * Компонент селектора
@@ -10,14 +11,16 @@ import {useEffect, useState} from 'react';
  * @returns {*} селектор
  * @constructor
  */
-export const SelectorComponent = ({storageKey, header, optionMap}) => {
+export const SelectorComponent = ({storageKey, header, optionMap, notifySelection}) => {
 
     // Сохраняем/читаем значение из локального хранилица
     const [selected, setSelected] = useState([]);
     const handleSelected = (e) => {
         let {name, value} = e.target;
         localStorage.setItem(storageKey, JSON.stringify(value));
+
         setSelected(value);
+        notifySelection();
     }
     useEffect(() => {
             const storedSortOrder = JSON.parse(
@@ -39,11 +42,11 @@ export const SelectorComponent = ({storageKey, header, optionMap}) => {
                 {header}
             </div>
             <div className="selector-wrapper">
-                <select size="1"
-                        value={selected}
-                        onChange={handleSelected}>>
+                <Form.Select size="1"
+                             value={selected}
+                             onChange={handleSelected}>
                     {options}
-                </select>
+                </Form.Select>
             </div>
         </div>
     )

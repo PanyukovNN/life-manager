@@ -13,18 +13,17 @@ import java.util.Set;
  * Менеджер стратегий сортировки задач
  */
 @Service
-public class TaskCompareStrategyManager {
+public class TaskCompareStrategyResolver {
 
-    private final Map<TaskCompareType, TaskCompareStrategy> compareStrategyMap = new HashMap<>();
+    private final Map<TaskCompareType, TaskCompareStrategy> strategyMap = new HashMap<>();
 
     /**
      * Конструктор
      *
      * @param compareStrategies стратегии сортировки задач
      */
-    public TaskCompareStrategyManager(Set<TaskCompareStrategy> compareStrategies) {
-        compareStrategies.forEach(strategy ->
-                compareStrategyMap.put(strategy.getTaskCompareType(), strategy));
+    public TaskCompareStrategyResolver(Set<TaskCompareStrategy> compareStrategies) {
+        compareStrategies.forEach(strategy -> strategyMap.put(strategy.getTaskCompareType(), strategy));
     }
 
     /**
@@ -33,7 +32,7 @@ public class TaskCompareStrategyManager {
      * @param type способ сортировки
      * @return компаратор
      */
-    public Comparator<Task> resolveStrategy(TaskCompareType type) {
-        return compareStrategyMap.get(type).getComparator();
+    public Comparator<Task> resolve(TaskCompareType type) {
+        return strategyMap.get(type).getComparator();
     }
 }

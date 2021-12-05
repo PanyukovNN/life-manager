@@ -1,5 +1,5 @@
 import '../App.css';
-import {useEffect, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import {SelectorComponent} from './SelectorComponent'
 
 /**
@@ -10,7 +10,7 @@ import {SelectorComponent} from './SelectorComponent'
  * @returns {*} селектор
  * @constructor
  */
-export const SelectorCategoryComponent = ({storageKey, header}) => {
+export const SelectorCategoryComponent = ({storageKey, header, notifySelection}) => {
 
     const [optionsMap, setOptionsMap] = useState({});
     useEffect(
@@ -21,6 +21,7 @@ export const SelectorCategoryComponent = ({storageKey, header}) => {
 
                 setOptionsMap(() => {
                     let optionsMap = {};
+                    optionsMap[""] = "Любой"
                     data.forEach(category => optionsMap[category.name] = category.name);
 
                     return optionsMap;
@@ -34,6 +35,7 @@ export const SelectorCategoryComponent = ({storageKey, header}) => {
         <SelectorComponent
             storageKey={storageKey}
             header={header}
-            optionMap={optionsMap}/>
+            optionMap={optionsMap}
+            notifySelection={() => notifySelection()}/>
     )
 }

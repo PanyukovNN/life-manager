@@ -34,6 +34,8 @@
     font-size: 24px;
 }
 .selector-wrapper {
+    width: 200px;
+
     margin-top: 10px;
 }
 
@@ -45,7 +47,10 @@
     padding-top: 40px;
 }
 .task-block {
+    position: relative;
     display: flex;
+
+    align-content: space-between;
 
     padding: 20px;
     margin: 7px 40px 7px 40px;
@@ -55,6 +60,16 @@
 }
 .task-description {
     margin-left: 15px;
+}
+.task-category,
+.task-completion-date-time {
+    margin-left: auto;
+    margin-right: auto;
+}
+.task-priority {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
 .add-task-button {

@@ -3,6 +3,7 @@ package org.panyukovnn.lifemanager.model.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.panyukovnn.lifemanager.model.PeriodStrategyType;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
@@ -21,8 +22,7 @@ public class FindTaskListRequest {
     public Integer priority;
     public List<TaskStatus> taskStatuses;
     public List<String> categories;
-    public LocalDate startDate;
-    public LocalDate endDate;
+    public PeriodStrategyType periodType;
 
     @NotNull
     public TaskCompareType compareType;

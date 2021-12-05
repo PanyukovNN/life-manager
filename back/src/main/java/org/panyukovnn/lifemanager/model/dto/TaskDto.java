@@ -33,7 +33,7 @@ public class TaskDto {
 
         this.description = task.getDescription();
         this.priority = ControllerHelper.priorityToParam(task.getPriority());
-        this.category = task.getCategory().toString();
+        this.category = task.getCategory().getName();
 
         if (task.getCompletionDate() != null) {
             this.completionDate = FRONT_D_FORMATTER.format(task.getCompletionDate());

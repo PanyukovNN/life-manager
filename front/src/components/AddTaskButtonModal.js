@@ -1,9 +1,15 @@
 import '../App.css';
 import {React, useState} from 'react';
-import ReactDOM from "react-dom";
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {Task} from './Task';
 
+/**
+ * Кнопка с открытием модального окна добавления задачи
+ *
+ * @param appendNewTask функция добавления новой задачи
+ * @returns {*} кнопку с модальным окном
+ * @constructor
+ */
 export const AddTaskButtonModal = ({appendNewTask}) => {
 
     const [show, setShow] = useState(false);

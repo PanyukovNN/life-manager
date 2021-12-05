@@ -1,18 +1,15 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {useState} from 'react'
+import {React, useState} from 'react'
 import {TaskList} from './components/TaskList'
 import {AddTaskButtonModal} from './components/AddTaskButtonModal'
-import {SelectorComponent} from './components/SelectorComponent'
-import {SelectorCategoryComponent} from './components/SelectorCategoryComponent'
-
-const PERIOD_KEY     = "period";
-const CATEGORY_KEY   = "category";
-const PRIORITY_KEY   = "priority";
-const SORT_ORDER_KEY = "sortOrder";
+import {FiltrationForm} from "./components/FiltrationFormComponent";
 
 function App() {
 
+    // хук обновления списка задач
+    const [taskUpdateCall, setTaskUpdateCall] = useState(0);
+    // хук добавления новой задачи
     const [newTaskComponentsElement, setNewTaskComponentsElement] = useState([]);
 
     return (
@@ -28,45 +25,16 @@ function App() {
                     Список задач
                 </div>
 
-                {/* Селектор категорий */}
-                <SelectorCategoryComponent
-                    storageKey={CATEGORY_KEY}
-                    header={"Раздел:"}/>
-
-                {/* Селектор приоритета */}
-                <SelectorComponent
-                    storageKey={PRIORITY_KEY}
-                    header={"Приоритет:"}
-                    optionMap={{"ALL" : "Любой",
-                        "A" : "A",
-                        "B" : "B",
-                        "C" : "C",
-                        "D" : "D"}}/>
-
-                {/* Селектор периода */}
-                <SelectorComponent
-                    storageKey={PERIOD_KEY}
-                    header={"За период:"}
-                    optionMap={{"ALL" : "Все время",
-                        "DAY"   : "День",
-                        "WEEK"  : "Неделя",
-                        "MONTH" : "Месяц"}}/>
-
-                {/* Селектор сортировки */}
-                <SelectorComponent
-                    storageKey={SORT_ORDER_KEY}
-                    header={"Сортировать по:"}
-                    optionMap={{"ALL" : "Все время",
-                        "PRIORITY_FIRST"   : "Приоритету",
-                        "DATE_FIRST"       : "Дате исполнения",
-                        "DATE_ADDED_FIRST" : "Дате добавления"}}/>
+                <FiltrationForm
+                    refreshTaskList={() => setTaskUpdateCall(taskUpdateCall + 1)}/>
             </div>
 
             <div className="tasks-block">
                 <div id="newTaskComponentsWrap" className="new-task-components-wrap">
                     {newTaskComponentsElement}
                 </div>
-                <TaskList/>
+
+                <TaskList count={taskUpdateCall} />
 
                 <AddTaskButtonModal
                     appendNewTask={(taskComponent) => {

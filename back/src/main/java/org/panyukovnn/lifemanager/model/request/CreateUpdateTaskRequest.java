@@ -29,8 +29,6 @@ public class CreateUpdateTaskRequest {
     public String category;
 
     public String status;
-
     public LocalDate completionDate;
-
     public LocalTime completionTime;
 }

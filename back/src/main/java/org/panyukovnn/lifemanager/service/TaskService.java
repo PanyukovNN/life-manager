@@ -6,13 +6,14 @@ import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
-import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskCompareStrategyManager;
+import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskCompareStrategyResolver;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,7 +28,7 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final MongoTemplate mongoTemplate;
-    private final TaskCompareStrategyManager compareStrategyManager;
+    private final TaskCompareStrategyResolver compareStrategyManager;
 
     /**
      * Конструктор
@@ -38,7 +39,7 @@ public class TaskService {
      */
     public TaskService(TaskRepository taskRepository,
                        MongoTemplate mongoTemplate,
-                       TaskCompareStrategyManager compareStrategyManager) {
+                       TaskCompareStrategyResolver compareStrategyManager) {
         this.taskRepository = taskRepository;
         this.mongoTemplate = mongoTemplate;
         this.compareStrategyManager = compareStrategyManager;
@@ -97,7 +98,7 @@ public class TaskService {
      * @param startDate дата начала
      * @param endDate дата окончания
      * @param compareType способ сортировки задач
-     * @return список найденных задач
+     * @return список задач
      */
     public List<Task> findList(Integer priority,
                                List<TaskStatus> taskStatuses,
@@ -121,17 +122,25 @@ public class TaskService {
         }
 
         if (startDate != null) {
-            criteriaList.add(Criteria.where("completionDateTime").gte(startDate));
+            criteriaList.add(new Criteria().orOperator(
+                    Criteria.where("completionDate").isNullValue(),
+                    Criteria.where("completionDate").gte(startDate)
+            ));
         }
 
-        if (endDate != null) {
-            criteriaList.add(Criteria.where("completionDateTime").lte(endDate));
+        if (endDate != null && endDate != LocalDate.MAX) {
+            criteriaList.add(new Criteria().orOperator(
+                    Criteria.where("completionDate").isNullValue(),
+                    Criteria.where("completionDate").lte(endDate)
+            ));
         }
+
+        //TODO добавить проверку на completionTime
 
         query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
 
         List<Task> tasks = mongoTemplate.find(query, Task.class);
-        tasks.sort(compareStrategyManager.resolveStrategy(compareType));
+        tasks.sort(compareStrategyManager.resolve(compareType));
 
         return tasks;
     }
@@ -144,7 +153,7 @@ public class TaskService {
      */
     public List<Task> findAll(TaskCompareType compareType) {
         List<Task> allTasks = taskRepository.findAll();
-        allTasks.sort(compareStrategyManager.resolveStrategy(compareType));
+        allTasks.sort(compareStrategyManager.resolve(compareType));
 
         return allTasks;
     }

@@ -1,5 +1,5 @@
 import '../App.css';
-import { React } from 'react';
+import {React} from 'react';
 
 export const Task = ({task}) => {
     return (
@@ -8,7 +8,16 @@ export const Task = ({task}) => {
             <div className="task-description">
                 {task.description}
             </div>
-            <div>
+
+            <div className="task-category">
+                {task.category}
+            </div>
+
+            <div className="task-completion-date-time">
+                {task.completionDate} {task.completionTime}
+            </div>
+
+            <div className="task-priority">
                 {task.priority}
             </div>
         </div>

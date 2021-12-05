@@ -11,9 +11,13 @@ import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.panyukovnn.lifemanager.service.ControllerHelper;
 import org.panyukovnn.lifemanager.service.TaskService;
+import org.panyukovnn.lifemanager.service.periodstrategy.PeriodStrategyResolver;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,17 +34,21 @@ public class TaskController {
 
     private final TaskService taskService;
     private final CategoryService categoryService;
+    private final PeriodStrategyResolver periodStrategyResolver;
 
     /**
      * Конструктор
      *
      * @param taskService сервис задач
      * @param categoryService сервис категорий
+     * @param periodStrategyResolver менеджер стратегий определения периода
      */
     public TaskController(TaskService taskService,
-                          CategoryService categoryService) {
+                          CategoryService categoryService,
+                          PeriodStrategyResolver periodStrategyResolver) {
         this.taskService = taskService;
         this.categoryService = categoryService;
+        this.periodStrategyResolver = periodStrategyResolver;
     }
 
     /**
@@ -76,22 +84,33 @@ public class TaskController {
      * @return список задач
      */
     @PostMapping("/find-list")
-    public List<Task> findTaskList(@RequestBody @Valid FindTaskListRequest request) {
+    public List<TaskDto> findTaskList(@RequestBody @Valid FindTaskListRequest request) {
         Objects.requireNonNull(request, NULL_FIND_LIST_REQUEST_ERROR_MSG);
 
         //TODO искать сразу все категории (либо из кеша)
-        List<Category> categories = request.getCategories()
-                .stream()
-                .map(categoryService::findByName)
-                .collect(Collectors.toList());
+        List<Category> categories = Collections.emptyList();
+        if (!CollectionUtils.isEmpty(request.getCategories())) {
+            categories = request.getCategories()
+                    .stream()
+                    .map(categoryService::findByName)
+                    .collect(Collectors.toList());
+        }
 
-        return taskService.findList(
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
+                .getEndDate(startDate);
+
+        List<Task> tasks = taskService.findList(
                 request.getPriority(),
                 request.getTaskStatuses(),
                 categories,
-                request.getStartDate(),
-                request.getEndDate(),
+                startDate,
+                endDate,
                 request.getCompareType());
+        return tasks
+                .stream()
+                .map(TaskDto::new)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -120,5 +139,10 @@ public class TaskController {
         taskService.deleteById(request.getId());
 
         return String.format(TASK_REMOVED_SUCCESSFULLY, request.getId());
+    }
+
+    @ExceptionHandler(value = {Exception.class})
+    public void handleException(Exception e) {
+        e.printStackTrace();
     }
 }
