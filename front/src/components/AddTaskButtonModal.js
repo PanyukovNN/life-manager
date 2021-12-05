@@ -2,6 +2,7 @@ import '../App.css';
 import {React, useState} from 'react';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {Task} from './Task';
+import {SelectorComponent} from "./SelectorComponent";
 
 /**
  * Кнопка с открытием модального окна добавления задачи
@@ -22,7 +23,7 @@ export const AddTaskButtonModal = ({appendNewTask}) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 description: taskText,
-                priority: 'A1',
+                priority: priorityLetter + priorityDigit,
                 category: 'Работа',
                 status: "TO_DO"
             })
@@ -39,8 +40,19 @@ export const AddTaskButtonModal = ({appendNewTask}) => {
     const handleShow = () => setShow(true);
 
     let taskText = "";
-    function handleChange(event) {
+    function handleDescriptionChange(event) {
         taskText = event.target.value;
+    }
+
+    let priorityLetter = "A";
+    function handlePriorityLetterChange(value) {
+        priorityLetter = value;
+    }
+
+    let priorityDigit = "1";
+    function handlePriorityDigitChange(value) {
+        priorityDigit = value;
+        console.log(priorityDigit)
     }
 
     return (
@@ -59,10 +71,38 @@ export const AddTaskButtonModal = ({appendNewTask}) => {
                         <Form.Control
                             as="textarea"
                             placeholder=""
-                            onChange={handleChange}
+                            onChange={handleDescriptionChange}
                             style={{ height: '100px' }}
                         />
                     </FloatingLabel>
+                </div>
+
+                {/* Селектор буквы приоритета */}
+                <div className="selector-block">
+                    <div className="selector-header">Приоритет:</div>
+                    <div className="selector-wrapper">
+                        <SelectorComponent
+                            optionMap={{
+                                "A" : "A",
+                                "B" : "B",
+                                "C" : "C",
+                                "D" : "D"}}
+                            notifySelection={(selected) => handlePriorityLetterChange(selected)}/>
+                    </div>
+                </div>
+
+                {/* Селектор цифры приоритета */}
+                <div className="selector-block">
+                    <div className="selector-header">Порядок:</div>
+                    <div className="selector-wrapper">
+                        <SelectorComponent
+                            optionMap={{
+                                "1" : "1",
+                                "2" : "2",
+                                "3" : "3",
+                                "4" : "4"}}
+                            notifySelection={(selected) => handlePriorityDigitChange(selected)}/>
+                    </div>
                 </div>
 
                 <Modal.Footer>

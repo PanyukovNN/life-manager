@@ -7,8 +7,8 @@ import {FiltrationForm} from "./components/FiltrationFormComponent";
 
 function App() {
 
-    // хук обновления списка задач
-    const [taskUpdateCall, setTaskUpdateCall] = useState(0);
+    // хук обновления формы фильтрации
+    const [taskListUpdateCall, setFiltrationFormRefresh] = useState(0);
     // хук добавления новой задачи
     const [newTaskComponentsElement, setNewTaskComponentsElement] = useState([]);
 
@@ -25,8 +25,7 @@ function App() {
                     Список задач
                 </div>
 
-                <FiltrationForm
-                    refreshTaskList={() => setTaskUpdateCall(taskUpdateCall + 1)}/>
+                <FiltrationForm notifyRefresh={() => setFiltrationFormRefresh(taskListUpdateCall + 1)}/>
             </div>
 
             <div className="tasks-block">
@@ -34,7 +33,7 @@ function App() {
                     {newTaskComponentsElement}
                 </div>
 
-                <TaskList count={taskUpdateCall} />
+                <TaskList count={taskListUpdateCall} />
 
                 <AddTaskButtonModal
                     appendNewTask={(taskComponent) => {

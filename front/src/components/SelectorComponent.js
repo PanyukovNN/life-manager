@@ -6,29 +6,31 @@ import {React, useEffect, useState} from 'react';
  * Компонент селектора
  *
  * @param storageKey ключ локального хранилища
- * @param header заголовок селектора
  * @param optionMap карта опций выбора
+ * @param notifySelection функция, вызываемая при изменении значения
  * @returns {*} селектор
  * @constructor
  */
-export const SelectorComponent = ({storageKey, header, optionMap, notifySelection}) => {
+export const SelectorComponent = ({storageKey, optionMap, notifySelection}) => {
 
     // Сохраняем/читаем значение из локального хранилица
     const [selected, setSelected] = useState([]);
     const handleSelected = (e) => {
         let {name, value} = e.target;
-        localStorage.setItem(storageKey, JSON.stringify(value));
+        if (storageKey !== null) {
+            localStorage.setItem(storageKey, JSON.stringify(value));
+        }
 
         setSelected(value);
-        notifySelection();
+        notifySelection(value);
     }
     useEffect(() => {
-            const storedSortOrder = JSON.parse(
-                localStorage.getItem(storageKey) ?? "[]"
-            );
+        if (storageKey !== null) {
+            const storedSortOrder = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
             setSelected(storedSortOrder);
-        },
-        []);
+        }
+    },
+    []);
 
     // Формируем варианты выбора
     let options = [];
@@ -37,17 +39,12 @@ export const SelectorComponent = ({storageKey, header, optionMap, notifySelectio
     }
 
     return (
-        <div className="selector-block">
-            <div className="selector-header">
-                {header}
-            </div>
-            <div className="selector-wrapper">
-                <Form.Select size="1"
-                             value={selected}
-                             onChange={handleSelected}>
-                    {options}
-                </Form.Select>
-            </div>
-        </div>
+        <>
+            <Form.Select size="1"
+                         value={selected}
+                         onChange={handleSelected}>
+                {options}
+            </Form.Select>
+        </>
     )
 }
