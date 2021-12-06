@@ -1,11 +1,9 @@
 import '../App.css';
 import {React, useState} from 'react';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
-import {Task} from './Task';
 import {SelectorComponent} from "./SelectorComponent";
 import {DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
     MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS} from "../Constants";
-
 
 /**
  * Кнопка с открытием модального окна добавления задачи

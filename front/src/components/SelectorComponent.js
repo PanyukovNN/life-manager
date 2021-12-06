@@ -5,6 +5,7 @@ import {React, useEffect, useState} from 'react';
 /**
  * Компонент селектора
  *
+ * @param id html идентификатор селектора
  * @param storageKey ключ локального хранилища
  * @param optionMap карта опций выбора
  * @param notifySelection функция, вызываемая при изменении значения
