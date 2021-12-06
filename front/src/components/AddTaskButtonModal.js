@@ -3,57 +3,54 @@ import {React, useState} from 'react';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {Task} from './Task';
 import {SelectorComponent} from "./SelectorComponent";
+import {DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
+    MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS} from "../Constants";
+
 
 /**
  * Кнопка с открытием модального окна добавления задачи
  *
  * @param appendNewTask функция добавления новой задачи
+ * @param categories список категорий
  * @returns {*} кнопку с модальным окном
  * @constructor
  */
-export const AddTaskButtonModal = ({appendNewTask}) => {
+export const AddTaskButtonModal = ({refreshTaskList, categories}) => {
 
     const [show, setShow] = useState(false);
 
     // Нажатие на кнопку добавления задачи
     const handleClose = async () => setShow(false);
     const handleSave = async () => {
+        let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
+        let category = document.getElementById(MODAL_CATEGORY_SELECT_ID).selectedOptions[0].value;
+        let priorityLetter = document.getElementById(MODAL_PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
+        let priorityDigit = document.getElementById(MODAL_PRIORITY_DIGIT_SELECT_ID).selectedOptions[0].value;
+
+        let body = JSON.stringify({
+            description: description,
+            priority: priorityLetter + priorityDigit,
+            category: category,
+            status: TO_DO_TASK_STATUS
+        });
+
+        console.log(body)
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                description: taskText,
-                priority: priorityLetter + priorityDigit,
-                category: 'Работа',
-                status: "TO_DO"
-            })
+            body: body
         };
 
         const response = await fetch('http://localhost:80/api/task/create-update', requestOptions);
-        // Обработать потенциальную ошибку
-        const task = await response.json();
-
-        appendNewTask(<Task task={task} />);
+        // Возвращает задачу
+        await response.json();
 
         setShow(false);
+
+        refreshTaskList();
     }
     const handleShow = () => setShow(true);
-
-    let taskText = "";
-    function handleDescriptionChange(event) {
-        taskText = event.target.value;
-    }
-
-    let priorityLetter = "A";
-    function handlePriorityLetterChange(value) {
-        priorityLetter = value;
-    }
-
-    let priorityDigit = "1";
-    function handlePriorityDigitChange(value) {
-        priorityDigit = value;
-        console.log(priorityDigit)
-    }
 
     return (
         <>
@@ -69,12 +66,23 @@ export const AddTaskButtonModal = ({appendNewTask}) => {
                 <div className="task-textarea-wrap">
                     <FloatingLabel id="taskTextarea" controlId="floatingTextarea2" label="Введите описание задачи">
                         <Form.Control
+                            id={DESCRIPTION_TEXTAREA_ID}
                             as="textarea"
                             placeholder=""
-                            onChange={handleDescriptionChange}
                             style={{ height: '100px' }}
                         />
                     </FloatingLabel>
+                </div>
+
+                {/* Селектор категории */}
+                <div className="selector-block">
+                    <div className="selector-header">Раздел:</div>
+                    <div className="selector-wrapper">
+                        <SelectorComponent
+                            id={MODAL_CATEGORY_SELECT_ID}
+                            optionMap={categories}
+                            notifySelection={() => {}}/>
+                    </div>
                 </div>
 
                 {/* Селектор буквы приоритета */}
@@ -82,12 +90,13 @@ export const AddTaskButtonModal = ({appendNewTask}) => {
                     <div className="selector-header">Приоритет:</div>
                     <div className="selector-wrapper">
                         <SelectorComponent
+                            id={MODAL_PRIORITY_LETTER_SELECT_ID}
                             optionMap={{
                                 "A" : "A",
                                 "B" : "B",
                                 "C" : "C",
                                 "D" : "D"}}
-                            notifySelection={(selected) => handlePriorityLetterChange(selected)}/>
+                            notifySelection={() => {}}/>
                     </div>
                 </div>
 
@@ -96,12 +105,13 @@ export const AddTaskButtonModal = ({appendNewTask}) => {
                     <div className="selector-header">Порядок:</div>
                     <div className="selector-wrapper">
                         <SelectorComponent
+                            id={MODAL_PRIORITY_DIGIT_SELECT_ID}
                             optionMap={{
                                 "1" : "1",
                                 "2" : "2",
                                 "3" : "3",
                                 "4" : "4"}}
-                            notifySelection={(selected) => handlePriorityDigitChange(selected)}/>
+                            notifySelection={() => {}}/>
                     </div>
                 </div>
 

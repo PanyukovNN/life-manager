@@ -4,13 +4,14 @@ import {React, useState} from 'react'
 import {TaskList} from './components/TaskList'
 import {AddTaskButtonModal} from './components/AddTaskButtonModal'
 import {FiltrationForm} from "./components/FiltrationFormComponent";
+import {FetchCategories} from './Utils'
 
 function App() {
 
     // хук обновления формы фильтрации
     const [taskListUpdateCall, setFiltrationFormRefresh] = useState(0);
-    // хук добавления новой задачи
-    const [newTaskComponentsElement, setNewTaskComponentsElement] = useState([]);
+
+    const categories = FetchCategories();
 
     return (
         <div className="App">
@@ -25,22 +26,18 @@ function App() {
                     Список задач
                 </div>
 
-                <FiltrationForm notifyRefresh={() => setFiltrationFormRefresh(taskListUpdateCall + 1)}/>
+                <FiltrationForm
+                    categories={categories}
+                    notifyRefresh={() => setFiltrationFormRefresh(taskListUpdateCall + 1)}/>
             </div>
 
             <div className="tasks-block">
-                <div id="newTaskComponentsWrap" className="new-task-components-wrap">
-                    {newTaskComponentsElement}
-                </div>
-
-                <TaskList count={taskListUpdateCall} />
+                <TaskList
+                    count={taskListUpdateCall}/>
 
                 <AddTaskButtonModal
-                    appendNewTask={(taskComponent) => {
-                        setNewTaskComponentsElement(
-                            newTaskComponentsElement => [...newTaskComponentsElement, taskComponent]
-                        );
-                    }}/>
+                    categories={categories}
+                    refreshTaskList={() => setFiltrationFormRefresh(taskListUpdateCall + 1)}/>
             </div>
         </div>
     );

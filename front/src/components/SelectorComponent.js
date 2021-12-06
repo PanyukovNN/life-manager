@@ -11,7 +11,7 @@ import {React, useEffect, useState} from 'react';
  * @returns {*} селектор
  * @constructor
  */
-export const SelectorComponent = ({storageKey, optionMap, notifySelection}) => {
+export const SelectorComponent = ({id, storageKey, optionMap, notifySelection}) => {
 
     // Сохраняем/читаем значение из локального хранилица
     const [selected, setSelected] = useState([]);
@@ -40,7 +40,8 @@ export const SelectorComponent = ({storageKey, optionMap, notifySelection}) => {
 
     return (
         <>
-            <Form.Select size="1"
+            <Form.Select id={id}
+                         size="1"
                          value={selected}
                          onChange={handleSelected}>
                 {options}

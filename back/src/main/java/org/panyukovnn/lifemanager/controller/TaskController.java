@@ -11,13 +11,9 @@ import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.panyukovnn.lifemanager.service.ControllerHelper;
 import org.panyukovnn.lifemanager.service.TaskService;
-import org.panyukovnn.lifemanager.service.periodstrategy.PeriodStrategyResolver;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -34,21 +30,17 @@ public class TaskController {
 
     private final TaskService taskService;
     private final CategoryService categoryService;
-    private final PeriodStrategyResolver periodStrategyResolver;
 
     /**
      * Конструктор
      *
      * @param taskService сервис задач
      * @param categoryService сервис категорий
-     * @param periodStrategyResolver менеджер стратегий определения периода
      */
     public TaskController(TaskService taskService,
-                          CategoryService categoryService,
-                          PeriodStrategyResolver periodStrategyResolver) {
+                          CategoryService categoryService) {
         this.taskService = taskService;
         this.categoryService = categoryService;
-        this.periodStrategyResolver = periodStrategyResolver;
     }
 
     /**
@@ -87,27 +79,9 @@ public class TaskController {
     public List<TaskDto> findTaskList(@RequestBody @Valid FindTaskListRequest request) {
         Objects.requireNonNull(request, NULL_FIND_LIST_REQUEST_ERROR_MSG);
 
-        //TODO искать сразу все категории (либо из кеша)
-        List<Category> categories = Collections.emptyList();
-        if (!CollectionUtils.isEmpty(request.getCategories())) {
-            categories = request.getCategories()
-                    .stream()
-                    .map(categoryService::findByName)
-                    .collect(Collectors.toList());
-        }
+        TaskService.TaskListParams params = taskService.findListRequestToParams(request);
 
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
-                .getEndDate(startDate);
-
-        List<Task> tasks = taskService.findList(
-                request.getPriority(),
-                request.getTaskStatuses(),
-                categories,
-                startDate,
-                endDate,
-                request.getCompareType());
-        return tasks
+        return taskService.findList(params)
                 .stream()
                 .map(TaskDto::new)
                 .collect(Collectors.toList());

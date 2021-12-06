@@ -1,7 +1,7 @@
 import '../App.css';
 import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
-import {CATEGORY_KEY, PRIORITY_KEY, PERIOD_KEY, SORT_ORDER_KEY} from '../Constants'
+import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID} from '../Constants'
 
 /**
  * Загружает и формирует список задач
@@ -9,20 +9,21 @@ import {CATEGORY_KEY, PRIORITY_KEY, PERIOD_KEY, SORT_ORDER_KEY} from '../Constan
  * @returns {*} список задач
  * @constructor
  */
-export const TaskList = (count) => {
+export const TaskList = (taskListUpdateCall) => {
     const [taskComponents, setTasks] = useState();
 
     useEffect(
-        (count) => {
-            const category = localStorage.getItem(CATEGORY_KEY).replace(/\"/g, "");
-            const periodType = localStorage.getItem(PERIOD_KEY).replace(/\"/g, "");
-            const compareType = localStorage.getItem(SORT_ORDER_KEY).replace(/\"/g, "");
+        (taskListUpdateCall) => {
+            const priorityLetter = document.getElementById(PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
+            const category = document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value;
+            const periodType = document.getElementById(PERIOD_SELECT_ID).selectedOptions[0].value;
+            const compareType = document.getElementById(COMPARE_TO_SELECT_ID).selectedOptions[0].value;
 
             const fetchTasks = async () => {
                 let body = JSON.stringify({
-                    priority: 15,
+                    priority: priorityLetter,
                     taskStatuses: [],
-                    categories: [category],
+                    categories: category !== "" ? [category] : [],
                     periodType: periodType !== "" ? periodType : "ALL",
                     compareType: compareType !== "" ? compareType : "PRIORITY_FIRST"
                 });
@@ -50,7 +51,7 @@ export const TaskList = (count) => {
 
             fetchTasks();
         },
-        [count]
+        [taskListUpdateCall]
     );
 
     return (

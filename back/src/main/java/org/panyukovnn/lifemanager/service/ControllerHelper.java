@@ -3,9 +3,12 @@ package org.panyukovnn.lifemanager.service;
 import io.micrometer.core.instrument.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_INT_VALUE_ERROR_MSG;
-import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
+import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
  * Вспомогательные методы для контроллеров
@@ -41,10 +44,41 @@ public class ControllerHelper {
         }
 
         // Возвращает максимальное число диапазона по букве (Например, если А то 4, если D то 0)
-        int multiplier = 4 * (4 - letter + 'A');
+        int rangeMaxNumber = 4 * (4 - letter + 'A');
 
         // Уменьшаем максимальное число диапазона на число (Например, если А2 то 14, если C4 то 4)
-        return multiplier - digit;
+        return rangeMaxNumber - digit;
+    }
+
+    /**
+     * Конвертировать букву приоритета в диапазон числовых значений
+     * A -> [12, 13, 14, 15]
+     * D -> [ 0,  1,  2,  3]
+     *
+     * @param priorityLetter буква приоритета
+     * @return список числовых значений приоритета
+     */
+    public static List<Integer> letterToPriorityRange(String priorityLetter) {
+        if (StringUtils.isBlank(priorityLetter)) {
+            return Collections.emptyList();
+        }
+
+        if (priorityLetter.length() > 1) {
+            throw new IllegalArgumentException(WRONG_PRIORITY_LETTER_VALUE_ERROR_MSG);
+        }
+
+        char letter = priorityLetter.charAt(0);
+
+        if (letter < 'A' || letter > 'D') {
+            throw new IllegalArgumentException(WRONG_PRIORITY_LETTER_VALUE_ERROR_MSG);
+        }
+
+        // Возвращает максимальное число диапазона по букве (Например, если А то 4, если D то 0)
+        int rangeMaxNumber = 4 * (4 - letter + 'A');
+
+        return IntStream.range(rangeMaxNumber - 4, rangeMaxNumber)
+                .boxed()
+                .collect(Collectors.toList());
     }
 
     /**

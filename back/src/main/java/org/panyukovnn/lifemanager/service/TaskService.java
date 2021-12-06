@@ -1,11 +1,14 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import lombok.Builder;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
+import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
+import org.panyukovnn.lifemanager.service.periodstrategy.PeriodStrategyResolver;
 import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskCompareStrategyResolver;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,7 +16,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,6 +30,7 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final MongoTemplate mongoTemplate;
+    private final PeriodStrategyResolver periodStrategyResolver;
     private final TaskCompareStrategyResolver compareStrategyManager;
 
     /**
@@ -35,13 +38,16 @@ public class TaskService {
      *
      * @param taskRepository репозиторий задач
      * @param mongoTemplate сервис работы с монго запросами
+     * @param periodStrategyResolver менеджер стратегий определения периода
      * @param compareStrategyManager менеджер стратегий сортировки задач
      */
     public TaskService(TaskRepository taskRepository,
                        MongoTemplate mongoTemplate,
+                       PeriodStrategyResolver periodStrategyResolver,
                        TaskCompareStrategyResolver compareStrategyManager) {
         this.taskRepository = taskRepository;
         this.mongoTemplate = mongoTemplate;
+        this.periodStrategyResolver = periodStrategyResolver;
         this.compareStrategyManager = compareStrategyManager;
     }
 
@@ -92,46 +98,36 @@ public class TaskService {
      * Поиск задач по набору параметров
      * Если какой либо из параметров равен null, то он не учитывается
      *
-     * @param priority приоритет
-     * @param taskStatuses список статусов
-     * @param categories список категорий
-     * @param startDate дата начала
-     * @param endDate дата окончания
-     * @param compareType способ сортировки задач
+     * @param params параметры поиска задач
      * @return список задач
      */
-    public List<Task> findList(Integer priority,
-                               List<TaskStatus> taskStatuses,
-                               List<Category> categories,
-                               LocalDate startDate,
-                               LocalDate endDate,
-                               TaskCompareType compareType) {
+    public List<Task> findList(TaskListParams params) {
         Query query = new Query();
         List<Criteria> criteriaList = new ArrayList<>();
 
-        if (priority != null) {
-            criteriaList.add(Criteria.where("priority").is(priority));
+        if (!CollectionUtils.isEmpty(params.priorityRange)) {
+            criteriaList.add(Criteria.where("priority").in(params.priorityRange));
         }
 
-        if (!CollectionUtils.isEmpty(taskStatuses)) {
-            criteriaList.add(Criteria.where("status").in(taskStatuses));
+        if (!CollectionUtils.isEmpty(params.statuses)) {
+            criteriaList.add(Criteria.where("status").in(params.statuses));
         }
 
-        if (!CollectionUtils.isEmpty(categories)) {
-            criteriaList.add(Criteria.where("category").in(categories));
+        if (!CollectionUtils.isEmpty(params.categories)) {
+            criteriaList.add(Criteria.where("category.name").in(params.categories));
         }
 
-        if (startDate != null) {
+        if (params.startDate != null) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where("completionDate").isNullValue(),
-                    Criteria.where("completionDate").gte(startDate)
+                    Criteria.where("completionDate").isNull(),
+                    Criteria.where("completionDate").gte(params.startDate)
             ));
         }
 
-        if (endDate != null && endDate != LocalDate.MAX) {
+        if (params.endDate != null && params.endDate != LocalDate.MAX) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where("completionDate").isNullValue(),
-                    Criteria.where("completionDate").lte(endDate)
+                    Criteria.where("completionDate").isNull(),
+                    Criteria.where("completionDate").lte(params.endDate)
             ));
         }
 
@@ -140,7 +136,7 @@ public class TaskService {
         query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
 
         List<Task> tasks = mongoTemplate.find(query, Task.class);
-        tasks.sort(compareStrategyManager.resolve(compareType));
+        tasks.sort(compareStrategyManager.resolve(params.compareType));
 
         return tasks;
     }
@@ -165,5 +161,64 @@ public class TaskService {
      */
     public void deleteById(String id) {
         taskRepository.deleteById(id);
+    }
+
+    /**
+     * Преобразует запрос на поиск списка задач в набор параметров
+     *
+     * @param request запрос
+     * @return параметры поиска задач
+     */
+    public TaskListParams findListRequestToParams(FindTaskListRequest request) {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
+                .getEndDate(startDate);
+        List<Integer> priorityRange = ControllerHelper.letterToPriorityRange(request.getPriority());
+
+        return TaskListParams.builder()
+                .priorityRange(priorityRange)
+                .statuses(request.getTaskStatuses())
+                .categories(request.getCategories())
+                .startDate(startDate)
+                .endDate(endDate)
+                .compareType(request.getCompareType())
+                .build();
+    }
+
+    /**
+     * Транспортный объект параметров поиска задач
+     */
+    @Builder
+    public static class TaskListParams {
+
+        /**
+         * Диапазон приоритетов
+         */
+        private final List<Integer> priorityRange;
+
+        /**
+         * Список статусов
+         */
+        private final List<TaskStatus> statuses;
+
+        /**
+         * Список категорий
+         */
+        private final List<String> categories;
+
+        /**
+         * Дата начала периода
+         */
+        private final LocalDate startDate;
+
+        /**
+         * Дата окончания периода
+         */
+        private final LocalDate endDate;
+
+        /**
+         * Способ сортировки
+         */
+        private final TaskCompareType compareType;
     }
 }

@@ -1,25 +1,34 @@
 import '../App.css';
 import {React} from 'react';
 import {SelectorComponent} from './SelectorComponent'
-import {SelectorCategoryComponent} from './SelectorCategoryComponent'
-import {CATEGORY_KEY, PRIORITY_KEY, PERIOD_KEY, SORT_ORDER_KEY} from '../Constants'
+import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
+    CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY} from '../Constants'
 
 /**
  * Параметры поиска задач
  *
  * @param notifyRefresh функция, вызываемая при обновлении любого из селекторов
+ * @param categories список категорий
  * @returns {*} селекторы с параметров поиска
  * @constructor
  */
-export const FiltrationForm = ({notifyRefresh}) => {
+export const FiltrationForm = ({notifyRefresh, categories}) => {
+
+    let categoriesWithDefault = {"" : "Все"};
+    for (const [key, value] of Object.entries(categories)) {
+        categoriesWithDefault[key] = value;
+    }
+
     return (
         <>
             {/* Селектор категорий */}
             <div className="selector-block">
                 <div className="selector-header">Раздел:</div>
                 <div className="selector-wrapper">
-                    <SelectorCategoryComponent
+                    <SelectorComponent
+                        id={CATEGORY_SELECT_ID}
                         storageKey={CATEGORY_KEY}
+                        optionMap={categoriesWithDefault}
                         notifySelection={() => notifyRefresh()}/>
                 </div>
             </div>
@@ -29,8 +38,9 @@ export const FiltrationForm = ({notifyRefresh}) => {
                 <div className="selector-header">Приоритет:</div>
                 <div className="selector-wrapper">
                     <SelectorComponent
-                        storageKey={PRIORITY_KEY}
-                        optionMap={{"" : "Любой",
+                        id={PRIORITY_LETTER_SELECT_ID}
+                        storageKey={PRIORITY_LETTER_KEY}
+                        optionMap={{"" : "Все",
                             "A" : "A",
                             "B" : "B",
                             "C" : "C",
@@ -44,6 +54,7 @@ export const FiltrationForm = ({notifyRefresh}) => {
                 <div className="selector-header">За период:</div>
                 <div className="selector-wrapper">
                     <SelectorComponent
+                        id={PERIOD_SELECT_ID}
                         storageKey={PERIOD_KEY}
                         optionMap={{"ALL" : "Все время",
                             "DAY"   : "День",
@@ -59,7 +70,8 @@ export const FiltrationForm = ({notifyRefresh}) => {
                 <div className="selector-header">Сортировать по:</div>
                 <div className="selector-wrapper">
                     <SelectorComponent
-                        storageKey={SORT_ORDER_KEY}
+                        id={COMPARE_TO_SELECT_ID}
+                        storageKey={COMPARE_TO_KEY}
                         optionMap={{
                             "PRIORITY_FIRST"        : "Приоритету",
                             "DATE_COMPLETION_FIRST" : "Дате исполнения",

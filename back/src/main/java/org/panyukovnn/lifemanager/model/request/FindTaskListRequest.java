@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FindTaskListRequest {
 
-    public Integer priority;
+    public String priority;
     public List<TaskStatus> taskStatuses;
     public List<String> categories;
     public PeriodStrategyType periodType;
