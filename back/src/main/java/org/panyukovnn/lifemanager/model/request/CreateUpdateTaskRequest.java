@@ -1,5 +1,6 @@
 package org.panyukovnn.lifemanager.model.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,10 @@ public class CreateUpdateTaskRequest {
     public String category;
 
     public String status;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     public LocalDate completionDate;
+
+    @JsonFormat(pattern = "HH:mm")
     public LocalTime completionTime;
 }

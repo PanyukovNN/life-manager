@@ -101,6 +101,28 @@
     position: absolute;
 }
 
+.add-task-inputs-wrap {
+    padding: 10px;
+}
 .task-textarea-wrap {
-    padding: 10px 10px;
+
+}
+.modal-selectors-group-wrap {
+    display: flex;
+}
+.modal-selector-block {
+    margin-top: 20px;
+
+    width: 100%;
+    margin-right: 20px;
+}
+.modal-selector-header {
+}
+.modal-selector-wrapper {
+    display: flex;
+
+}
+.modal-priority-selector-wrapper {
+    display: flex;
+    width: 170px;
 }
