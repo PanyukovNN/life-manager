@@ -4,40 +4,35 @@ import {React, useState} from 'react'
 import {TaskList} from './components/TaskList'
 import {AddTaskButtonModal} from './components/AddTaskButtonModal'
 import {FiltrationForm} from "./components/FiltrationFormComponent";
+import {Links} from "./components/Links";
+import {DoneRemoveButtons} from "./components/DoneRemoveButtons";
 import {FetchCategories} from './Utils'
 
 function App() {
 
-    // хук обновления формы фильтрации
-    const [taskListUpdateCall, setFiltrationFormRefresh] = useState(0);
-
     const categories = FetchCategories();
+    const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
 
     return (
         <div className="App">
-            <link
-                rel = "stylesheet"
-                href = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-                integrity = "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-                crossOrigin = "anonymous"/>
+            <Links />
 
-            <div className="filter-block">
-                <div className="filter-block-header">
-                    Список задач
-                </div>
+            <div className="filter-form-block">
+                <div className="filter-block-header">Список задач</div>
 
                 <FiltrationForm
                     categories={categories}
-                    notifyRefresh={() => setFiltrationFormRefresh(taskListUpdateCall + 1)}/>
+                    notifyRefresh={() => setFiltrationFormRefresh(refreshTaskListCall + 1)}/>
             </div>
 
-            <div className="tasks-block">
-                <TaskList
-                    count={taskListUpdateCall}/>
+            <div className="task-list-block">
+                <TaskList refreshTaskListCall={refreshTaskListCall}/>
 
                 <AddTaskButtonModal
                     categories={categories}
-                    refreshTaskList={() => setFiltrationFormRefresh(taskListUpdateCall + 1)}/>
+                    refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall + 1)}/>
+
+                <DoneRemoveButtons />
             </div>
         </div>
     );

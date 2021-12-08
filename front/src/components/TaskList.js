@@ -9,29 +9,29 @@ import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE
  * @returns {*} список задач
  * @constructor
  */
-export const TaskList = (taskListUpdateCall) => {
+export const TaskList = ({refreshTaskListCall}) => {
     const [taskComponents, setTasks] = useState();
 
     useEffect(
-        (taskListUpdateCall) => {
+        (refreshTaskListCall) => {
             const priorityLetter = document.getElementById(PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
             const category = document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value;
             const periodType = document.getElementById(PERIOD_SELECT_ID).selectedOptions[0].value;
             const compareType = document.getElementById(COMPARE_TO_SELECT_ID).selectedOptions[0].value;
 
             const fetchTasks = async () => {
-                let body = JSON.stringify({
+                let body = {
                     priority: priorityLetter,
                     taskStatuses: [],
                     categories: category !== "" ? [category] : [],
                     periodType: periodType !== "" ? periodType : "ALL",
                     compareType: compareType !== "" ? compareType : "PRIORITY_FIRST"
-                });
-                console.log(body)
+                };
+
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: body
+                    body: JSON.stringify(body)
                 };
 
                 // запрашиваем список задач
@@ -51,7 +51,7 @@ export const TaskList = (taskListUpdateCall) => {
 
             fetchTasks();
         },
-        [taskListUpdateCall]
+        [refreshTaskListCall]
     );
 
     return (

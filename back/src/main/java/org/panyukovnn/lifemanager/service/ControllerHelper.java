@@ -15,7 +15,7 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
  */
 public class ControllerHelper {
 
-    public static final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd:MM:yyyy");
+    public static final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public static final DateTimeFormatter FRONT_T_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     /**

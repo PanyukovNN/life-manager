@@ -15,6 +15,7 @@ import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_T_FORMAT
 @ToString
 public class TaskDto {
 
+    private final String id;
     private final String description;
     private final String priority;
     private final String category;
@@ -31,6 +32,7 @@ public class TaskDto {
             throw new IllegalArgumentException();
         }
 
+        this.id = task.getId();
         this.description = task.getDescription();
         this.priority = ControllerHelper.priorityToParam(task.getPriority());
         this.category = task.getCategory().getName();

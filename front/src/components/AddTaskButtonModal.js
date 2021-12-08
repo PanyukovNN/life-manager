@@ -25,10 +25,6 @@ export const AddTaskButtonModal = ({refreshTaskList, categories}) => {
     const handleSave = async () => {
         let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
 
-        console.log(date)
-        console.log(time)
-
-
         if (description === null || description === "") {
             return;
         }
@@ -36,7 +32,6 @@ export const AddTaskButtonModal = ({refreshTaskList, categories}) => {
         let category = document.getElementById(MODAL_CATEGORY_SELECT_ID).selectedOptions[0].value;
         let priorityLetter = document.getElementById(MODAL_PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
         let priorityDigit = document.getElementById(MODAL_PRIORITY_DIGIT_SELECT_ID).selectedOptions[0].value;
-
 
         let body = JSON.stringify({
             description: description,
@@ -47,12 +42,10 @@ export const AddTaskButtonModal = ({refreshTaskList, categories}) => {
             completionTime: time
         });
 
-        console.log(body)
-
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: body
+            body: JSON.stringify(body)
         };
 
         const response = await fetch('http://localhost:80/api/task/create-update', requestOptions);
@@ -128,11 +121,19 @@ export const AddTaskButtonModal = ({refreshTaskList, categories}) => {
                     <div className="modal-selectors-group-wrap">
                         <div className="modal-selector-block">
                             <div className="modal-selector-header">Дата:</div>
-                            <DatePicker format={"DD.MM.YYYY"} onChange={(e) => setDate(e.date.format("DD-MM-YYYY"))}/>
+                            <DatePicker format={"DD.MM.YYYY"} onChange={(e) => {
+                                if (e.data !== undefined) {
+                                    setDate(e.date.format("DD-MM-YYYY"))
+                                }
+                            }}/>
                         </div>
                         <div className="modal-selector-block">
                             <div className="modal-selector-header">Время:</div>
-                            <TimePicker format={"HH:mm"} stepping={30} onChange={(e) => setTime(e.date.format("HH:mm"))}/>
+                            <TimePicker format={"HH:mm"} stepping={30} onChange={(e) => {
+                                if (e.data !== undefined) {
+                                    setTime(e.date.format("HH:mm"))
+                                }
+                            }}/>
                         </div>
                     </div>
                 </div>
