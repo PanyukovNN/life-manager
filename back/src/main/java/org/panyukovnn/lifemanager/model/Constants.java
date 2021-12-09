@@ -7,7 +7,9 @@ public class Constants {
      */
     public static final String ERROR_OCCURRED_MSG = "Возникла ошибка: ";
     public static final String TASK_REMOVED_SUCCESSFULLY = "Задача \"%s\" успешно удалена";
+    public static final String TASKS_REMOVED_SUCCESSFULLY = "Задачи \"%s\" успешно удалена";
     public static final String CATEGORY_REMOVED_SUCCESSFULLY = "Раздел \"%s\" успешно удален";
+    public static final String STATUS_SET_SUCCESSFULLY = "Успешно установлен статус \"%s\" задачам \"%s\"";
 
     /**
      * Текстовки ошибок

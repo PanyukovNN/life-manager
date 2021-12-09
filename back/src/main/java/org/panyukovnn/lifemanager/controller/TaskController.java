@@ -5,9 +5,7 @@ import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
-import org.panyukovnn.lifemanager.model.request.CreateUpdateTaskRequest;
-import org.panyukovnn.lifemanager.model.request.DeleteByIdRequest;
-import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
+import org.panyukovnn.lifemanager.model.request.*;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.panyukovnn.lifemanager.service.ControllerHelper;
 import org.panyukovnn.lifemanager.service.TaskService;
@@ -88,6 +86,21 @@ public class TaskController {
     }
 
     /**
+     * Изменить статус задач
+     *
+     * @param request запрос
+     * @return сообщение о результате
+     */
+    @PostMapping("/set-status")
+    public String setStatus(@RequestBody @Valid SetStatusRequest request) {
+        Objects.requireNonNull(request, NULL_FIND_LIST_REQUEST_ERROR_MSG);
+
+        taskService.setStatus(request.getIds(), request.status);
+
+        return String.format(STATUS_SET_SUCCESSFULLY, request.getStatus(), request.getIds());
+    }
+
+    /**
      * Вернуть все задачи
      *
      * @return список задач
@@ -104,7 +117,7 @@ public class TaskController {
      * Удалить задачу по идентификатору
      *
      * @param request запрос
-     * @return сообщение об успешном удалении
+     * @return сообщение о результате
      */
     @DeleteMapping("/delete-by-id")
     public String deleteById(@RequestBody @Valid DeleteByIdRequest request) {
@@ -113,6 +126,21 @@ public class TaskController {
         taskService.deleteById(request.getId());
 
         return String.format(TASK_REMOVED_SUCCESSFULLY, request.getId());
+    }
+
+    /**
+     * Удалить задачи по списку идентификаторов
+     *
+     * @param request запрос
+     * @return сообщение о результате
+     */
+    @DeleteMapping("/delete-by-ids")
+    public String deleteByIds(@RequestBody @Valid DeleteByIdsRequest request) {
+        Objects.requireNonNull(request);
+
+        taskService.deleteByIds(request.getIds());
+
+        return String.format(TASK_REMOVED_SUCCESSFULLY, request.getIds());
     }
 
     @ExceptionHandler(value = {Exception.class})

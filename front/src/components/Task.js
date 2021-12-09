@@ -2,7 +2,15 @@ import '../App.css';
 import {React} from 'react';
 import {Form} from "react-bootstrap";
 
-export const Task = ({task}) => {
+/**
+ * Задача
+ *
+ * @param task объект задачи
+ * @param handleCheck обработка выбора задачи
+ * @returns {*} компонент задачи
+ */
+export const Task = ({task, handleCheck}) => {
+
     return (
         <div className="task-block">
             <input className="task-id" type={"hidden"} value={task.id}/>
@@ -11,8 +19,8 @@ export const Task = ({task}) => {
                 <div className="task-check">
                     <Form.Check
                         inline
-                        name="group1"
-                        type="checkbox"/>
+                        type="checkbox"
+                        onChange={() => handleCheck(task.id)}/>
                 </div>
 
                 <div className="task-priority">

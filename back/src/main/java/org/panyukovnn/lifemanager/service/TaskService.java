@@ -2,6 +2,7 @@ package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.Builder;
+import org.hibernate.criterion.Restrictions;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
@@ -14,6 +15,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
@@ -119,14 +121,14 @@ public class TaskService {
 
         if (params.startDate != null) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where("completionDate").isNull(),
+                    Criteria.where("completionDate").is(null),
                     Criteria.where("completionDate").gte(params.startDate)
             ));
         }
 
         if (params.endDate != null && params.endDate != LocalDate.MAX) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where("completionDate").isNull(),
+                    Criteria.where("completionDate").is(null),
                     Criteria.where("completionDate").lte(params.endDate)
             ));
         }
@@ -139,6 +141,21 @@ public class TaskService {
         tasks.sort(compareStrategyManager.resolve(params.compareType));
 
         return tasks;
+    }
+
+    /**
+     * Изменяет статус задач
+     *
+     * @param ids список идентификаторов задач
+     * @param status статус
+     */
+    @Transactional
+    public void setStatus(List<String> ids, TaskStatus status) {
+        List<Task> tasks = taskRepository.findByIdIn(ids);
+
+        tasks.forEach(task -> task.setStatus(status));
+
+        taskRepository.saveAll(tasks);
     }
 
     /**
@@ -161,6 +178,15 @@ public class TaskService {
      */
     public void deleteById(String id) {
         taskRepository.deleteById(id);
+    }
+
+    /**
+     * Удалить задачи по списку идентификаторов
+     *
+     * @param ids список идентификаторов
+     */
+    public void deleteByIds(List<String> ids) {
+        taskRepository.deleteAllById(ids);
     }
 
     /**

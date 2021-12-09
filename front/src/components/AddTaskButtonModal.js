@@ -33,14 +33,14 @@ export const AddTaskButtonModal = ({refreshTaskList, categories}) => {
         let priorityLetter = document.getElementById(MODAL_PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
         let priorityDigit = document.getElementById(MODAL_PRIORITY_DIGIT_SELECT_ID).selectedOptions[0].value;
 
-        let body = JSON.stringify({
+        let body = {
             description: description,
             priority: priorityLetter + priorityDigit,
             category: category,
             status: TO_DO_TASK_STATUS,
             completionDate: date,
             completionTime: time
-        });
+        };
 
         const requestOptions = {
             method: 'POST',

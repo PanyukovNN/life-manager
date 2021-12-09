@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.6.0'
+    id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
@@ -41,14 +41,8 @@ allprojects {
     }
 
     dependencies {
-        implementation library.springBootAOP
-        implementation library.springBootWeb
-        implementation library.springBootDataJpa
-        implementation library.springBootSecurity
-        implementation library.springBootActuator
-        implementation library.springBootDevTools
-        implementation library.springBootDataMongo
-        implementation library.springBootValidation
+        implementation library.springSwagger
+        implementation library.springSwaggerUI
 
         annotationProcessor library.lombok
 

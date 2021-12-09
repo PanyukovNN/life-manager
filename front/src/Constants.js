@@ -15,3 +15,4 @@ export const MODAL_PRIORITY_LETTER_SELECT_ID = "modalPriorityLetterSelectId";
 export const MODAL_PRIORITY_DIGIT_SELECT_ID = "modalPriorityDigitSelectId";
 
 export const TO_DO_TASK_STATUS = "TO_DO";
+export const DONE_TASK_STATUS = "DONE";

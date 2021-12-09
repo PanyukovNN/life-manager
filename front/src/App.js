@@ -12,6 +12,7 @@ function App() {
 
     const categories = FetchCategories();
     const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
+    const [checkedTaskIds, setCheckedTaskIds] = useState([]);
 
     return (
         <div className="App">
@@ -26,13 +27,17 @@ function App() {
             </div>
 
             <div className="task-list-block">
-                <TaskList refreshTaskListCall={refreshTaskListCall}/>
+                <TaskList
+                    refreshTaskListCall={refreshTaskListCall}
+                    handleCheck={(taskId) => setCheckedTaskIds(checkedTaskIds => [...checkedTaskIds, taskId])}/>
 
                 <AddTaskButtonModal
                     categories={categories}
                     refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall + 1)}/>
 
-                <DoneRemoveButtons />
+                <DoneRemoveButtons
+                    checkedTaskIds={checkedTaskIds}
+                    refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall + 1)}/>
             </div>
         </div>
     );
