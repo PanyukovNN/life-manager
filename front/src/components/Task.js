@@ -12,7 +12,7 @@ import {Form} from "react-bootstrap";
 export const Task = ({task, handleCheck}) => {
 
     return (
-        <div className="task-block">
+        <div className="task-block" onClick={() => window.confirm(task.id)}>
             <input className="task-id" type={"hidden"} value={task.id}/>
 
             <div className="task-info">

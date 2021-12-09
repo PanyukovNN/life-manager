@@ -48,7 +48,7 @@ export const TaskList = ({refreshTaskListCall, handleCheck}) => {
                 setTasks(() => {
                     let taskComponents = [];
                     data.forEach(task => taskComponents.push(
-                        <Task task={task} handleCheck={handleCheck} key={task.id}/>
+                        <Task task={task} handleCheck={handleCheck} key={task.id} />
                     ));
 
                     return taskComponents;
