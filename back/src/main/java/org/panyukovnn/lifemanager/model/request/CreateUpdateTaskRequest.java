@@ -8,8 +8,12 @@ import org.panyukovnn.lifemanager.model.TaskStatus;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_PATTERN;
+import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
 
 /**
  * Запрос на создание/изменение задачи
@@ -25,12 +29,14 @@ public class CreateUpdateTaskRequest {
     public String description;
 
     @NotBlank
+    @Pattern(regexp = PRIORITY_PATTERN, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
     public String priority;
 
-    @NotNull
+    @NotBlank
     public String category;
 
-    public String status;
+    @NotNull
+    public TaskStatus status;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     public LocalDate completionDate;

@@ -5,6 +5,8 @@ import io.micrometer.core.instrument.util.StringUtils;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -31,17 +33,15 @@ public class ControllerHelper {
      * @return числовое значение приоритета
      */
     public static int paramToPriority(String priorityParam) {
-        if (StringUtils.isBlank(priorityParam) || priorityParam.length() != 2) {
+        Pattern pattern = Pattern.compile(PRIORITY_PATTERN);
+        Matcher matcher = pattern.matcher(priorityParam);
+
+        if (!matcher.matches()) {
             throw new IllegalArgumentException(WRONG_PRIORITY_STRING_VALUE_ERROR_MSG);
         }
 
         char letter = priorityParam.charAt(0);
         int digit = Character.getNumericValue(priorityParam.charAt(1));
-
-        if (letter < 'A' || letter > 'D'
-                || digit < 1 || digit > 4) {
-            throw new IllegalArgumentException(WRONG_PRIORITY_STRING_VALUE_ERROR_MSG);
-        }
 
         // Возвращает максимальное число диапазона по букве (Например, если А то 4, если D то 0)
         int rangeMaxNumber = 4 * (4 - letter + 'A');

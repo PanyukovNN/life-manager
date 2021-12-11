@@ -40,8 +40,6 @@ public class CategoryController {
      */
     @PostMapping("/create-update")
     public Category createUpdateCategory(@RequestBody CreateUpdateCategoryRequest request) {
-        Objects.requireNonNull(request, NULL_CREATE_UPDATE_CATEGORY_REQUEST_ERROR_MSG);
-
         return categoryService.createUpdate(request.getId(), request.getName());
     }
 
@@ -53,8 +51,6 @@ public class CategoryController {
      */
     @GetMapping("/find-by-name")
     public Category findByName(@RequestBody @Valid FindCategoryByNameRequest request) {
-        Objects.requireNonNull(request);
-
         return categoryService.findByName(request.getName());
     }
 
@@ -76,8 +72,6 @@ public class CategoryController {
      */
     @DeleteMapping("/delete-by-name")
     public String deleteById(@RequestBody @Valid DeleteByNameRequest request) {
-        Objects.requireNonNull(request);
-
         categoryService.deleteByName(request.getName());
 
         return String.format(CATEGORY_REMOVED_SUCCESSFULLY, request.getName());

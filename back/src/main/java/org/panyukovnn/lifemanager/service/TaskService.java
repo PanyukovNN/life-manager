@@ -1,14 +1,14 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import lombok.Builder;
-import org.hibernate.criterion.Restrictions;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
+import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
+import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
 import org.panyukovnn.lifemanager.service.periodstrategy.PeriodStrategyResolver;
 import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskCompareStrategyResolver;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,6 +23,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static org.panyukovnn.lifemanager.model.Constants.*;
+import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_D_FORMATTER;
+import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_T_FORMATTER;
 
 /**
  * Сервис задач
@@ -107,38 +112,36 @@ public class TaskService {
         Query query = new Query();
         List<Criteria> criteriaList = new ArrayList<>();
 
-        if (!CollectionUtils.isEmpty(params.priorityRange)) {
-            criteriaList.add(Criteria.where("priority").in(params.priorityRange));
+        if (!CollectionUtils.isEmpty(params.getPriorityRange())) {
+            criteriaList.add(Criteria.where(PRIORITY).in(params.getPriorityRange()));
         }
 
-        if (!CollectionUtils.isEmpty(params.statuses)) {
-            criteriaList.add(Criteria.where("status").in(params.statuses));
+        if (!CollectionUtils.isEmpty(params.getStatuses())) {
+            criteriaList.add(Criteria.where(STATUS).in(params.getStatuses()));
         }
 
-        if (!CollectionUtils.isEmpty(params.categories)) {
-            criteriaList.add(Criteria.where("category.name").in(params.categories));
+        if (!CollectionUtils.isEmpty(params.getCategories())) {
+            criteriaList.add(Criteria.where(CATEGORY_NAME).in(params.getCategories()));
         }
 
-        if (params.startDate != null) {
+        if (params.getStartDate() != null) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where("completionDate").is(null),
-                    Criteria.where("completionDate").gte(params.startDate)
+                    Criteria.where(COMPLETION_DATE).is(null),
+                    Criteria.where(COMPLETION_DATE).gte(params.getStartDate())
             ));
         }
 
-        if (params.endDate != null && params.endDate != LocalDate.MAX) {
+        if (params.getEndDate() != null && params.getEndDate() != LocalDate.MAX) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where("completionDate").is(null),
-                    Criteria.where("completionDate").lte(params.endDate)
+                    Criteria.where(COMPLETION_DATE).is(null),
+                    Criteria.where(COMPLETION_DATE).lte(params.getEndDate())
             ));
         }
-
-        //TODO добавить проверку на completionTime
 
         query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
 
         List<Task> tasks = mongoTemplate.find(query, Task.class);
-        tasks.sort(compareStrategyManager.resolve(params.compareType));
+        tasks.sort(compareStrategyManager.resolve(params.getCompareType()));
 
         return tasks;
     }
@@ -212,39 +215,34 @@ public class TaskService {
     }
 
     /**
-     * Транспортный объект параметров поиска задач
+     * Конвертировать задачу в транспортный объект
+     *
+     * @param task задача
+     * @return транспортный объект задачи
      */
-    @Builder
-    public static class TaskListParams {
+    public TaskDto convertToDto(Task task) {
+        Objects.requireNonNull(task, NULL_TASK_ERROR_MSG);
+        Objects.requireNonNull(task.getCategory(), NULL_CATEGORY_ERROR_MSG);
 
-        /**
-         * Диапазон приоритетов
-         */
-        private final List<Integer> priorityRange;
+        String priority = ControllerHelper.priorityToParam(task.getPriority());
+        String categoryName = task.getCategory().getName();
 
-        /**
-         * Список статусов
-         */
-        private final List<TaskStatus> statuses;
+        TaskDto.TaskDtoBuilder builder = TaskDto.builder()
+                .id(task.getId())
+                .description(task.getDescription())
+                .priority(priority)
+                .category(categoryName);
 
-        /**
-         * Список категорий
-         */
-        private final List<String> categories;
+        if (task.getCompletionDate() != null) {
+            builder.completionDate(FRONT_D_FORMATTER.format(task.getCompletionDate()));
+        }
 
-        /**
-         * Дата начала периода
-         */
-        private final LocalDate startDate;
+        if (task.getCompletionTime() != null) {
+            builder.completionTime(FRONT_T_FORMATTER.format(task.getCompletionTime()));
+        }
 
-        /**
-         * Дата окончания периода
-         */
-        private final LocalDate endDate;
-
-        /**
-         * Способ сортировки
-         */
-        private final TaskCompareType compareType;
+        return builder.build();
     }
+
+
 }

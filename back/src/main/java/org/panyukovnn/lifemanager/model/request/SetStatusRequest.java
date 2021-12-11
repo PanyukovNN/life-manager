@@ -11,13 +11,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * Запрос изменение статуса списка задач
+ * Запрос на изменение статуса списка задач
  */
 @Getter
 @Setter
 @NoArgsConstructor
 public class SetStatusRequest {
 
+    @NotNull
     public List<String> ids;
 
     @NotNull
