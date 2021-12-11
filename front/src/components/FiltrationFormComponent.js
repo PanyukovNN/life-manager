@@ -1,5 +1,5 @@
 import '../App.css';
-import {React} from 'react';
+import {React, useEffect} from 'react';
 import {SelectorComponent} from './SelectorComponent'
 import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
     CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY} from '../Constants'
@@ -7,7 +7,7 @@ import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE
 /**
  * Параметры поиска задач
  *
- * @param notifyRefresh функция, вызываемая при обновлении любого из селекторов
+ * @param notifyRefresh уведомление об обновлении формы
  * @param categories список категорий
  * @returns {*} селекторы с параметров поиска
  * @constructor
@@ -18,6 +18,10 @@ export const FiltrationForm = ({notifyRefresh, categories}) => {
     for (const [key, value] of Object.entries(categories)) {
         categoriesWithDefault[key] = value;
     }
+
+    useEffect(() => {
+        notifyRefresh();
+    }, [])
 
     return (
         <>

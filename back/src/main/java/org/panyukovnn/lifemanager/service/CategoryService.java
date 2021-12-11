@@ -6,8 +6,10 @@ import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 
+import static org.panyukovnn.lifemanager.model.Constants.CATEGORY_ALREADY_EXISTS_ERROR_MSG;
 import static org.panyukovnn.lifemanager.model.Constants.CATEGORY_NOT_FOUND_ERROR_MSG;
 
 /**
@@ -39,6 +41,10 @@ public class CategoryService {
 
         if (StringUtils.isNotBlank(id)) {
             Category categoryFromDb = categoryRepository.findById(id).orElse(null);
+
+            if (category.getName().equals(name)) {
+                throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
+            }
 
             if (categoryFromDb != null) {
                 category = categoryFromDb;

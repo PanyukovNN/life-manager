@@ -20,6 +20,7 @@ public class Constants {
     public static final String CATEGORY_NOT_FOUND_ERROR_MSG = "Категория не найдена";
     public static final String NULL_TASK_ERROR_MSG = "Задача не может быть пустой";
     public static final String NULL_CATEGORY_ERROR_MSG = "Раздел не может быть пустым";
+    public static final String CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием уже существует";
 
     /**
      * Параметры
@@ -34,5 +35,5 @@ public class Constants {
      */
     // Строка должна состоять из двух символов, первый от A до D, второй от 1 до 4
     public static final String PRIORITY_PATTERN = "^[A-D][1-4]$";
-    public static final String PRIORITY_PATTERN_OR_EMPTY = PRIORITY_PATTERN + "|";
+    public static final String PRIORITY_LETTER_PATTERN_OR_EMPTY = "^[A-D]$|";
 }

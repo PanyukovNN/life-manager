@@ -13,11 +13,7 @@ import {React, useEffect, useState} from 'react';
  * @returns {*} селектор
  * @constructor
  */
-export const SelectorComponent = ({id, storageKey, optionMap, notifySelection}) => {
-
-
-
-
+export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, defaultValue}) => {
 
     // Формируем варианты выбора
     let options = [];
@@ -37,16 +33,15 @@ export const SelectorComponent = ({id, storageKey, optionMap, notifySelection}) 
         notifySelection(value);
     }
     useEffect(() => {
-            if (storageKey !== null) {
+            if (storageKey !== undefined) {
                 const storedValue = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
                 setSelected(storedValue);
-                console.log("what ?" + storedValue)
-                notifySelection(storedValue)
             } else {
-                notifySelection(optionMap[0])
+                setSelected(defaultValue);
             }
         },
-        []);
+        []
+    );
 
     return (
         <>

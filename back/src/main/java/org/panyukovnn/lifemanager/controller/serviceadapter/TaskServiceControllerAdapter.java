@@ -8,10 +8,12 @@ import org.panyukovnn.lifemanager.model.request.*;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.panyukovnn.lifemanager.service.ControllerHelper;
 import org.panyukovnn.lifemanager.service.TaskService;
+import org.panyukovnn.lifemanager.service.periodstrategy.PeriodStrategyResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,17 +27,21 @@ public class TaskServiceControllerAdapter {
 
     private final TaskService taskService;
     private final CategoryService categoryService;
+    private final PeriodStrategyResolver periodStrategyResolver;
 
     /**
      * Конструктор
      *
      * @param taskService сервис задач
      * @param categoryService сервис категорий
+     * @param periodStrategyResolver periodStrategyResolver
      */
     public TaskServiceControllerAdapter(TaskService taskService,
-                                        CategoryService categoryService) {
+                                        CategoryService categoryService,
+                                        PeriodStrategyResolver periodStrategyResolver) {
         this.taskService = taskService;
         this.categoryService = categoryService;
+        this.periodStrategyResolver = periodStrategyResolver;
     }
 
     /**
@@ -67,7 +73,19 @@ public class TaskServiceControllerAdapter {
      * @return список транспортных объектов задач
      */
     public List<TaskDto> findTaskList(FindTaskListRequest request) {
-        TaskListParams params = taskService.findListRequestToParams(request);
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
+                .getEndDate(startDate);
+        List<Integer> priorityRange = ControllerHelper.letterToPriorityRange(request.getPriorityLetter());
+
+        TaskListParams params = TaskListParams.builder()
+                .priorityRange(priorityRange)
+                .statuses(request.getTaskStatuses())
+                .categories(request.getCategories())
+                .startDate(startDate)
+                .endDate(endDate)
+                .compareType(request.getCompareType())
+                .build();
 
         return taskService.findList(params)
                 .stream()

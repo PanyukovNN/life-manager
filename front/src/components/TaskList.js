@@ -14,14 +14,19 @@ import {
  *
  * @param refreshTaskListCall хук обновления списка задач
  * @param handleCheck обработка выбора задачи
+ * @param notifyUpdateTaskClick функция клика на кнопке редактирования задачи
  * @returns {*} список задач
  * @constructor
  */
-export const TaskList = ({refreshTaskListCall, handleCheck}) => {
+export const TaskList = ({refreshTaskListCall, handleCheck, notifyUpdateTaskClick}) => {
     const [taskComponents, setTasks] = useState();
 
     useEffect(
-        (refreshTaskListCall) => {
+        () => {
+            if (refreshTaskListCall === 0) {
+                return;
+            }
+
             const priorityLetter = document.getElementById(PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
             const category = document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value;
             const periodType = document.getElementById(PERIOD_SELECT_ID).selectedOptions[0].value;
@@ -29,7 +34,7 @@ export const TaskList = ({refreshTaskListCall, handleCheck}) => {
 
             const fetchTasks = async () => {
                 let body = {
-                    priority: priorityLetter,
+                    priorityLetter: priorityLetter,
                     taskStatuses: [TO_DO_TASK_STATUS],
                     categories: category !== "" ? [category] : [],
                     periodType: periodType !== "" ? periodType : "ALL",
@@ -48,7 +53,10 @@ export const TaskList = ({refreshTaskListCall, handleCheck}) => {
                 setTasks(() => {
                     let taskComponents = [];
                     data.forEach(task => taskComponents.push(
-                        <Task task={task} handleCheck={handleCheck} key={task.id} />
+                        <Task task={task}
+                              handleCheck={handleCheck}
+                              notifyTaskClick={(task) => notifyUpdateTaskClick(task)}
+                              key={task.id} />
                     ));
 
                     return taskComponents;
@@ -61,8 +69,10 @@ export const TaskList = ({refreshTaskListCall, handleCheck}) => {
     );
 
     return (
-        <div className="task-components-wrap">
-            {taskComponents}
-        </div>
+        <>
+            <div className="task-components-wrap">
+                {taskComponents}
+            </div>
+        </>
     )
 }

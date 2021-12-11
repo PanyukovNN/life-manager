@@ -23,8 +23,8 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
 @NoArgsConstructor
 public class FindTaskListRequest {
 
-    @Pattern(regexp = PRIORITY_PATTERN_OR_EMPTY, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
-    public String priority;
+    @Pattern(regexp = PRIORITY_LETTER_PATTERN_OR_EMPTY, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
+    public String priorityLetter;
 
     @NotNull
     public List<TaskStatus> taskStatuses;

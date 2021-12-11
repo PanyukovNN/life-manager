@@ -3,80 +3,77 @@ import {React, useEffect, useState} from 'react';
 import {SelectorComponent} from "./SelectorComponent";
 import {TimePicker, DatePicker} from 'react-tempusdominus-bootstrap';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
-import {DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
-    MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS} from "../Constants";
+import {
+    DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
+    MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS
+} from "../Constants";
 
 /**
  * Кнопка с открытием модального окна добавления задачи
  *
  * @param refreshTaskList функция обновления списка задач
+ * @param showCall хук показа окна
  * @param categories список категорий
+ * @param taks задача
  * @returns {*} кнопку с модальным окном
  * @constructor
  */
-export const TaskModal = ({showCall, refreshTaskList, callSave, categories, task}) => {
+export const TaskModal = ({refreshTaskList, showCall, categories, task}) => {
 
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
-    const [priorityLetter, setPriorityLetter] = useState();
-    const [priorityDigit, setPriorityDigit] = useState();
 
     const handleClose = async () => setShow(false);
 
-    // Прерываем запуск useEffect при рендере
-    const [skipMountShow, setSkipMountShow] = useState(true);
     useEffect(
-        (showCall) => {
-            if (skipMountShow) {
-                setSkipMountShow(false);
+        () => {
+            // Прерываем запуск useEffect при рендере
+            if (showCall === 0) {
+                return;
             }
 
-            if (!skipMountShow) {
-                setShow(true);
-            }
-
-            console.log(priorityLetter)
-            console.log(priorityDigit)
+            setShow(true);
         },
         [showCall]
     );
 
-    const handleSave = () => {};
-    // const handleSave = async () => {
-    //     let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
-    //
-    //     if (description === null || description === "") {
-    //         return;
-    //     }
-    //
-    //     let category = document.getElementById(MODAL_CATEGORY_SELECT_ID).selectedOptions[0].value;
-    //     let priorityLetter = document.getElementById(MODAL_PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
-    //     let priorityDigit = document.getElementById(MODAL_PRIORITY_DIGIT_SELECT_ID).selectedOptions[0].value;
-    //
-    //     let body = {
-    //         description: description,
-    //         priority: priorityLetter + priorityDigit,
-    //         category: category,
-    //         status: TO_DO_TASK_STATUS,
-    //         completionDate: date,
-    //         completionTime: time
-    //     };
-    //
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify(body)
-    //     };
-    //
-    //     const response = await fetch('http://localhost:80/api/task/create-update', requestOptions);
-    //     // Возвращает задачу
-    //     await response.json();
-    //
-    //     setShow(false);
-    //
-    //     refreshTaskList();
-    // }
+    // Нажатие на кнопку добавления задачи
+    const handleSave = async () => {
+        let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
+
+        if (description === null || description === "") {
+            return;
+        }
+
+        let id = task ? task.id : null;
+        let category = document.getElementById(MODAL_CATEGORY_SELECT_ID).selectedOptions[0].value;
+        let priorityLetter = document.getElementById(MODAL_PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
+        let priorityDigit = document.getElementById(MODAL_PRIORITY_DIGIT_SELECT_ID).selectedOptions[0].value;
+
+        let body = {
+            id: id,
+            description: description,
+            priority: priorityLetter + priorityDigit,
+            category: category,
+            status: TO_DO_TASK_STATUS,
+            completionDate: date,
+            completionTime: time
+        };
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        };
+
+        const response = await fetch('http://localhost:80/api/task/create-update', requestOptions);
+        // Возвращает задачу
+        await response.json();
+
+        refreshTaskList();
+        setShow(false);
+    }
 
     return (
         <>
@@ -93,6 +90,7 @@ export const TaskModal = ({showCall, refreshTaskList, callSave, categories, task
                                 id={DESCRIPTION_TEXTAREA_ID}
                                 as="textarea"
                                 placeholder=""
+                                defaultValue={task ? task.description : ""}
                                 style={{ height: '100px' }}
                             />
                         </FloatingLabel>
@@ -105,6 +103,7 @@ export const TaskModal = ({showCall, refreshTaskList, callSave, categories, task
                             <div className="modal-selector-wrapper">
                                 <SelectorComponent
                                     id={MODAL_CATEGORY_SELECT_ID}
+                                    defaultValue={task ? task.category : undefined}
                                     optionMap={categories}
                                     notifySelection={() => {}}/>
                             </div>
@@ -115,21 +114,23 @@ export const TaskModal = ({showCall, refreshTaskList, callSave, categories, task
                             <div className="modal-selector-header">Приоритет:</div>
                             <div className="modal-priority-selector-wrapper">
                                 <SelectorComponent
-                                    // id={MODAL_PRIORITY_LETTER_SELECT_ID}
+                                    id={MODAL_PRIORITY_LETTER_SELECT_ID}
+                                    defaultValue={task ? task.priority[0] : undefined}
                                     optionMap={{
                                         "A" : "A",
                                         "B" : "B",
                                         "C" : "C",
                                         "D" : "D"}}
-                                    notifySelection={(selected) => {setPriorityLetter(selected)}}/>
+                                    notifySelection={() => {}}/>
                                 <SelectorComponent
-                                    // id={MODAL_PRIORITY_DIGIT_SELECT_ID}
+                                    id={MODAL_PRIORITY_DIGIT_SELECT_ID}
+                                    defaultValue={task ? task.priority[1] : undefined}
                                     optionMap={{
                                         "1" : "1",
                                         "2" : "2",
                                         "3" : "3",
                                         "4" : "4"}}
-                                    notifySelection={(selected) => {setPriorityDigit(selected)}}/>
+                                    notifySelection={() => {}}/>
                             </div>
                         </div>
                     </div>
@@ -137,19 +138,24 @@ export const TaskModal = ({showCall, refreshTaskList, callSave, categories, task
                     <div className="modal-selectors-group-wrap">
                         <div className="modal-selector-block">
                             <div className="modal-selector-header">Дата:</div>
-                            <DatePicker format={"DD.MM.YYYY"} onChange={(e) => {
-                                if (e.data !== undefined) {
-                                    setDate(e.date.format("DD-MM-YYYY"))
-                                }
-                            }}/>
+                            <DatePicker format={"DD.MM.YYYY"}
+                                        date={task ? task.completionDate : undefined}
+                                        onChange={(e) => {
+                                            if (e.data !== undefined) {
+                                                setDate(e.date.format("DD-MM-YYYY"))
+                                            }
+                                        }}/>
                         </div>
                         <div className="modal-selector-block">
                             <div className="modal-selector-header">Время:</div>
-                            <TimePicker format={"HH:mm"} stepping={30} onChange={(e) => {
-                                if (e.data !== undefined) {
-                                    setTime(e.date.format("HH:mm"))
-                                }
-                            }}/>
+                            <TimePicker format={"HH:mm"}
+                                        stepping={30}
+                                        date={task ? task.completionTime : undefined}
+                                        onChange={(e) => {
+                                            if (e.data !== undefined) {
+                                                setTime(e.date.format("HH:mm"))
+                                            }
+                                        }}/>
                         </div>
                     </div>
                 </div>

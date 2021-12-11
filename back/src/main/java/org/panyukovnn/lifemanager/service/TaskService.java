@@ -1,15 +1,13 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
-import org.panyukovnn.lifemanager.model.request.FindTaskListRequest;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
-import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
-import org.panyukovnn.lifemanager.service.periodstrategy.PeriodStrategyResolver;
 import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskCompareStrategyResolver;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -37,25 +35,21 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final MongoTemplate mongoTemplate;
-    private final PeriodStrategyResolver periodStrategyResolver;
-    private final TaskCompareStrategyResolver compareStrategyManager;
+    private final TaskCompareStrategyResolver compareStrategyResolver;
 
     /**
      * Конструктор
      *
      * @param taskRepository репозиторий задач
      * @param mongoTemplate сервис работы с монго запросами
-     * @param periodStrategyResolver менеджер стратегий определения периода
-     * @param compareStrategyManager менеджер стратегий сортировки задач
+     * @param compareStrategyResolver менеджер стратегий сортировки задач
      */
     public TaskService(TaskRepository taskRepository,
                        MongoTemplate mongoTemplate,
-                       PeriodStrategyResolver periodStrategyResolver,
-                       TaskCompareStrategyResolver compareStrategyManager) {
+                       TaskCompareStrategyResolver compareStrategyResolver) {
         this.taskRepository = taskRepository;
         this.mongoTemplate = mongoTemplate;
-        this.periodStrategyResolver = periodStrategyResolver;
-        this.compareStrategyManager = compareStrategyManager;
+        this.compareStrategyResolver = compareStrategyResolver;
     }
 
     /**
@@ -141,7 +135,7 @@ public class TaskService {
         query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
 
         List<Task> tasks = mongoTemplate.find(query, Task.class);
-        tasks.sort(compareStrategyManager.resolve(params.getCompareType()));
+        tasks.sort(compareStrategyResolver.resolve(params.getCompareType()));
 
         return tasks;
     }
@@ -169,7 +163,7 @@ public class TaskService {
      */
     public List<Task> findAll(TaskCompareType compareType) {
         List<Task> allTasks = taskRepository.findAll();
-        allTasks.sort(compareStrategyManager.resolve(compareType));
+        allTasks.sort(compareStrategyResolver.resolve(compareType));
 
         return allTasks;
     }
@@ -190,28 +184,6 @@ public class TaskService {
      */
     public void deleteByIds(List<String> ids) {
         taskRepository.deleteAllById(ids);
-    }
-
-    /**
-     * Преобразует запрос на поиск списка задач в набор параметров
-     *
-     * @param request запрос
-     * @return параметры поиска задач
-     */
-    public TaskListParams findListRequestToParams(FindTaskListRequest request) {
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
-                .getEndDate(startDate);
-        List<Integer> priorityRange = ControllerHelper.letterToPriorityRange(request.getPriority());
-
-        return TaskListParams.builder()
-                .priorityRange(priorityRange)
-                .statuses(request.getTaskStatuses())
-                .categories(request.getCategories())
-                .startDate(startDate)
-                .endDate(endDate)
-                .compareType(request.getCompareType())
-                .build();
     }
 
     /**
@@ -243,6 +215,4 @@ public class TaskService {
 
         return builder.build();
     }
-
-
 }
