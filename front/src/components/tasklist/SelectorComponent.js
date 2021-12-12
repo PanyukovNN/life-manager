@@ -1,4 +1,4 @@
-import '../App.css';
+import '../../App.css';
 import {Form} from "react-bootstrap";
 import {React, useEffect, useState} from 'react';
 

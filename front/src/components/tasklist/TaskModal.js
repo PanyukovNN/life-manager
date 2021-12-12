@@ -1,4 +1,4 @@
-import '../App.css';
+import '../../App.css';
 import {React, useEffect, useState} from 'react';
 import {SelectorComponent} from "./SelectorComponent";
 import {TimePicker, DatePicker} from 'react-tempusdominus-bootstrap';
@@ -6,7 +6,7 @@ import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {
     DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
     MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS
-} from "../Constants";
+} from "../../Constants";
 
 /**
  * Кнопка с открытием модального окна добавления задачи

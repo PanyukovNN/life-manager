@@ -1,12 +1,11 @@
 import '../App.css';
-import {React, useState} from 'react'
-import {FetchCategories} from "../Utils";
-import {Links} from "../components/Links";
-import {FiltrationForm} from "../components/FiltrationFormComponent";
-import {TaskList} from "../components/TaskList";
+import {React, useState, useEffect} from 'react'
 import {Button} from "react-bootstrap";
-import {TaskModal} from "../components/TaskModal";
-import {DoneRemoveButtons} from "../components/DoneRemoveButtons";
+import {FetchRawCategories, ConvertRawCategoriesToMap} from "../Utils";
+import {TaskModal} from "../components/tasklist/TaskModal";
+import {DoneRemoveButtons} from "../components/tasklist/DoneRemoveButtons";
+import {TaskListComponent} from "../components/tasklist/TaskListComponent";
+import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
 
 /**
  * Главная страница со списком задачи и формой фильтрации
@@ -17,7 +16,14 @@ import {DoneRemoveButtons} from "../components/DoneRemoveButtons";
 export const TaskListPage = () => {
 
     const [loading, setLoading] = useState(true);
-    const categories = FetchCategories(setLoading);
+    const [categories, setCategories] = useState({});
+    const rawCategories = FetchRawCategories(setLoading);
+
+    useEffect(() => {
+        if (!loading) {
+            setCategories(() => ConvertRawCategoriesToMap(rawCategories));
+        }
+    }, [loading]);
 
     const [checkedTaskIds, setCheckedTaskIds] = useState([]);
     const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
@@ -26,7 +32,7 @@ export const TaskListPage = () => {
 
     if (loading) {
         return (
-            <span>Loading</span>
+            <span>Loading...</span>
         );
     }
 
@@ -41,7 +47,7 @@ export const TaskListPage = () => {
             </div>
 
             <div className="task-list-block">
-                <TaskList
+                <TaskListComponent
                     refreshTaskListCall={refreshTaskListCall}
                     notifyUpdateTaskClick={(task) => {
                         setShowCall(showCall => showCall + 1);

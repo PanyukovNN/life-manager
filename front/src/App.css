@@ -14,7 +14,7 @@
     height  : 1px;
     width   : 400px;
     margin  : 0 auto;
-    border-bottom: 1px rgba(0, 0, 0, .5) solid;;
+    border-bottom: 1px rgba(0, 0, 0, .5) solid;
 }
 .navbar-nav {
     margin-left: auto;
@@ -223,4 +223,41 @@
 .modal-priority-selector-wrapper {
     display: flex;
     width: 170px;
+}
+
+/* Страница управления категориями */
+.category-list-block {
+    margin-left: auto;
+    margin-right: auto;
+}
+.category-block {
+    position: relative;
+    display: flex;
+
+    flex-wrap: wrap;
+
+    width: 450px;
+
+    align-content: space-between;
+
+    padding: 9px 14px 14px 14px;
+    margin: 4px auto;
+    border-radius: 20px;
+
+    background-color: white;
+}
+.category-remove-button {
+    height: 20px;
+
+    margin-left: auto;
+    padding: 0 15px;
+
+    background-color: rgba(255, 0, 0, .05) !important;
+
+    color: black !important;
+    font-size: 12px !important;
+    line-height: 6px !important;
+
+    border-radius: 20px !important;
+    border: none !important;
 }

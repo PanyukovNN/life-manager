@@ -1,8 +1,8 @@
-import '../App.css';
+import '../../App.css';
 import {React, useEffect} from 'react';
 import {SelectorComponent} from './SelectorComponent'
 import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
-    CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY} from '../Constants'
+    CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY} from '../../Constants'
 
 /**
  * Параметры поиска задач

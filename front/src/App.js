@@ -17,7 +17,7 @@ function App() {
 
             <Router>
                 <Routes>
-                    <Route path="/tasks" element={<TaskListPage />} />
+                    <Route path="/" element={<TaskListPage />} />
                     <Route path="/categories" element={<CategoryListPage />} />
                 </Routes>
             </Router>

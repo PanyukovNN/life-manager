@@ -1,7 +1,7 @@
-import '../App.css';
+import '../../App.css';
 import {React} from 'react';
 import {Button} from "react-bootstrap";
-import {DONE_TASK_STATUS} from "../Constants";
+import {DONE_TASK_STATUS} from "../../Constants";
 
 /**
  * Кнопки "изменить статус на 'выполнено'" и "удалить"

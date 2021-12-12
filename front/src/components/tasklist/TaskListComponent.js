@@ -1,4 +1,4 @@
-import '../App.css';
+import '../../App.css';
 import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
 import {
@@ -7,7 +7,7 @@ import {
     PERIOD_SELECT_ID,
     COMPARE_TO_SELECT_ID,
     TO_DO_TASK_STATUS
-} from '../Constants'
+} from '../../Constants'
 
 /**
  * Загружает и формирует список задач
@@ -18,7 +18,7 @@ import {
  * @returns {*} список задач
  * @constructor
  */
-export const TaskList = ({refreshTaskListCall, handleCheck, notifyUpdateTaskClick}) => {
+export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdateTaskClick}) => {
     const [taskComponents, setTasks] = useState();
 
     useEffect(
