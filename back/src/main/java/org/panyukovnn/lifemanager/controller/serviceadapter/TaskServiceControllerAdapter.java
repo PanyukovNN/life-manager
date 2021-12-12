@@ -82,7 +82,7 @@ public class TaskServiceControllerAdapter {
                 .priorityRange(priorityRange)
                 .statuses(request.getTaskStatuses())
                 .categories(request.getCategories())
-                .startDate(startDate)
+                .startDate(null) // мы хотим показывать просроченные задачи
                 .endDate(endDate)
                 .compareType(request.getCompareType())
                 .build();

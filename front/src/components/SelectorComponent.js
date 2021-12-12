@@ -32,6 +32,7 @@ export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, d
         setSelected(value);
         notifySelection(value);
     }
+
     useEffect(() => {
             if (storageKey !== undefined) {
                 const storedValue = JSON.parse(localStorage.getItem(storageKey) ?? "[]");

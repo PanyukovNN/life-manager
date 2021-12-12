@@ -1,4 +1,27 @@
 .App {
+
+}
+
+.navbar {
+    max-height: 50px;
+}
+/* нижняя рамка для навигационной панели */
+.navbar:before {
+    content : "";
+    position: absolute;
+    left    : calc(50% - 200px);
+    bottom  : 0;
+    height  : 1px;
+    width   : 400px;
+    margin  : 0 auto;
+    border-bottom: 1px rgba(0, 0, 0, .5) solid;;
+}
+.navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.TaskListPage {
     display: flex;
 
     min-height: calc(100vh);
@@ -108,6 +131,21 @@
 }
 .task-description {
     margin-top: 12px;
+}
+.task-edit-button {
+    width:  60px;
+    height: 20px;
+
+    margin-left: 12px;
+
+    background-color: rgba(0, 0, 0, .05) !important;
+
+    color: black !important;
+    font-size: 12px !important;
+    line-height: 6px !important;
+
+    border-radius: 20px !important;
+    border: none !important;
 }
 
 .add-task-button,

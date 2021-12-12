@@ -19,9 +19,7 @@ export const FiltrationForm = ({notifyRefresh, categories}) => {
         categoriesWithDefault[key] = value;
     }
 
-    useEffect(() => {
-        notifyRefresh();
-    }, [])
+    useEffect(() => {notifyRefresh();}, [])
 
     return (
         <>

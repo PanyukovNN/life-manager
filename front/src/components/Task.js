@@ -1,6 +1,6 @@
 import '../App.css';
 import {React} from 'react';
-import {Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 /**
  * Карточка задачи
@@ -13,7 +13,7 @@ import {Form} from "react-bootstrap";
 export const Task = ({task, handleCheck, notifyTaskClick}) => {
 
     return (
-        <div className="task-block" onClick={() => {notifyTaskClick(task)}}>
+        <div className="task-block">
             <input className="task-id" type={"hidden"} value={task.id}/>
 
             <div className="task-info">
@@ -39,6 +39,12 @@ export const Task = ({task, handleCheck, notifyTaskClick}) => {
                 <div className="task-completion-date">
                     {task.completionDate}
                 </div>
+
+                <Button className="task-edit-button"
+                        variant="primary"
+                        onClick={() => {notifyTaskClick(task)}}>
+                    Edit
+                </Button>
             </div>
 
             <div className="task-description">
