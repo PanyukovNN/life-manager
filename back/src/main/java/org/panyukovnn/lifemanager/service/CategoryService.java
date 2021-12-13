@@ -46,15 +46,13 @@ public class CategoryService {
         Category category = new Category();
 
         if (StringUtils.isNotBlank(id)) {
-            Category categoryFromDb = categoryRepository.findById(id).orElse(null);
+            categoryRepository.findById(id).ifPresent(categoryFromDb -> {
+                if (categoryFromDb.getName().equals(name)) {
+                    throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
+                }
 
-            if (category.getName().equals(name)) {
-                throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
-            }
-
-            if (categoryFromDb != null) {
-                category = categoryFromDb;
-            }
+                category.setId(categoryFromDb.getId());
+            });
         }
 
         category.setName(name);
@@ -79,7 +77,7 @@ public class CategoryService {
      * @return список категорий
      */
     public List<Category> findUnarchived() {
-        return categoryRepository.findByInArchiveFalse();
+        return categoryRepository.findByInArchiveIsFalse();
     }
 
     /**

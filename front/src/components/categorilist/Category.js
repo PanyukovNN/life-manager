@@ -9,7 +9,7 @@ import {Button} from "react-bootstrap";
  * @returns {*} компонент категории
  * @constructor
  */
-export const Category = ({category}) => {
+export const Category = ({category, notifyEditBtnClick}) => {
 
     return (
         <div className="category-block">
@@ -21,7 +21,7 @@ export const Category = ({category}) => {
 
             <Button className="category-edit-button"
                     variant="primary"
-                    onClick={() => {}}>
+                    onClick={() => {notifyEditBtnClick(category)}}>
                 Ред.
             </Button>
 

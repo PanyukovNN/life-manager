@@ -22,7 +22,7 @@ export const TaskListPage = () => {
     const [checkedTaskIds, setCheckedTaskIds] = useState([]);
     const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
     const [showModalCall, setShowModalCall] = useState(0);
-    const [task, setTask] = useState(null);
+    const [modalTask, setModalTask] = useState(null);
 
     if (loading) {
         return (
@@ -45,7 +45,7 @@ export const TaskListPage = () => {
                     refreshTaskListCall={refreshTaskListCall}
                     notifyUpdateTaskClick={(task) => {
                         setShowModalCall(showModalCall => showModalCall + 1);
-                        setTask(task);
+                        setModalTask(task);
                     }}
                     handleCheck={(taskId) => setCheckedTaskIds(checkedTaskIds => [...checkedTaskIds, taskId])}/>
 
@@ -53,13 +53,13 @@ export const TaskListPage = () => {
                         variant="primary"
                         onClick={() => {
                             setShowModalCall(showModalCall => showModalCall + 1);
-                            setTask(null);}}>
+                            setModalTask(null);}}>
                     <span className="plus-sign">&#43;</span>
                 </Button>
 
                 <TaskModal refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}
                            showModalCall={showModalCall}
-                           task={task}
+                           task={modalTask}
                            categories={categories}  />
 
                 <DoneRemoveButtons

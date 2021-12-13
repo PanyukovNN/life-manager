@@ -10,7 +10,7 @@ import {Button, Form} from "react-bootstrap";
  * @param notifyTaskClick функция уведомления о клике на карточке задачи
  * @returns {*} компонент задачи
  */
-export const Task = ({task, handleCheck, notifyTaskClick}) => {
+export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
 
     return (
         <div className="task-block">
@@ -42,7 +42,7 @@ export const Task = ({task, handleCheck, notifyTaskClick}) => {
 
                 <Button className="task-edit-button"
                         variant="primary"
-                        onClick={() => {notifyTaskClick(task)}}>
+                        onClick={() => {notifyEditBtnClick(task)}}>
                     Edit
                 </Button>
             </div>

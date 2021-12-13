@@ -55,7 +55,7 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
                     data.forEach(task => taskComponents.push(
                         <Task task={task}
                               handleCheck={handleCheck}
-                              notifyTaskClick={(task) => notifyUpdateTaskClick(task)}
+                              notifyEditBtnClick={(task) => notifyUpdateTaskClick(task)}
                               key={task.id} />
                     ));
 

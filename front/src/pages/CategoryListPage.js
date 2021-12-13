@@ -5,9 +5,9 @@ import {Button} from "react-bootstrap";
 import {CategoryModal} from "../components/categorilist/CategoryModal";
 
 /**
- * Главная страница со списком задачи и формой фильтрации
+ * Страница управления разделами
  *
- * @returns {*} главная страница со списком задач
+ * @returns {*} страница управления разделами
  * @constructor
  */
 export const CategoryListPage = () => {
@@ -24,7 +24,11 @@ export const CategoryListPage = () => {
 
             <div className="category-list-block">
                 <CategoryListComponent
-                    refreshCategoryListCall={refreshCategoryListCall}/>
+                    refreshCategoryListCall={refreshCategoryListCall}
+                    notifyUpdateCategoryClick={(category) => {
+                        setShowModalCall(showModalCall => showModalCall + 1);
+                        setModalCategory(category);
+                    }}/>
             </div>
 
             <Button className="add-category-button"
