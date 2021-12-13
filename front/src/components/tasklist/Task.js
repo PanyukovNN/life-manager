@@ -7,7 +7,7 @@ import {Button, Form} from "react-bootstrap";
  *
  * @param task объект задачи
  * @param handleCheck обработка выбора задачи
- * @param notifyTaskClick функция уведомления о клике на карточке задачи
+ * @param notifyTaskClick функция уведомления о клике на кнопке редактирования
  * @returns {*} компонент задачи
  */
 export const Task = ({task, handleCheck, notifyEditBtnClick}) => {

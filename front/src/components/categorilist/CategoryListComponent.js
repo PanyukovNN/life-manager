@@ -3,7 +3,7 @@ import {Category} from "./Category";
 import {FetchRawCategories} from "../../Utils";
 import {React, useEffect, useState} from 'react';
 
-export const CategoryListComponent = ({refreshCategoryListCall, notifyUpdateCategoryClick}) => {
+export const CategoryListComponent = ({refreshCategoryListCall, notifyUpdateCategoryClick, notifyToArchiveCategoryClick}) => {
 
     const [categoryComponents, setCategoryComponents] = useState([]);
     const [rawCategories, setRawCategories] = useState([]);
@@ -22,6 +22,7 @@ export const CategoryListComponent = ({refreshCategoryListCall, notifyUpdateCate
                 rawCategories.forEach(category => categoryComponents.push(
                     <Category category={category}
                               notifyEditBtnClick={notifyUpdateCategoryClick}
+                              notifyMoveToArchiveClick={notifyToArchiveCategoryClick}
                               key={category.id} />
                 ));
 
@@ -29,7 +30,7 @@ export const CategoryListComponent = ({refreshCategoryListCall, notifyUpdateCate
             });
         },
         [loading]
-    )
+    );
 
     return (
         <>

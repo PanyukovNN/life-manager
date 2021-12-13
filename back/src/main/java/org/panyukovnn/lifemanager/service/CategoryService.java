@@ -37,22 +37,30 @@ public class CategoryService {
 
     /**
      * Создать/обновить категорию
+     * Запрещено создавать категорию с одинаковыми именами
      *
      * @param id идентификатор
      * @param name наименование
      * @return созданная/обновленная категория
      */
+    @Transactional
     public Category createUpdate(String id, String name) {
         Category category = new Category();
 
-        if (StringUtils.isNotBlank(id)) {
-            categoryRepository.findById(id).ifPresent(categoryFromDb -> {
-                if (categoryFromDb.getName().equals(name)) {
-                    throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
-                }
+        Category categoryFromDb = categoryRepository.findByName(name).orElse(null);
 
-                category.setId(categoryFromDb.getId());
-            });
+        if (categoryFromDb != null) {
+            if (categoryFromDb.isInArchive()) {
+                categoryFromDb.setInArchive(false);
+
+                return categoryRepository.save(categoryFromDb);
+            }
+
+            throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
+        }
+
+        if (StringUtils.isNotBlank(id)) {
+            categoryRepository.findById(id).ifPresent(c -> category.setId(c.getId()));
         }
 
         category.setName(name);

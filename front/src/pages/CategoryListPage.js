@@ -1,5 +1,5 @@
 import '../App.css';
-import {React, useState} from 'react'
+import {React, useEffect, useState} from 'react'
 import {CategoryListComponent} from "../components/categorilist/CategoryListComponent";
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../components/categorilist/CategoryModal";
@@ -13,8 +13,36 @@ import {CategoryModal} from "../components/categorilist/CategoryModal";
 export const CategoryListPage = () => {
 
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
+    const [moveToArchiveCategory, setMoveToArchiveCategory] = useState(null);
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalCategory, setModalCategory] = useState(null);
+
+    useEffect(() => {
+            if (moveToArchiveCategory == null) {
+                return;
+            }
+
+            const moveToArchive = async () => {
+                let body = {
+                    name: moveToArchiveCategory.name,
+                    inArchive: true
+                };
+
+                const requestOptions = {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(body)
+                };
+
+                const response = await fetch('http://localhost:80/api/category/set-in-archive', requestOptions);
+                await response;
+
+                setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
+            }
+            moveToArchive();
+        },
+        [moveToArchiveCategory]
+    );
 
     return (
         <div className="CategoryListPage">
@@ -28,6 +56,9 @@ export const CategoryListPage = () => {
                     notifyUpdateCategoryClick={(category) => {
                         setShowModalCall(showModalCall => showModalCall + 1);
                         setModalCategory(category);
+                    }}
+                    notifyToArchiveCategoryClick={(category) => {
+                        setMoveToArchiveCategory(category);
                     }}/>
             </div>
 

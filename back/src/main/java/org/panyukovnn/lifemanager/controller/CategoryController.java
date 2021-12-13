@@ -65,13 +65,13 @@ public class CategoryController {
     }
 
     /**
-     * Поместить раздел в архив
+     * Установить флаг toArchive
      *
      * @param request запрос
      * @return сообщение об успешном перемещении в архив
      */
-    @PostMapping("/to-archive")
-    public String toArchive(SetCategoryInArchiveRequest request) {
+    @PostMapping("/set-in-archive")
+    public String setInArchive(@RequestBody @Valid SetCategoryInArchiveRequest request) {
         categoryService.setToArchiveByName(request.getName(), request.inArchive);
 
         return String.format(CATEGORY_REMOVED_SUCCESSFULLY, request.getName());
