@@ -53,12 +53,13 @@ public class TaskServiceControllerAdapter {
     public TaskDto createUpdate(CreateUpdateTaskRequest request) {
         int priority = ControllerHelper.paramToPriority(request.getPriority());
         Category category = categoryService.findByName(request.getCategory());
+        String description = request.getDescription().trim();
 
         Task task = taskService.createUpdate(
                 request.getId(),
                 priority,
-                request.getDescription(),
-                category,
+                description,
+                category.getName(),
                 request.getStatus(),
                 request.getCompletionDate(),
                 request.getCompletionTime());

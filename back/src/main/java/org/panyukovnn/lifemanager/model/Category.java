@@ -24,4 +24,9 @@ public class Category {
      * Наименование
      */
     private String name;
+
+    /**
+     * Находится ли категория в архиве
+     */
+    private boolean inArchive;
 }

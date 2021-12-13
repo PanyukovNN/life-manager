@@ -2,7 +2,6 @@ package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
-import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
@@ -41,7 +40,7 @@ public class TaskService {
      * Конструктор
      *
      * @param taskRepository репозиторий задач
-     * @param mongoTemplate сервис работы с монго запросами
+     * @param mongoTemplate операции для работы с монго запросами
      * @param compareStrategyResolver менеджер стратегий сортировки задач
      */
     public TaskService(TaskRepository taskRepository,
@@ -58,7 +57,7 @@ public class TaskService {
      * @param id идентификатор
      * @param priority приортитет
      * @param description текст
-     * @param category категория
+     * @param categoryName наименование категории
      * @param status статус
      * @param completionDate дата выполнения
      * @param completionTime время выполнения
@@ -67,18 +66,15 @@ public class TaskService {
     public Task createUpdate(String id,
                              int priority,
                              String description,
-                             Category category,
+                             String categoryName,
                              TaskStatus status,
                              LocalDate completionDate,
                              LocalTime completionTime) {
         Task task = new Task();
 
         if (StringUtils.isNotBlank(id)) {
-            Task taskFromDb = taskRepository.findById(id).orElse(null);
-
-            if (taskFromDb != null) {
-                task = taskFromDb;
-            }
+            taskRepository.findById(id)
+                    .ifPresent(taskFromDb -> task.setId(taskFromDb.getId()));
         }
 
         if (task.getCreationDateTime() == null) {
@@ -88,7 +84,7 @@ public class TaskService {
         task.setPriority(priority);
         task.setDescription(description);
         task.setStatus(status);
-        task.setCategory(category);
+        task.setCategoryName(categoryName);
         task.setCompletionDate(completionDate);
         task.setCompletionTime(completionTime);
 
@@ -194,10 +190,10 @@ public class TaskService {
      */
     public TaskDto convertToDto(Task task) {
         Objects.requireNonNull(task, NULL_TASK_ERROR_MSG);
-        Objects.requireNonNull(task.getCategory(), NULL_CATEGORY_ERROR_MSG);
+        Objects.requireNonNull(task.getCategoryName(), NULL_CATEGORY_NAME_ERROR_MSG);
 
         String priority = ControllerHelper.priorityToParam(task.getPriority());
-        String categoryName = task.getCategory().getName();
+        String categoryName = task.getCategoryName();
 
         TaskDto.TaskDtoBuilder builder = TaskDto.builder()
                 .id(task.getId())

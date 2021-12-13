@@ -4,14 +4,14 @@ import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.request.CreateUpdateCategoryRequest;
 import org.panyukovnn.lifemanager.model.request.DeleteByNameRequest;
 import org.panyukovnn.lifemanager.model.request.FindCategoryByNameRequest;
+import org.panyukovnn.lifemanager.model.request.SetCategoryInArchiveRequest;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 
-import static org.panyukovnn.lifemanager.model.Constants.*;
+import static org.panyukovnn.lifemanager.model.Constants.CATEGORY_REMOVED_SUCCESSFULLY;
 
 /**
  * Контроллер категорий
@@ -55,13 +55,26 @@ public class CategoryController {
     }
 
     /**
-     * Вернуть все категории
+     * Вернуть все активные категории
      *
      * @return список категорий
      */
-    @GetMapping("/find-all")
-    public List<Category> findAll() {
-        return categoryService.findAll();
+    @GetMapping("/find-unarchived")
+    public List<Category> findUnarchived() {
+        return categoryService.findUnarchived();
+    }
+
+    /**
+     * Поместить раздел в архив
+     *
+     * @param request запрос
+     * @return сообщение об успешном перемещении в архив
+     */
+    @PostMapping("/to-archive")
+    public String toArchive(SetCategoryInArchiveRequest request) {
+        categoryService.setToArchiveByName(request.getName(), request.inArchive);
+
+        return String.format(CATEGORY_REMOVED_SUCCESSFULLY, request.getName());
     }
 
     /**

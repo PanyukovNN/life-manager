@@ -12,13 +12,13 @@ import {
  * Кнопка с открытием модального окна добавления задачи
  *
  * @param refreshTaskList функция обновления списка задач
- * @param showCall хук показа окна
+ * @param showModalCall хук показа окна
  * @param categories список категорий
  * @param taks задача
  * @returns {*} кнопку с модальным окном
  * @constructor
  */
-export const TaskModal = ({refreshTaskList, showCall, categories, task}) => {
+export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) => {
 
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
@@ -29,13 +29,13 @@ export const TaskModal = ({refreshTaskList, showCall, categories, task}) => {
     useEffect(
         () => {
             // Прерываем запуск useEffect при рендере
-            if (showCall === 0) {
+            if (showModalCall === 0) {
                 return;
             }
 
             setShow(true);
         },
-        [showCall]
+        [showModalCall]
     );
 
     // Нажатие на кнопку добавления задачи
@@ -79,13 +79,13 @@ export const TaskModal = ({refreshTaskList, showCall, categories, task}) => {
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Новая задача</Modal.Title>
+                    <Modal.Title>{task ? "Редактировать задачу" : "Новая задача"}</Modal.Title>
                 </Modal.Header>
 
                 <div className="add-task-inputs-wrap">
                     {/* Поле ввода текста задачи */}
                     <div className="task-textarea-wrap">
-                        <FloatingLabel id="taskTextarea" controlId="floatingTextarea2" label="Введите описание задачи">
+                        <FloatingLabel id="taskTextarea" controlId="floatingTextarea2" label="Описание задачи">
                             <Form.Control
                                 id={DESCRIPTION_TEXTAREA_ID}
                                 as="textarea"

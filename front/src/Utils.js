@@ -1,37 +1,40 @@
-import {React, useEffect, useState} from 'react';
+import {useEffect} from 'react';
 
 /**
  * Запрашивает с сервера список категорий и возвращает его
  *
- * @param setLoading изменить хук загрузки страницы
+ * @param setLoading задать флаг загрузки страницы
+ * @param setCategories задать список объектов категорий
+ * @param call хук загрузки категорий
  * @returns объекты категорий
  */
-export function FetchRawCategories(setLoading) {
-    const [categories, setCategories] = useState({});
-
+export function FetchRawCategories(setLoading, setCategories, call) {
     useEffect(
         () => {
-            fetch("http://localhost:80/api/category/find-all")
+            setLoading(true);
+            fetch("http://localhost:80/api/category/find-unarchived")
                 .then(res => res.json())
                 .then(data => {
                     setCategories(data);
                     setLoading(false);
                 })
         },
-        []);
-
-    return categories;
+        [call]);
 }
 
 /**
- * Преобразует объекты категорий в карту, где и ключом и значением выступает имя категории
+ * Запрашивает с сервера список категорий и возвращает его
+ * При этом преобразует объекты категорий в карту, где и ключом и значением выступает наименование
  *
- * @param rawCategories изменить хук загрузки страницы
+ * @param setLoading задать флаг загрузки страницы
+ * @param setCategories задать список объектов категорий
  * @returns карта категорий
  */
-export function ConvertRawCategoriesToMap(rawCategories) {
-    let categoryMap = {};
-    rawCategories.forEach(category => categoryMap[category.name] = category.name);
+export function FetchCategoriesMap(setLoading, setCategories) {
+    FetchRawCategories(setLoading, (categories) => {
+        let categoryMap = {};
 
-    return categoryMap;
+        categories.forEach(category => categoryMap[category.name] = category.name);
+        setCategories(categoryMap);
+    });
 }

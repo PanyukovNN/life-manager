@@ -1,7 +1,7 @@
 import '../App.css';
-import {React, useState, useEffect} from 'react'
+import {React, useState} from 'react'
 import {Button} from "react-bootstrap";
-import {FetchRawCategories, ConvertRawCategoriesToMap} from "../Utils";
+import {FetchCategoriesMap} from "../Utils";
 import {TaskModal} from "../components/tasklist/TaskModal";
 import {DoneRemoveButtons} from "../components/tasklist/DoneRemoveButtons";
 import {TaskListComponent} from "../components/tasklist/TaskListComponent";
@@ -17,22 +17,16 @@ export const TaskListPage = () => {
 
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState({});
-    const rawCategories = FetchRawCategories(setLoading);
-
-    useEffect(() => {
-        if (!loading) {
-            setCategories(() => ConvertRawCategoriesToMap(rawCategories));
-        }
-    }, [loading]);
+    FetchCategoriesMap(setLoading, setCategories);
 
     const [checkedTaskIds, setCheckedTaskIds] = useState([]);
     const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
-    const [showCall, setShowCall] = useState(0);
+    const [showModalCall, setShowModalCall] = useState(0);
     const [task, setTask] = useState(null);
 
     if (loading) {
         return (
-            <span>Loading...</span>
+            <div>Loading...</div>
         );
     }
 
@@ -50,7 +44,7 @@ export const TaskListPage = () => {
                 <TaskListComponent
                     refreshTaskListCall={refreshTaskListCall}
                     notifyUpdateTaskClick={(task) => {
-                        setShowCall(showCall => showCall + 1);
+                        setShowModalCall(showModalCall => showModalCall + 1);
                         setTask(task);
                     }}
                     handleCheck={(taskId) => setCheckedTaskIds(checkedTaskIds => [...checkedTaskIds, taskId])}/>
@@ -58,19 +52,19 @@ export const TaskListPage = () => {
                 <Button className="add-task-button"
                         variant="primary"
                         onClick={() => {
-                            setShowCall(showCall => showCall + 1);
+                            setShowModalCall(showModalCall => showModalCall + 1);
                             setTask(null);}}>
                     <span className="plus-sign">&#43;</span>
                 </Button>
 
-                <TaskModal refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall + 1)}
-                           showCall={showCall}
+                <TaskModal refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}
+                           showModalCall={showModalCall}
                            task={task}
                            categories={categories}  />
 
                 <DoneRemoveButtons
                     checkedTaskIds={checkedTaskIds}
-                    refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall + 1)}/>
+                    refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
             </div>
         </div>
     );

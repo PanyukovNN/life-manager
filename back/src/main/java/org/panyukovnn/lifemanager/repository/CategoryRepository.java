@@ -3,6 +3,7 @@ package org.panyukovnn.lifemanager.repository;
 import org.panyukovnn.lifemanager.model.Category;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,4 +25,11 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
      * @param name наименование
      */
     void deleteByName(String name);
+
+    /**
+     * Возвращает категории вне архива
+     *
+     * @return спиоск категорий
+     */
+    List<Category> findByInArchiveIsFalse();
 }

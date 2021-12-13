@@ -9,6 +9,7 @@ export const PRIORITY_LETTER_SELECT_ID = "priorityLetterSelectId";
 export const PERIOD_SELECT_ID = "periodSelectId";
 export const COMPARE_TO_SELECT_ID = "compareToSelectId";
 
+export const NAME_TEXTAREA_ID = "NAME_TEXTAREA_ID";
 export const DESCRIPTION_TEXTAREA_ID = "DESCRIPTION_TEXTAREA_ID";
 export const MODAL_CATEGORY_SELECT_ID = "modalCategorySelectId";
 export const MODAL_PRIORITY_LETTER_SELECT_ID = "modalPriorityLetterSelectId";

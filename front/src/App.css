@@ -149,6 +149,7 @@
 }
 
 .add-task-button,
+.add-category-button,
 .task-done-button,
 .task-remove-button {
     position: fixed;
@@ -161,9 +162,9 @@
     background-color: white !important;
 
     box-shadow: 0 0 30px rgba(0, 0, 0, .07);
-
 }
-.add-task-button {
+.add-task-button,
+.add-category-button {
     height: 60px;
 
     right: 150px;
@@ -226,6 +227,24 @@
 }
 
 /* Страница управления категориями */
+.CategoryListPage {
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+
+    background-color: #D4F2EF;
+
+    min-height: calc(100vh);
+}
+.category-list-header-wrapper {
+    display: flex;
+}
+.category-list-header {
+    font-size: 50px;
+
+    text-align: center;
+
+    margin: 38px auto;
+}
 .category-list-block {
     margin-left: auto;
     margin-right: auto;
@@ -238,21 +257,20 @@
 
     width: 450px;
 
+    align-items: center;
     align-content: space-between;
 
-    padding: 9px 14px 14px 14px;
+    padding: 14px;
     margin: 4px auto;
     border-radius: 20px;
 
     background-color: white;
 }
-.category-remove-button {
+.category-edit-button,
+.category-to-archive-button {
     height: 20px;
 
-    margin-left: auto;
     padding: 0 15px;
-
-    background-color: rgba(255, 0, 0, .05) !important;
 
     color: black !important;
     font-size: 12px !important;
@@ -260,4 +278,14 @@
 
     border-radius: 20px !important;
     border: none !important;
+}
+.category-edit-button {
+    margin-left: auto;
+
+    background-color: rgba(0, 0, 0, .05) !important;
+}
+.category-to-archive-button {
+    margin-left: 12px;
+
+    background-color: rgba(0, 0, 0, .1) !important;
 }
