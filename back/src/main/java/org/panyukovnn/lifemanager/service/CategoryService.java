@@ -60,7 +60,10 @@ public class CategoryService {
         }
 
         if (StringUtils.isNotBlank(id)) {
-            categoryRepository.findById(id).ifPresent(c -> category.setId(c.getId()));
+            categoryRepository.findById(id).ifPresent(c -> {
+                category.setId(c.getId());
+                category.setInArchive(c.isInArchive());
+            });
         }
 
         category.setName(name);
@@ -80,12 +83,13 @@ public class CategoryService {
     }
 
     /**
-     * Вернуть категории вне архива
+     * Вернуть список категорий по заданным параметрам
      *
+     * @param inArchive флаг в/вне архива
      * @return список категорий
      */
-    public List<Category> findUnarchived() {
-        return categoryRepository.findByInArchiveIsFalse();
+    public List<Category> findList(boolean inArchive) {
+        return categoryRepository.findByInArchive(inArchive);
     }
 
     /**

@@ -1,10 +1,7 @@
 package org.panyukovnn.lifemanager.controller;
 
 import org.panyukovnn.lifemanager.model.Category;
-import org.panyukovnn.lifemanager.model.request.CreateUpdateCategoryRequest;
-import org.panyukovnn.lifemanager.model.request.DeleteByNameRequest;
-import org.panyukovnn.lifemanager.model.request.FindCategoryByNameRequest;
-import org.panyukovnn.lifemanager.model.request.SetCategoryInArchiveRequest;
+import org.panyukovnn.lifemanager.model.request.*;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,13 +52,14 @@ public class CategoryController {
     }
 
     /**
-     * Вернуть все активные категории
+     * Вернуть все категории по флагу inArchive
      *
+     * @param request запрос
      * @return список категорий
      */
-    @GetMapping("/find-unarchived")
-    public List<Category> findUnarchived() {
-        return categoryService.findUnarchived();
+    @PostMapping("/find-list")
+    public List<Category> findByInArchive(@RequestBody @Valid FindCategoryListRequest request) {
+        return categoryService.findList(request.getInArchive());
     }
 
     /**

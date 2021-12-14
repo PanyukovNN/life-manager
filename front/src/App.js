@@ -6,6 +6,8 @@ import {TaskListPage} from "./pages/TaskListPage";
 import {CategoryListPage} from "./pages/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
+import {ArchiveCategoryListPage} from "./pages/ArchiveCategoryListPage";
+import {NotFound} from "./pages/NotFound";
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<TaskListPage />} />
                     <Route path="/categories" element={<CategoryListPage />} />
+                    <Route path="/categories/archive" element={<ArchiveCategoryListPage />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
         </div>

@@ -27,9 +27,10 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     void deleteByName(String name);
 
     /**
-     * Возвращает категории вне архива
+     * Возвращает категории по флагу в/вне архива
      *
+     * @param inArchive флаг в/вне архива
      * @return спиоск категорий
      */
-    List<Category> findByInArchiveIsFalse();
+    List<Category> findByInArchive(boolean inArchive);
 }

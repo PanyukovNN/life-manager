@@ -237,6 +237,12 @@
 }
 .category-list-header-wrapper {
     display: flex;
+    position: relative;
+
+    width: 450px;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 .category-list-header {
     font-size: 50px;
@@ -267,6 +273,8 @@
     background-color: white;
 }
 .category-edit-button,
+.category-remove-button,
+.category-archive-page-button,
 .category-to-archive-button {
     height: 20px;
 
@@ -288,4 +296,17 @@
     margin-left: 12px;
 
     background-color: rgba(0, 0, 0, .1) !important;
+}
+.category-remove-button {
+    margin-left: 12px;
+
+    background-color: rgba(255, 0, 0, .1) !important;
+}
+.category-archive-page-button {
+    position: absolute;
+
+    bottom: 10px;
+    right: 20px;
+
+    background-color: rgba(255, 255, 255, 1) !important;
 }
