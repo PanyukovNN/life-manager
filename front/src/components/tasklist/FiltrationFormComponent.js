@@ -1,8 +1,10 @@
 import '../../App.css';
 import {React, useEffect} from 'react';
 import {SelectorComponent} from './SelectorComponent'
-import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
-    CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY} from '../../Constants'
+import {
+    CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
+    CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY, STATUS_SELECT_ID, STATUS_KEY
+} from '../../Constants'
 
 /**
  * Параметры поиска задач
@@ -14,70 +16,96 @@ import {CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE
  */
 export const FiltrationForm = ({notifyRefresh, categories}) => {
 
-    let categoriesWithDefault = {"" : "Все"};
+    let categoriesWithDefault = {"": "Все"};
     for (const [key, value] of Object.entries(categories)) {
         categoriesWithDefault[key] = value;
     }
 
-    useEffect(() => {notifyRefresh();}, [])
+    useEffect(() => {
+        notifyRefresh();
+    }, [])
 
     return (
         <>
-            {/* Селектор категорий */}
-            <div className="selector-block">
-                <div className="selector-header">Раздел:</div>
-                <div className="selector-wrapper">
-                    <SelectorComponent
-                        id={CATEGORY_SELECT_ID}
-                        storageKey={CATEGORY_KEY}
-                        optionMap={categoriesWithDefault}
-                        notifySelection={() => notifyRefresh()}/>
+            <div className="selectors-group">
+                {/* Селектор категорий */}
+                <div className="selector-block">
+                    <div className="selector-header">Раздел:</div>
+                    <div className="selector-wrapper">
+                        <SelectorComponent
+                            id={CATEGORY_SELECT_ID}
+                            storageKey={CATEGORY_KEY}
+                            optionMap={categoriesWithDefault}
+                            notifySelection={() => notifyRefresh()}/>
+                    </div>
+                </div>
+
+                {/* Селектор приоритета */}
+                <div className="selector-block">
+                    <div className="selector-header">Приоритет:</div>
+                    <div className="selector-wrapper">
+                        <SelectorComponent
+                            id={PRIORITY_LETTER_SELECT_ID}
+                            storageKey={PRIORITY_LETTER_KEY}
+                            optionMap={{
+                                "": "Все",
+                                "A": "A",
+                                "B": "B",
+                                "C": "C",
+                                "D": "D"
+                            }}
+                            notifySelection={() => notifyRefresh()}/>
+                    </div>
                 </div>
             </div>
 
-            {/* Селектор приоритета */}
-            <div className="selector-block">
-                <div className="selector-header">Приоритет:</div>
-                <div className="selector-wrapper">
-                    <SelectorComponent
-                        id={PRIORITY_LETTER_SELECT_ID}
-                        storageKey={PRIORITY_LETTER_KEY}
-                        optionMap={{"" : "Все",
-                            "A" : "A",
-                            "B" : "B",
-                            "C" : "C",
-                            "D" : "D"}}
-                        notifySelection={() => notifyRefresh()}/>
+            <div className="selectors-group">
+                {/* Селектор периода */}
+                <div className="selector-block">
+                    <div className="selector-header">За период:</div>
+                    <div className="selector-wrapper">
+                        <SelectorComponent
+                            id={PERIOD_SELECT_ID}
+                            storageKey={PERIOD_KEY}
+                            optionMap={{
+                                "ALL": "Все время",
+                                "DAY": "День",
+                                "WEEK": "Неделя",
+                                "MONTH": "Месяц"
+                            }}
+                            notifySelection={() => notifyRefresh()}/>
+                    </div>
+                </div>
+
+                {/* Селектор сортировки */}
+                <div className="selector-block">
+                    <div className="selector-header">Сортировать по:</div>
+                    <div className="selector-wrapper">
+                        <SelectorComponent
+                            id={COMPARE_TO_SELECT_ID}
+                            storageKey={COMPARE_TO_KEY}
+                            optionMap={{
+                                "PRIORITY_FIRST": "Приоритету",
+                                "DATE_PLANNED_FIRST": "Дате исполнения",
+                                "DATE_ADDED_FIRST": "Дате добавления"
+                            }}
+                            notifySelection={() => notifyRefresh()}/>
+                    </div>
                 </div>
             </div>
 
-            {/* Селектор периода */}
+            {/* Селектор статуса */}
             <div className="selector-block">
-                <div className="selector-header">За период:</div>
+                <div className="selector-header">Показывать:</div>
                 <div className="selector-wrapper">
                     <SelectorComponent
-                        id={PERIOD_SELECT_ID}
-                        storageKey={PERIOD_KEY}
-                        optionMap={{"ALL" : "Все время",
-                            "DAY"   : "День",
-                            "WEEK"  : "Неделя",
-                            "MONTH" : "Месяц"}}
-                        notifySelection={() => notifyRefresh()}/>
-                </div>
-            </div>
-
-
-            {/* Селектор сортировки */}
-            <div className="selector-block">
-                <div className="selector-header">Сортировать по:</div>
-                <div className="selector-wrapper">
-                    <SelectorComponent
-                        id={COMPARE_TO_SELECT_ID}
-                        storageKey={COMPARE_TO_KEY}
+                        id={STATUS_SELECT_ID}
+                        storageKey={STATUS_KEY}
                         optionMap={{
-                            "PRIORITY_FIRST"        : "Приоритету",
-                            "DATE_PLANNED_FIRST"    : "Дате исполнения",
-                            "DATE_ADDED_FIRST"      : "Дате добавления"}}
+                            ""      : "Все",
+                            "TO_DO" : "В работе",
+                            "DONE"  : "Выполненные"
+                        }}
                         notifySelection={() => notifyRefresh()}/>
                 </div>
             </div>

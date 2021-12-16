@@ -2,11 +2,8 @@ import '../../App.css';
 import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
 import {
-    CATEGORY_SELECT_ID,
-    PRIORITY_LETTER_SELECT_ID,
-    PERIOD_SELECT_ID,
-    COMPARE_TO_SELECT_ID,
-    TO_DO_TASK_STATUS
+    CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
+    TO_DO_TASK_STATUS, STATUS_SELECT_ID
 } from '../../Constants'
 
 /**
@@ -31,11 +28,12 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
             const category = document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value;
             const periodType = document.getElementById(PERIOD_SELECT_ID).selectedOptions[0].value;
             const compareType = document.getElementById(COMPARE_TO_SELECT_ID).selectedOptions[0].value;
+            const status = document.getElementById(STATUS_SELECT_ID).selectedOptions[0].value;
 
             const fetchTasks = async () => {
                 let body = {
                     priorityLetter: priorityLetter,
-                    taskStatuses: [TO_DO_TASK_STATUS],
+                    taskStatuses: status !== "" ? [status] : [],
                     categories: category !== "" ? [category] : [],
                     periodType: periodType !== "" ? periodType : "ALL",
                     compareType: compareType !== "" ? compareType : "PRIORITY_FIRST"
@@ -43,7 +41,7 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
 
                 const requestOptions = {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body)
                 };
 
@@ -56,7 +54,7 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
                         <Task task={task}
                               handleCheck={handleCheck}
                               notifyEditBtnClick={(task) => notifyUpdateTaskClick(task)}
-                              key={task.id} />
+                              key={task.id}/>
                     ));
 
                     return taskComponents;

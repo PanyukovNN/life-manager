@@ -128,7 +128,9 @@ public class TaskService {
             ));
         }
 
-        query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
+        if (!criteriaList.isEmpty()) {
+            query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
+        }
 
         List<Task> tasks = mongoTemplate.find(query, Task.class);
         tasks.sort(compareStrategyResolver.resolve(params.getCompareType()));
