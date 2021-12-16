@@ -1,13 +1,13 @@
 import '../App.css';
-import {React} from 'react';
-import {Navbar, Container, Nav, NavDropdown, Form, FormControl, Button} from "react-bootstrap";
+import {React, useEffect} from 'react';
+import {Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Spinner} from "react-bootstrap";
 
 /**
  * Навигационная панель
  *
  * @returns {*} компонент навигационной панели
  */
-export const NavbarComponent = () => {
+export const NavbarComponent = ({spinnerCall}) => {
 
     return (
         <>
@@ -22,6 +22,7 @@ export const NavbarComponent = () => {
                             <Nav.Link href="/categories">Управление разделами</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
+                    {spinnerCall ? <Spinner animation="border" size="sm" variant="secondary" /> : ''}
                 </Container>
             </Navbar>
         </>

@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {React} from 'react'
+import {React, useState} from 'react'
 import {Links} from "./components/Links";
 import {TaskListPage} from "./pages/TaskListPage";
 import {CategoryListPage} from "./pages/categorylist/CategoryListPage";
@@ -11,17 +11,19 @@ import {NotFound} from "./pages/exception/NotFound";
 
 function App() {
 
+    const [spinnerCall, showSpinner] = useState(false);
+
     return (
         <div className="App">
             <Links />
 
-            <NavbarComponent />
+            <NavbarComponent spinnerCall={spinnerCall} />
 
             <Router>
                 <Routes>
-                    <Route path="/" element={<TaskListPage />} />
-                    <Route path="/categories" element={<CategoryListPage />} />
-                    <Route path="/categories/archive" element={<ArchiveCategoryListPage />} />
+                    <Route path="/" element={<TaskListPage showSpinner={showSpinner} />} />
+                    <Route path="/categories" element={<CategoryListPage showSpinner={showSpinner} />} />
+                    <Route path="/categories/archive" element={<ArchiveCategoryListPage showSpinner={showSpinner} />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>

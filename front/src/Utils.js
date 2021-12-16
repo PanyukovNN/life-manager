@@ -14,6 +14,7 @@ export function FetchRawCategories(setLoading, setCategories, call, inArchive) {
         () => {
             setLoading(true);
 
+            console.log(inArchive)
             let body = {
                 inArchive: inArchive === undefined ? false : inArchive.inArchive
             };

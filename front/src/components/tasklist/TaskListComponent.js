@@ -2,9 +2,9 @@ import '../../App.css';
 import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
 import {
-    CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
-    TO_DO_TASK_STATUS, STATUS_SELECT_ID
+    CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID, STATUS_SELECT_ID
 } from '../../Constants'
+import {Spinner} from "react-bootstrap";
 
 /**
  * Загружает и формирует список задач
@@ -15,7 +15,7 @@ import {
  * @returns {*} список задач
  * @constructor
  */
-export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdateTaskClick}) => {
+export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdateTaskClick, showSpinner}) => {
     const [taskComponents, setTasks] = useState();
 
     useEffect(
@@ -23,6 +23,8 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
             if (refreshTaskListCall === 0) {
                 return;
             }
+
+            showSpinner(true);
 
             const priorityLetter = document.getElementById(PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
             const category = document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value;
@@ -59,12 +61,21 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
 
                     return taskComponents;
                 });
+                showSpinner(false);
             }
 
             fetchTasks();
         },
         [refreshTaskListCall]
     );
+
+    // if (loading) {
+    //     return (
+    //         <div className="task-components-spinner-wrap">
+    //             <Spinner animation="border" variant="secondary" />
+    //         </div>
+    //     );
+    // }
 
     return (
         <>

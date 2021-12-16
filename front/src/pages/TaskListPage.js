@@ -1,6 +1,6 @@
 import '../App.css';
 import {React, useState} from 'react'
-import {Button} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 import {FetchCategoriesMap} from "../Utils";
 import {TaskModal} from "../components/tasklist/TaskModal";
 import {DoneRemoveButtons} from "../components/tasklist/DoneRemoveButtons";
@@ -13,7 +13,7 @@ import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
  * @returns {*} главная страница со списком задач
  * @constructor
  */
-export const TaskListPage = () => {
+export const TaskListPage = ({showSpinner}) => {
 
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState({});
@@ -26,7 +26,7 @@ export const TaskListPage = () => {
 
     if (loading) {
         return (
-            <div>Loading...</div>
+            <Spinner animation="border" variant="secondary" />
         );
     }
 
@@ -47,7 +47,8 @@ export const TaskListPage = () => {
                         setShowModalCall(showModalCall => showModalCall + 1);
                         setModalTask(task);
                     }}
-                    handleCheck={(taskId) => setCheckedTaskIds(checkedTaskIds => [...checkedTaskIds, taskId])}/>
+                    handleCheck={(taskId) => setCheckedTaskIds(checkedTaskIds => [...checkedTaskIds, taskId])}
+                    showSpinner={showSpinner}/>
 
                 <Button className="add-task-button"
                         variant="primary"

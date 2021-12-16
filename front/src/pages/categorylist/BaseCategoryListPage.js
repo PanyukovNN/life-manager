@@ -11,7 +11,7 @@ import {SendRequest} from "../../Utils";
  * @returns {*} страница управления разделами
  * @constructor
  */
-export const BaseCategoryListPage = (inArchive) => {
+export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
 
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
     const [moveToArchiveCategory, setMoveToArchiveCategory] = useState(null);
@@ -27,7 +27,7 @@ export const BaseCategoryListPage = (inArchive) => {
             const moveToArchive = async () => {
                 let body = {
                     name: moveToArchiveCategory.name,
-                    inArchive: !inArchive.inArchive
+                    inArchive: !inArchive
                 };
 
                 await SendRequest("POST", body, "http://localhost:80/api/category/set-in-archive");
@@ -73,13 +73,13 @@ export const BaseCategoryListPage = (inArchive) => {
         <div className="CategoryListPage">
             <div className="category-list-header-wrapper">
                 <div className="category-list-header">
-                    {inArchive.inArchive ? "Архив разделов" : "Разделы"}
+                    {inArchive ? "Архив разделов" : "Разделы"}
 
                     <Button className="category-archive-page-button"
-                            href={inArchive.inArchive ? "/categories" : "/categories/archive"}
+                            href={inArchive ? "/categories" : "/categories/archive"}
                             variant="primary"
                             onClick={() => {}}>
-                        {inArchive.inArchive ? "Разделы" : "Архив"}
+                        {inArchive ? "Разделы" : "Архив"}
                     </Button>
                 </div>
             </div>
@@ -93,10 +93,11 @@ export const BaseCategoryListPage = (inArchive) => {
                     }}
                     notifyToArchiveCategoryClick={setMoveToArchiveCategory}
                     notifyRemoveCategoryClick={setRemoveCategory}
-                    inArchive={inArchive}/>
+                    inArchive={inArchive}
+                    showSpinner={showSpinner}/>
             </div>
 
-            {!inArchive.inArchive ? addCategoryBtn : ""}
+            {!inArchive ? addCategoryBtn : ""}
 
             <CategoryModal refreshCategoryList={() => setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1)}
                            showModalCall={showModalCall}

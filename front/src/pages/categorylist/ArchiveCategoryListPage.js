@@ -7,9 +7,11 @@ import {BaseCategoryListPage} from "./BaseCategoryListPage";
  * @returns {*} страница управления разделами в архиве
  * @constructor
  */
-export const ArchiveCategoryListPage = () => {
+export const ArchiveCategoryListPage = ({showSpinner}) => {
 
     return (
-        <BaseCategoryListPage inArchive={true}/>
+        <BaseCategoryListPage
+            inArchive={true}
+            showSpinner={showSpinner}/>
     );
 }

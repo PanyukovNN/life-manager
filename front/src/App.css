@@ -74,7 +74,10 @@
 
     padding-top: 40px;
 }
-
+.task-components-spinner-wrap {
+    text-align: center;
+    margin-top: 30px;
+}
 .task-block {
     position: relative;
     display: flex;
@@ -259,6 +262,10 @@
 .category-list-block {
     margin-left: auto;
     margin-right: auto;
+}
+.category-list-spinner-wrap {
+    margin-top: 15px;
+    text-align: center;
 }
 .category-block {
     position: relative;
