@@ -7,22 +7,20 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 
 /**
- * Стратегия сортировки задач в порядке даты добавления
+ * Стратегия сортировки задач в порядке планируемой даты исполенния
  */
 @Service
-public class DateAddedFirstStrategy implements TaskCompareStrategy {
+public class DatePlannedFirstStrategy implements TaskCompareStrategy {
 
     @Override
     public Comparator<Task> getComparator() {
-        return Comparator.comparing(Task::getCreationDateTime)
-                .thenComparing(Task::getPriority)
-                .thenComparing(Task::getPlannedDate, Comparator.nullsFirst(Comparator.naturalOrder()))
+        return Comparator.comparing(Task::getPlannedDate, Comparator.nullsFirst(Comparator.naturalOrder()))
                 .thenComparing(Task::getPlannedTime, Comparator.nullsFirst(Comparator.naturalOrder()))
-                .reversed();
+                .thenComparing(Task::getPriority);
     }
 
     @Override
     public TaskCompareType getTaskCompareType() {
-        return TaskCompareType.DATE_ADDED_FIRST;
+        return TaskCompareType.DATE_PLANNED_FIRST;
     }
 }

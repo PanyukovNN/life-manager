@@ -61,8 +61,8 @@ public class TaskServiceControllerAdapter {
                 description,
                 category.getName(),
                 request.getStatus(),
-                request.getCompletionDate(),
-                request.getCompletionTime());
+                request.getPlannedDate(),
+                request.getPlannedTime());
 
         return taskService.convertToDto(task);
     }

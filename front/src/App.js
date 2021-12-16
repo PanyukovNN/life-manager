@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {React} from 'react'
 import {Links} from "./components/Links";
 import {TaskListPage} from "./pages/TaskListPage";
-import {CategoryListPage} from "./pages/CategoryListPage";
+import {CategoryListPage} from "./pages/categorylist/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
-import {ArchiveCategoryListPage} from "./pages/ArchiveCategoryListPage";
-import {NotFound} from "./pages/NotFound";
+import {ArchiveCategoryListPage} from "./pages/categorylist/ArchiveCategoryListPage";
+import {NotFound} from "./pages/exception/NotFound";
 
 function App() {
 

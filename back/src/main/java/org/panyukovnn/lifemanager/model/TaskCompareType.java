@@ -11,9 +11,9 @@ public enum TaskCompareType {
     PRIORITY_FIRST,
 
     /**
-     * В порядке даты исполнения
+     * В порядке планируемой даты исполнения
      */
-    DATE_COMPLETION_FIRST,
+    DATE_PLANNED_FIRST,
 
     /**
      * В порядке даты добавления

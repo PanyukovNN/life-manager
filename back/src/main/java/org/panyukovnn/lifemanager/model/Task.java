@@ -47,14 +47,14 @@ public class Task {
     private TaskStatus status;
 
     /**
-     * Дата выполнения
+     * Пларинуемая дата выполнения
      */
-    private LocalDate completionDate;
+    private LocalDate plannedDate;
 
     /**
-     * Время выполнения (не может быть заполнен без даты выполнения)
+     * Планируемое время выполнения (не может быть заполнено без планируемой даты выполнения)
      */
-    private LocalTime completionTime;
+    private LocalTime plannedTime;
 
     /**
      * Дата и время создания

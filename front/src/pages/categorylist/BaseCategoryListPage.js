@@ -1,9 +1,9 @@
-import '../App.css';
+import '../../App.css';
 import {React, useEffect, useState} from 'react'
-import {CategoryListComponent} from "../components/categorilist/CategoryListComponent";
+import {CategoryListComponent} from "../../components/categorilist/CategoryListComponent";
 import {Button} from "react-bootstrap";
-import {CategoryModal} from "../components/categorilist/CategoryModal";
-import {SendRequest} from "../Utils";
+import {CategoryModal} from "../../components/categorilist/CategoryModal";
+import {SendRequest} from "../../Utils";
 
 /**
  * Базовая страница управления разделами

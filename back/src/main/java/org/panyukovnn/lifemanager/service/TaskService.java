@@ -59,8 +59,8 @@ public class TaskService {
      * @param description текст
      * @param categoryName наименование категории
      * @param status статус
-     * @param completionDate дата выполнения
-     * @param completionTime время выполнения
+     * @param plannedDate планируемая дата выполнения
+     * @param plannedTime планируемое время выполнения
      * @return созданная/обновленная задача
      */
     public Task createUpdate(String id,
@@ -68,8 +68,8 @@ public class TaskService {
                              String description,
                              String categoryName,
                              TaskStatus status,
-                             LocalDate completionDate,
-                             LocalTime completionTime) {
+                             LocalDate plannedDate,
+                             LocalTime plannedTime) {
         Task task = new Task();
 
         if (StringUtils.isNotBlank(id)) {
@@ -85,8 +85,8 @@ public class TaskService {
         task.setDescription(description);
         task.setStatus(status);
         task.setCategoryName(categoryName);
-        task.setCompletionDate(completionDate);
-        task.setCompletionTime(completionTime);
+        task.setPlannedDate(plannedDate);
+        task.setPlannedTime(plannedTime);
 
         return taskRepository.save(task);
     }
@@ -116,15 +116,15 @@ public class TaskService {
 
         if (params.getStartDate() != null) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where(COMPLETION_DATE).is(null),
-                    Criteria.where(COMPLETION_DATE).gte(params.getStartDate())
+                    Criteria.where(PLANNED_DATE).is(null),
+                    Criteria.where(PLANNED_DATE).gte(params.getStartDate())
             ));
         }
 
         if (params.getEndDate() != null && params.getEndDate() != LocalDate.MAX) {
             criteriaList.add(new Criteria().orOperator(
-                    Criteria.where(COMPLETION_DATE).is(null),
-                    Criteria.where(COMPLETION_DATE).lte(params.getEndDate())
+                    Criteria.where(PLANNED_DATE).is(null),
+                    Criteria.where(PLANNED_DATE).lte(params.getEndDate())
             ));
         }
 
@@ -201,12 +201,12 @@ public class TaskService {
                 .priority(priority)
                 .category(categoryName);
 
-        if (task.getCompletionDate() != null) {
-            builder.completionDate(FRONT_D_FORMATTER.format(task.getCompletionDate()));
+        if (task.getPlannedDate() != null) {
+            builder.plannedDate(FRONT_D_FORMATTER.format(task.getPlannedDate()));
         }
 
-        if (task.getCompletionTime() != null) {
-            builder.completionTime(FRONT_T_FORMATTER.format(task.getCompletionTime()));
+        if (task.getPlannedTime() != null) {
+            builder.plannedTime(FRONT_T_FORMATTER.format(task.getPlannedTime()));
         }
 
         return builder.build();

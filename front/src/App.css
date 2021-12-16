@@ -118,13 +118,13 @@
 
     margin-left: 12px;
 }
-.task-completion-time {
+.task-planned-time {
     margin-left: auto;
     margin-right: 12px;
 
     font-size: 14px;
 }
-.task-completion-date {
+.task-planned-date {
     margin-right: 0;
 
     font-size: 14px;

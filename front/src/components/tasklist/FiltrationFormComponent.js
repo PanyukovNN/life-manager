@@ -76,7 +76,7 @@ export const FiltrationForm = ({notifyRefresh, categories}) => {
                         storageKey={COMPARE_TO_KEY}
                         optionMap={{
                             "PRIORITY_FIRST"        : "Приоритету",
-                            "DATE_COMPLETION_FIRST" : "Дате исполнения",
+                            "DATE_PLANNED_FIRST"    : "Дате исполнения",
                             "DATE_ADDED_FIRST"      : "Дате добавления"}}
                         notifySelection={() => notifyRefresh()}/>
                 </div>

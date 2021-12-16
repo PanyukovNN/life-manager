@@ -23,7 +23,6 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
-
     const handleClose = async () => setShow(false);
 
     useEffect(
@@ -32,6 +31,9 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
             if (showModalCall === 0) {
                 return;
             }
+
+            setDate(task !== null ? task.plannedDate : "")
+            setTime(task !== null ? task.plannedTime : "")
 
             setShow(true);
         },
@@ -57,8 +59,8 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
             priority: priorityLetter + priorityDigit,
             category: category,
             status: TO_DO_TASK_STATUS,
-            completionDate: date,
-            completionTime: time
+            plannedDate: date,
+            plannedTime: time
         };
 
         const requestOptions = {
@@ -139,10 +141,10 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
                         <div className="modal-selector-block">
                             <div className="modal-selector-header">Дата:</div>
                             <DatePicker format={"DD.MM.YYYY"}
-                                        date={task ? task.completionDate : undefined}
+                                        date={date}
                                         onChange={(e) => {
-                                            if (e.data !== undefined) {
-                                                setDate(e.date.format("DD-MM-YYYY"))
+                                            if (e.date !== undefined) {
+                                                setDate(e.date.format("DD.MM.YYYY"));
                                             }
                                         }}/>
                         </div>
@@ -150,10 +152,10 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
                             <div className="modal-selector-header">Время:</div>
                             <TimePicker format={"HH:mm"}
                                         stepping={30}
-                                        date={task ? task.completionTime : undefined}
+                                        date={time}
                                         onChange={(e) => {
-                                            if (e.data !== undefined) {
-                                                setTime(e.date.format("HH:mm"))
+                                            if (e.date !== undefined) {
+                                                setTime(e.date.format("HH:mm"));
                                             }
                                         }}/>
                         </div>

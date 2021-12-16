@@ -38,9 +38,9 @@ public class CreateUpdateTaskRequest {
     @NotNull
     public TaskStatus status;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    public LocalDate completionDate;
+    @JsonFormat(pattern = "dd.MM.yyyy")
+    public LocalDate plannedDate;
 
     @JsonFormat(pattern = "HH:mm")
-    public LocalTime completionTime;
+    public LocalTime plannedTime;
 }

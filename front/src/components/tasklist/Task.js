@@ -32,12 +32,12 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
                     {task.category}
                 </div>
 
-                <div className="task-completion-time">
-                    {task.completionTime}
+                <div className="task-planned-time">
+                    {task.plannedTime}
                 </div>
 
-                <div className="task-completion-date">
-                    {task.completionDate}
+                <div className="task-planned-date">
+                    {task.plannedDate}
                 </div>
 
                 <Button className="task-edit-button"

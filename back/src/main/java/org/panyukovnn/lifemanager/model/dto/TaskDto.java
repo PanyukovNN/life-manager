@@ -16,6 +16,6 @@ public class TaskDto {
     private final String description;
     private final String priority;
     private final String category;
-    private final String completionDate;
-    private final String completionTime;
+    private final String plannedDate;
+    private final String plannedTime;
 }
