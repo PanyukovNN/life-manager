@@ -8,6 +8,7 @@ import {
     PRIORITY_LETTER_SELECT_ID,
     STATUS_SELECT_ID
 } from '../../Constants'
+import {SendRequest} from "../../Utils";
 
 /**
  * Загружает и формирует список задач
@@ -45,18 +46,19 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
                     compareType: compareType !== "" ? compareType : "PRIORITY_FIRST"
                 };
 
-                const requestOptions = {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(body)
-                };
-
-                const response = await fetch("http://localhost:80/api/task/find-list", requestOptions)
-                const data = await response.json();
+                let response = await SendRequest("POST", body, "http://localhost:80/api/task/find-list");
+                let tasks = await response.json();
 
                 setTasks(() => {
                     let taskComponents = [];
-                    data.forEach(task => taskComponents.push(
+
+                    if (tasks.length === 0) {
+                        return (
+                            <div className="empty-list-label">Список пуст</div>
+                        );
+                    }
+
+                    tasks.forEach(task => taskComponents.push(
                         <Task task={task}
                               handleCheck={handleCheck}
                               notifyEditBtnClick={(task) => notifyUpdateTaskClick(task)}

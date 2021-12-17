@@ -344,3 +344,16 @@
 
     border-radius: 5px;
 }
+
+.empty-list-label {
+    position: relative;
+    text-align: center;
+
+    width: 450px;
+
+    padding: 10px;
+    margin: 4px auto;
+    border-radius: 20px;
+
+    background-color: white;
+}

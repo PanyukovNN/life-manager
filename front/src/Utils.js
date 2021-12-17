@@ -57,7 +57,7 @@ export function FetchCategoriesMap(setLoading, setCategories) {
  * @param method метод
  * @param body тело
  * @param link ссылка
- * @returns {Promise<any>} ответ от сервера в json формате
+ * @returns {Promise<any>} ответ от сервера
  * @constructor
  */
 export async function SendRequest(method, body, link) {
@@ -67,7 +67,5 @@ export async function SendRequest(method, body, link) {
         body: JSON.stringify(body)
     };
 
-    const response = await fetch(link, requestOptions);
-
-    return await response;
+    return await fetch(link, requestOptions);
 }

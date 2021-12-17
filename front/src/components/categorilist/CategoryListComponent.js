@@ -37,6 +37,12 @@ export const CategoryListComponent = ({refreshCategoryListCall,
             setCategoryComponents(() => {
                 let categoryComponents = [];
 
+                if (rawCategories.length === 0) {
+                    return (
+                        <div className="empty-list-label">Список пуст</div>
+                    );
+                }
+
                 rawCategories.forEach(category => categoryComponents.push(
                     <Category category={category}
                               notifyEditBtnClick={notifyUpdateCategoryClick}
