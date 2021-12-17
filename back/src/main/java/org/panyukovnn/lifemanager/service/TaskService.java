@@ -201,14 +201,25 @@ public class TaskService {
                 .id(task.getId())
                 .description(task.getDescription())
                 .priority(priority)
-                .category(categoryName);
+                .category(categoryName)
+                .status(task.getStatus().name());
 
         if (task.getPlannedDate() != null) {
             builder.plannedDate(FRONT_D_FORMATTER.format(task.getPlannedDate()));
-        }
 
-        if (task.getPlannedTime() != null) {
-            builder.plannedTime(FRONT_T_FORMATTER.format(task.getPlannedTime()));
+            if (task.getPlannedTime() != null) {
+                builder.plannedTime(FRONT_T_FORMATTER.format(task.getPlannedTime()));
+            }
+
+            // Выставление флага просроченной задачи
+            if (task.getStatus() != TaskStatus.DONE) {
+                LocalTime plannedTime = task.getPlannedTime() != null ? task.getPlannedTime() : LocalTime.MIN;
+                LocalDateTime plannedDateTime = LocalDateTime.of(task.getPlannedDate(), plannedTime);
+
+                if (plannedDateTime.isBefore(LocalDateTime.now())) {
+                    builder.overdue(true);
+                }
+            }
         }
 
         return builder.build();

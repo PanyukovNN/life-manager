@@ -1,5 +1,6 @@
 package org.panyukovnn.lifemanager.controller.serviceadapter;
 
+import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
@@ -52,7 +53,8 @@ public class TaskServiceControllerAdapter {
      */
     public TaskDto createUpdate(CreateUpdateTaskRequest request) {
         int priority = ControllerHelper.paramToPriority(request.getPriority());
-        Category category = categoryService.findByName(request.getCategory());
+        Category category = categoryService.findByName(request.getCategory())
+                .orElseThrow(() -> new NotFoundException(NO_CATEGORY_FOR_TASK_ERROR_MSG));
         String description = request.getDescription().trim();
 
         Task task = taskService.createUpdate(

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
 
@@ -77,9 +78,8 @@ public class CategoryService {
      * @param name наименование
      * @return категория
      */
-    public Category findByName(String name) {
-        return categoryRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
+    public Optional<Category> findByName(String name) {
+        return categoryRepository.findByName(name);
     }
 
     /**

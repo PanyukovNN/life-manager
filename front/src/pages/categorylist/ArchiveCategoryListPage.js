@@ -4,6 +4,7 @@ import {BaseCategoryListPage} from "./BaseCategoryListPage";
 /**
  * Страница управления разделами в архиве
  *
+ * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} страница управления разделами в архиве
  * @constructor
  */

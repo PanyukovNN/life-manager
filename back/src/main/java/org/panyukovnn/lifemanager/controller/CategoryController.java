@@ -1,5 +1,6 @@
 package org.panyukovnn.lifemanager.controller;
 
+import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.request.*;
 import org.panyukovnn.lifemanager.service.CategoryService;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static org.panyukovnn.lifemanager.model.Constants.CATEGORY_NOT_FOUND_ERROR_MSG;
 import static org.panyukovnn.lifemanager.model.Constants.CATEGORY_REMOVED_SUCCESSFULLY;
 
 /**
@@ -48,7 +50,8 @@ public class CategoryController {
      */
     @GetMapping("/find-by-name")
     public Category findByName(@RequestBody @Valid FindCategoryByNameRequest request) {
-        return categoryService.findByName(request.getName());
+        return categoryService.findByName(request.getName())
+                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
     }
 
     /**

@@ -2,9 +2,12 @@ import '../../App.css';
 import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
 import {
-    CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID, STATUS_SELECT_ID
+    CATEGORY_SELECT_ID,
+    COMPARE_TO_SELECT_ID,
+    PERIOD_SELECT_ID,
+    PRIORITY_LETTER_SELECT_ID,
+    STATUS_SELECT_ID
 } from '../../Constants'
-import {Spinner} from "react-bootstrap";
 
 /**
  * Загружает и формирует список задач
@@ -12,6 +15,7 @@ import {Spinner} from "react-bootstrap";
  * @param refreshTaskListCall хук обновления списка задач
  * @param handleCheck обработка выбора задачи
  * @param notifyUpdateTaskClick функция клика на кнопке редактирования задачи
+ * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} список задач
  * @constructor
  */
@@ -68,14 +72,6 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
         },
         [refreshTaskListCall]
     );
-
-    // if (loading) {
-    //     return (
-    //         <div className="task-components-spinner-wrap">
-    //             <Spinner animation="border" variant="secondary" />
-    //         </div>
-    //     );
-    // }
 
     return (
         <>

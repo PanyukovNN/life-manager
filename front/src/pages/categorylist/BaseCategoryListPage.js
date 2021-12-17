@@ -8,6 +8,7 @@ import {SendRequest} from "../../Utils";
 /**
  * Базовая страница управления разделами
  *
+ * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} страница управления разделами
  * @constructor
  */

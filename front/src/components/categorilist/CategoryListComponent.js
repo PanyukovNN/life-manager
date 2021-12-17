@@ -2,7 +2,6 @@ import '../../App.css';
 import {Category} from "./Category";
 import {FetchRawCategories} from "../../Utils";
 import {React, useEffect, useState} from 'react';
-import {Spinner} from "react-bootstrap";
 
 /**
  * Компонент со списком разделов
@@ -12,10 +11,16 @@ import {Spinner} from "react-bootstrap";
  * @param notifyToArchiveCategoryClick фукнция уведомления о клике на кнопку "в архив" категории
  * @param notifyRemoveCategoryClick функция уведомления о клике на кнопку "удалить" категории
  * @param inArchive флаг в/вне архива
+ * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} компонент со списком разделов
  * @constructor
  */
-export const CategoryListComponent = ({refreshCategoryListCall, notifyUpdateCategoryClick, notifyToArchiveCategoryClick, notifyRemoveCategoryClick, inArchive, showSpinner}) => {
+export const CategoryListComponent = ({refreshCategoryListCall,
+                                          notifyUpdateCategoryClick,
+                                          notifyToArchiveCategoryClick,
+                                          notifyRemoveCategoryClick,
+                                          inArchive,
+                                          showSpinner}) => {
 
     const [categoryComponents, setCategoryComponents] = useState([]);
     const [rawCategories, setRawCategories] = useState([]);
@@ -47,14 +52,6 @@ export const CategoryListComponent = ({refreshCategoryListCall, notifyUpdateCate
         },
         [loading]
     );
-
-    // if (loading) {
-    //     return (
-    //         <div className="category-list-spinner-wrap">
-    //             <Spinner animation="border" variant="secondary"/>
-    //         </div>
-    //     );
-    // }
 
     return (
         <>

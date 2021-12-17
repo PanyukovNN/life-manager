@@ -1,6 +1,7 @@
 import '../../App.css';
 import {React} from 'react';
 import {Button, Form} from "react-bootstrap";
+import {DONE_TASK_STATUS} from "../../Constants";
 
 /**
  * Карточка задачи
@@ -12,8 +13,11 @@ import {Button, Form} from "react-bootstrap";
  */
 export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
 
+    let doneStatusStyle = task.status === DONE_TASK_STATUS ? " task-done " : "";
+    let overdueStyle = task.overdue ? " task-overdue " : "";
+
     return (
-        <div className="task-block">
+        <div className={"task-block" + doneStatusStyle}>
             <input className="task-id" type={"hidden"} value={task.id}/>
 
             <div className="task-info">
@@ -24,20 +28,16 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
                         onChange={() => handleCheck(task.id)}/>
                 </div>
 
-                <div className="task-priority">
-                    {task.priority}
-                </div>
+                <div className="task-priority">{task.priority}</div>
 
-                <div className="task-category">
-                    {task.category}
-                </div>
+                <div className="task-category">{task.category}</div>
 
-                <div className="task-planned-time">
-                    {task.plannedTime}
-                </div>
+                <div className={"task-planned-date-time-wrap" + overdueStyle}>
+                    {task.plannedTime
+                        ? <div className="task-planned-time">{task.plannedTime}</div>
+                        : ""}
 
-                <div className="task-planned-date">
-                    {task.plannedDate}
+                    <div className="task-planned-date">{task.plannedDate}</div>
                 </div>
 
                 <Button className="task-edit-button"
@@ -47,9 +47,7 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
                 </Button>
             </div>
 
-            <div className="task-description">
-                {task.description}
-            </div>
+            <div className="task-description">{task.description}</div>
         </div>
     )
 }

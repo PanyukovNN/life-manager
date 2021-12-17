@@ -19,6 +19,7 @@ public class Constants {
     public static final String WRONG_PRIORITY_LETTER_VALUE_ERROR_MSG = "Неверная буква приоритета";
     public static final String WRONG_PRIORITY_INT_VALUE_ERROR_MSG = "Неверное числовое значение приоритета";
     public static final String CATEGORY_NOT_FOUND_ERROR_MSG = "Категория не найдена";
+    public static final String NO_CATEGORY_FOR_TASK_ERROR_MSG = "Невозможно создать задачу без категории";
     public static final String NULL_TASK_ERROR_MSG = "Задача не может быть пустой";
     public static final String NULL_CATEGORY_NAME_ERROR_MSG = "Наименование раздела не может быть пустым";
     public static final String CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием уже существует";

@@ -1,10 +1,11 @@
 import '../App.css';
-import {React, useEffect} from 'react';
-import {Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Spinner} from "react-bootstrap";
+import {React} from 'react';
+import {Container, Nav, Navbar, Spinner} from "react-bootstrap";
 
 /**
  * Навигационная панель
  *
+ * @param spinnerCall флаг показа спиннера загрузки
  * @returns {*} компонент навигационной панели
  */
 export const NavbarComponent = ({spinnerCall}) => {

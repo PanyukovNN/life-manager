@@ -10,6 +10,7 @@ import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
 /**
  * Главная страница со списком задачи и формой фильтрации
  *
+ * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} главная страница со списком задач
  * @constructor
  */

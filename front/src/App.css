@@ -126,15 +126,21 @@
 
     margin-left: 12px;
 }
-.task-planned-time {
+.task-planned-date-time-wrap {
     margin-left: auto;
+    padding-left: 12px;
+    padding-right: 12px;
+
+    display: flex;
+
+    border-radius: 20px;
+}
+.task-planned-time {
     margin-right: 12px;
 
     font-size: 14px;
 }
 .task-planned-date {
-    margin-right: 0;
-
     font-size: 14px;
 }
 .task-description {
@@ -154,6 +160,12 @@
 
     border-radius: 20px !important;
     border: none !important;
+}
+.task-overdue {
+    background-color: rgb(255, 229, 229);
+}
+.task-done {
+    background-color: whitesmoke;
 }
 
 .add-task-button,

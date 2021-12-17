@@ -3,9 +3,10 @@ package org.panyukovnn.lifemanager.model.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.panyukovnn.lifemanager.model.Task;
 
 /**
- * Транспортный объект задачи
+ * Транспортный объект задачи {@link Task}
  */
 @Getter
 @Builder
@@ -18,4 +19,10 @@ public class TaskDto {
     private final String category;
     private final String plannedDate;
     private final String plannedTime;
+    private final String status;
+
+    /**
+     * Просрочена ли задача
+     */
+    private final boolean overdue;
 }
