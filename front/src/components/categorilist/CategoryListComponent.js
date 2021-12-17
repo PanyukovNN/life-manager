@@ -39,7 +39,7 @@ export const CategoryListComponent = ({refreshCategoryListCall,
 
                 if (rawCategories.length === 0) {
                     return (
-                        <div className="empty-list-label">Список пуст</div>
+                        <div className="empty-list-label">Нет элементов</div>
                     );
                 }
 
@@ -52,9 +52,10 @@ export const CategoryListComponent = ({refreshCategoryListCall,
                               key={category.id} />
                 ));
 
-                showSpinner(false);
                 return categoryComponents;
             });
+
+            showSpinner(false);
         },
         [loading]
     );

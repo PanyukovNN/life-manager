@@ -54,7 +54,7 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
 
                     if (tasks.length === 0) {
                         return (
-                            <div className="empty-list-label">Список пуст</div>
+                            <div className="empty-list-label">Нет элементов</div>
                         );
                     }
 
