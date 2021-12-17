@@ -7,6 +7,7 @@ import {
     DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
     MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS
 } from "../../Constants";
+import {SendRequest} from "../../Utils";
 
 /**
  * Кнопка с открытием модального окна добавления задачи
@@ -19,6 +20,8 @@ import {
  * @constructor
  */
 export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) => {
+
+    const noCategories = Object.keys(categories).length === 0;
 
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
@@ -63,19 +66,17 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
             plannedTime: time
         };
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        };
-
-        const response = await fetch('http://localhost:80/api/task/create-update', requestOptions);
-        // Возвращает задачу
-        await response.json();
+        await SendRequest("POST", body, 'http://localhost:80/api/task/create-update');
 
         refreshTaskList();
         setShow(false);
     }
+
+    const impossibleToCreateTaskAlert = (
+        <div className="danger-alert">
+            Невозможно создать задачу без раздела
+        </div>
+    );
 
     return (
         <>
@@ -160,13 +161,17 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
                                         }}/>
                         </div>
                     </div>
+
+                    {noCategories ? impossibleToCreateTaskAlert : ""}
                 </div>
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Закрыть
                     </Button>
-                    <Button variant="primary" onClick={() => handleSave()}>
+                    <Button variant="primary"
+                            onClick={() => handleSave()}
+                            disabled={noCategories}>
                         Сохранить
                     </Button>
                 </Modal.Footer>

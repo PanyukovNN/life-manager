@@ -36,7 +36,7 @@ export const CategoryListComponent = ({refreshCategoryListCall,
 
             setCategoryComponents(() => {
                 let categoryComponents = [];
-                // console.log(rawCategories)
+
                 rawCategories.forEach(category => categoryComponents.push(
                     <Category category={category}
                               notifyEditBtnClick={notifyUpdateCategoryClick}

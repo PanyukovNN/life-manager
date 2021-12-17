@@ -45,7 +45,7 @@ export const Category = ({category, notifyEditBtnClick, notifyMoveToArchiveClick
                 Ред.
             </Button>
 
-            {inArchive.inArchive
+            {inArchive
                 ? removeButton
                 : toArchiveButton}
         </div>

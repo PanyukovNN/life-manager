@@ -334,3 +334,13 @@
 
     background-color: rgba(255, 255, 255, 1) !important;
 }
+
+.danger-alert {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+
+    background-color: rgba(255, 0, 0, .1);
+
+    border-radius: 5px;
+}
