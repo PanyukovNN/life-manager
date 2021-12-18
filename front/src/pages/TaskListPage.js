@@ -1,11 +1,13 @@
 import '../App.css';
 import {React, useState} from 'react'
-import {Button, Spinner} from "react-bootstrap";
-import {FetchCategoriesMap} from "../Utils";
+import {Button} from "react-bootstrap";
+import {convertRawCategoriesToMap, FetchRawCategories} from "../Utils";
 import {TaskModal} from "../components/tasklist/TaskModal";
 import {DoneRemoveButtons} from "../components/tasklist/DoneRemoveButtons";
 import {TaskListComponent} from "../components/tasklist/TaskListComponent";
 import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
+import {LoadingPage} from "./LoadingPage";
+import {useAlert} from "react-alert";
 
 /**
  * Главная страница со списком задачи и формой фильтрации
@@ -16,9 +18,17 @@ import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
  */
 export const TaskListPage = ({showSpinner}) => {
 
+    const alert = useAlert();
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState({});
-    FetchCategoriesMap(setLoading, setCategories);
+    FetchRawCategories(
+        setLoading,
+        (rawCategories) => {
+            setCategories(convertRawCategoriesToMap(rawCategories));
+        },
+        undefined,
+        undefined,
+        alert);
 
     const [checkedTaskIds, setCheckedTaskIds] = useState([]);
     const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
@@ -26,9 +36,7 @@ export const TaskListPage = ({showSpinner}) => {
     const [modalTask, setModalTask] = useState(null);
 
     if (loading) {
-        return (
-            <Spinner animation="border" variant="secondary" />
-        );
+        return ( <LoadingPage /> );
     }
 
     return (

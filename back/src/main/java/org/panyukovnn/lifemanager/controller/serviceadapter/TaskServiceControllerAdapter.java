@@ -141,6 +141,6 @@ public class TaskServiceControllerAdapter {
     public String deleteByIds(DeleteByIdsRequest request) {
         taskService.deleteByIds(request.getIds());
 
-        return String.format(TASKS_REMOVED_SUCCESSFULLY, request.getIds());
+        return TASKS_REMOVED_SUCCESSFULLY;
     }
 }

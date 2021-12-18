@@ -4,6 +4,7 @@ import {CategoryListComponent} from "../../components/categorilist/CategoryListC
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../../components/categorilist/CategoryModal";
 import {SendRequest} from "../../Utils";
+import {useAlert} from "react-alert";
 
 /**
  * Базовая страница управления разделами
@@ -14,6 +15,7 @@ import {SendRequest} from "../../Utils";
  */
 export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
 
+    const alert = useAlert();
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
     const [moveToArchiveCategory, setMoveToArchiveCategory] = useState(null);
     const [removeCategory, setRemoveCategory] = useState(null);
@@ -31,7 +33,8 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                     inArchive: !inArchive
                 };
 
-                await SendRequest("POST", body, "http://localhost:80/api/category/set-in-archive");
+                await SendRequest("POST", body, "http://localhost:80/api/category/set-in-archive", alert)
+                    .then((response) => response.text().then(text => alert.show(text)));
 
                 setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
             }
@@ -50,7 +53,8 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                     name: removeCategory.name
                 };
 
-                await SendRequest("DELETE", body, "http://localhost:80/api/category/delete-by-name");
+                await SendRequest("DELETE", body, "http://localhost:80/api/category/delete-by-name", alert)
+                    .then((response) => response.text().then(text => alert.show(text)));
 
                 setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
             }

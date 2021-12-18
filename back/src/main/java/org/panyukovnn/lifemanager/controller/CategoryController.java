@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static org.panyukovnn.lifemanager.model.Constants.CATEGORY_NOT_FOUND_ERROR_MSG;
-import static org.panyukovnn.lifemanager.model.Constants.CATEGORY_REMOVED_SUCCESSFULLY;
+import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
  * Контроллер категорий
@@ -35,11 +34,13 @@ public class CategoryController {
      * Создать/обновить категорию
      *
      * @param request запрос
-     * @return созданная/обновленная категория
+     * @return сообщение об успешном сохранении/обновлении задачи
      */
     @PostMapping("/create-update")
-    public Category createUpdateCategory(@RequestBody CreateUpdateCategoryRequest request) {
-        return categoryService.createUpdate(request.getId(), request.getName());
+    public String createUpdateCategory(@RequestBody CreateUpdateCategoryRequest request) {
+        categoryService.createUpdate(request.getId(), request.getName());
+
+        return String.format(CATEGORY_CREATED_UPDATED_SUCCESSFULLY, request.getName());
     }
 
     /**
@@ -75,7 +76,7 @@ public class CategoryController {
     public String setInArchive(@RequestBody @Valid SetCategoryInArchiveRequest request) {
         categoryService.setToArchiveByName(request.getName(), request.inArchive);
 
-        return String.format(CATEGORY_REMOVED_SUCCESSFULLY, request.getName());
+        return String.format(CATEGORY_SET_IN_ARCHIVE_SUCCESSFULLY, request.getName());
     }
 
     /**

@@ -2,6 +2,7 @@ import '../../App.css';
 import {Category} from "./Category";
 import {FetchRawCategories} from "../../Utils";
 import {React, useEffect, useState} from 'react';
+import {useAlert} from "react-alert";
 
 /**
  * Компонент со списком разделов
@@ -22,10 +23,15 @@ export const CategoryListComponent = ({refreshCategoryListCall,
                                           inArchive,
                                           showSpinner}) => {
 
+    const alert = useAlert();
     const [categoryComponents, setCategoryComponents] = useState([]);
     const [rawCategories, setRawCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    FetchRawCategories(setLoading, setRawCategories, refreshCategoryListCall, {inArchive : inArchive});
+    FetchRawCategories(setLoading,
+        setRawCategories,
+        refreshCategoryListCall,
+        {inArchive : inArchive},
+        alert);
 
     useEffect(
         () => {

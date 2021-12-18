@@ -2,9 +2,11 @@ import '../../App.css';
 import {React, useEffect, useState} from 'react';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {NAME_TEXTAREA_ID} from "../../Constants";
+import {useAlert} from "react-alert";
 
 export const CategoryModal = ({refreshCategoryList, showModalCall, category}) => {
 
+    const alert = useAlert();
     const [show, setShow] = useState(false);
 
     const handleClose = async () => setShow(false);
@@ -41,9 +43,8 @@ export const CategoryModal = ({refreshCategoryList, showModalCall, category}) =>
             body: JSON.stringify(body)
         };
 
-        const response = await fetch('http://localhost:80/api/category/create-update', requestOptions);
-        // Возвращает категорию
-        await response.json();
+        await fetch('http://localhost:80/api/category/create-update', requestOptions)
+            .then((response) => response.text().then(text => alert.show(text)));
 
         refreshCategoryList();
         setShow(false);

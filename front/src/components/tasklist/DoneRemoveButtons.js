@@ -2,6 +2,8 @@ import '../../App.css';
 import {React} from 'react';
 import {Button} from "react-bootstrap";
 import {DONE_TASK_STATUS} from "../../Constants";
+import {ShowAlert} from "../../Utils";
+import {useAlert} from "react-alert";
 
 /**
  * Кнопки "изменить статус на 'выполнено'" и "удалить"
@@ -11,6 +13,8 @@ import {DONE_TASK_STATUS} from "../../Constants";
  * @constructor
  */
 export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds}) => {
+
+    const alert = useAlert();
 
     async function markAsDone() {
         let body = {
@@ -25,6 +29,7 @@ export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds}) => {
         };
 
         const response = await fetch("http://localhost:80/api/task/set-status", requestOptions)
+            .then((response) => response.text().then(text => alert.show(text)));
         await response;
 
         refreshTaskList();
@@ -47,8 +52,8 @@ export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds}) => {
             body: JSON.stringify(body)
         };
 
-        const response = await fetch("http://localhost:80/api/task/delete-by-ids", requestOptions)
-        await response;
+        await fetch("http://localhost:80/api/task/delete-by-ids", requestOptions)
+            .then((response) => response.text().then(text => alert.show(text)));
 
         refreshTaskList();
     }

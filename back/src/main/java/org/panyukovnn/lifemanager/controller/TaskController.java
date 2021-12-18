@@ -1,12 +1,14 @@
 package org.panyukovnn.lifemanager.controller;
 
+import org.panyukovnn.lifemanager.controller.serviceadapter.TaskServiceControllerAdapter;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.model.request.*;
-import org.panyukovnn.lifemanager.controller.serviceadapter.TaskServiceControllerAdapter;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.panyukovnn.lifemanager.model.Constants.TASKS_CREATED_UPDATED_SUCCESSFULLY;
 
 /**
  * Контроллер задач
@@ -31,11 +33,13 @@ public class TaskController {
      * Создать/обновить задачу
      *
      * @param request запрос
-     * @return созданная/обновленная задача
+     * @return сообщение об успешном сохранении/обновлении задачи
      */
     @PostMapping("/create-update")
-    public TaskDto createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request) {
-        return taskServiceAdapter.createUpdate(request);
+    public String createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request) {
+        taskServiceAdapter.createUpdate(request);
+
+        return TASKS_CREATED_UPDATED_SUCCESSFULLY;
     }
 
     /**

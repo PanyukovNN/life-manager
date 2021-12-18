@@ -7,7 +7,7 @@ import {CategoryListPage} from "./pages/categorylist/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
 import {ArchiveCategoryListPage} from "./pages/categorylist/ArchiveCategoryListPage";
-import {NotFound} from "./pages/exception/NotFound";
+import {NotFoundPage} from "./pages/exception/NotFoundPage";
 
 function App() {
 
@@ -24,7 +24,7 @@ function App() {
                     <Route path="/" element={<TaskListPage showSpinner={showSpinner} />} />
                     <Route path="/categories" element={<CategoryListPage showSpinner={showSpinner} />} />
                     <Route path="/categories/archive" element={<ArchiveCategoryListPage showSpinner={showSpinner} />} />
-                    <Route path="*" element={<NotFound />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </Router>
         </div>

@@ -9,6 +9,7 @@ import {
     STATUS_SELECT_ID
 } from '../../Constants'
 import {SendRequest} from "../../Utils";
+import {useAlert} from "react-alert";
 
 /**
  * Загружает и формирует список задач
@@ -21,6 +22,7 @@ import {SendRequest} from "../../Utils";
  * @constructor
  */
 export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdateTaskClick, showSpinner}) => {
+    const alert = useAlert();
     const [taskComponents, setTasks] = useState();
 
     useEffect(
@@ -46,8 +48,10 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
                     compareType: compareType !== "" ? compareType : "PRIORITY_FIRST"
                 };
 
-                let response = await SendRequest("POST", body, "http://localhost:80/api/task/find-list");
-                let tasks = await response.json();
+                let tasks = await SendRequest("POST", body, "http://localhost:80/api/task/find-list", alert)
+                    .then((response) => response.ok ? response : Promise.reject(response))
+                    .then((response) => response.json())
+                    .catch((response) => response.text().then(text => alert.show(text)));
 
                 setTasks(() => {
                     let taskComponents = [];

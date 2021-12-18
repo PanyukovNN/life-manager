@@ -7,9 +7,10 @@ import {useEffect} from 'react';
  * @param setCategories задать список объектов категорий
  * @param call хук загрузки категорий
  * @param inArchive флаг в/вне архива
+ * @param alert всплывающее окно
  * @returns объекты категорий
  */
-export function FetchRawCategories(setLoading, setCategories, call, inArchive) {
+export function FetchRawCategories(setLoading, setCategories, call, inArchive, alert) {
     useEffect(
         () => {
             setLoading(true);
@@ -25,30 +26,27 @@ export function FetchRawCategories(setLoading, setCategories, call, inArchive) {
             };
 
             fetch("http://localhost:80/api/category/find-list", requestOptions)
-                .then(res => res.json())
-                .then(data => {
-                    setCategories(data);
+                .then((response) => response.ok ? response : Promise.reject(response))
+                .then(res => res.json().then(rawCategories => {
+                    setCategories(rawCategories);
                     setLoading(false);
-                })
+                }))
+                .catch((response) => response.text().then(text => alert.show(text)));
         },
         [call]);
 }
 
 /**
- * Запрашивает с сервера список категорий и возвращает его
- * При этом преобразует объекты категорий в карту, где и ключом и значением выступает наименование
+ * Преобразует объекты категорий в карту, где и ключом и значением выступает наименование
  *
- * @param setLoading задать флаг загрузки страницы
- * @param setCategories задать список объектов категорий
- * @returns карта категорий
+ * @param rawCategories объекты категорий
+ * @returns {{}}
  */
-export function FetchCategoriesMap(setLoading, setCategories) {
-    FetchRawCategories(setLoading, (categories) => {
-        let categoryMap = {};
+export function convertRawCategoriesToMap(rawCategories) {
+    let categoryMap = {};
+    rawCategories.forEach(category => categoryMap[category.name] = category.name);
 
-        categories.forEach(category => categoryMap[category.name] = category.name);
-        setCategories(categoryMap);
-    });
+    return categoryMap;
 }
 
 /**
@@ -57,15 +55,18 @@ export function FetchCategoriesMap(setLoading, setCategories) {
  * @param method метод
  * @param body тело
  * @param link ссылка
+ * @param alert компонент всплывающего окна
  * @returns {Promise<any>} ответ от сервера
  * @constructor
  */
-export async function SendRequest(method, body, link) {
+export async function SendRequest(method, body, link, alert) {
     const requestOptions = {
         method: method,
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
     };
 
-    return await fetch(link, requestOptions);
+    return await fetch(link, requestOptions)
+        .then((response) => response.ok ? response : Promise.reject(response))
+        .catch((response) => response.text().then(text => alert.show(text)));
 }

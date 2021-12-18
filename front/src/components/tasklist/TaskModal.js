@@ -8,6 +8,7 @@ import {
     MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS
 } from "../../Constants";
 import {SendRequest} from "../../Utils";
+import {useAlert} from "react-alert";
 
 /**
  * Кнопка с открытием модального окна добавления задачи
@@ -23,6 +24,7 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
 
     const noCategories = Object.keys(categories).length === 0;
 
+    const alert = useAlert();
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
@@ -66,7 +68,8 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
             plannedTime: time
         };
 
-        await SendRequest("POST", body, 'http://localhost:80/api/task/create-update');
+        await SendRequest("POST", body, 'http://localhost:80/api/task/create-update', alert)
+            .then((response) => response.text().then(text => alert.show(text)));;
 
         refreshTaskList();
         setShow(false);
