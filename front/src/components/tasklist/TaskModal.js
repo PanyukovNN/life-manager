@@ -146,6 +146,7 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
                             <div className="modal-selector-header">Дата:</div>
                             <DatePicker format={"DD.MM.YYYY"}
                                         date={date}
+                                        // icons={type: "feather"}
                                         onChange={(e) => {
                                             if (e.date !== undefined) {
                                                 setDate(e.date.format("DD.MM.YYYY"));

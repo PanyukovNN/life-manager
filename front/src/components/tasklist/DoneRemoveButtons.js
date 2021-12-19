@@ -2,7 +2,8 @@ import '../../App.css';
 import {React} from 'react';
 import {Button} from "react-bootstrap";
 import {DONE_TASK_STATUS} from "../../Constants";
-import {ShowAlert} from "../../Utils";
+import removeIcon from "../../resources/icon/remove.svg.png";
+import readyIcon from "../../resources/icon/ready.svg";
 import {useAlert} from "react-alert";
 
 /**
@@ -29,7 +30,7 @@ export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds, disabled}) =
             body: JSON.stringify(body)
         };
 
-        const response = await fetch("http://localhost:80/api/task/set-status", requestOptions)
+        await fetch("http://localhost:80/api/task/set-status", requestOptions)
             .then((response) => response.text().then(text => alert.show(text)));
 
         refreshTaskList();
@@ -64,14 +65,14 @@ export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds, disabled}) =
                     variant="primary"
                     onClick={markAsDone}
                     disabled={disabled}>
-                <span>Готово</span>
+                <img className="task-ready-icon" src={readyIcon}/>
             </Button>
 
             <Button className="task-remove-button"
                     variant="primary"
                     onClick={deleteTasks}
                     disabled={disabled}>
-                <span>Удалить</span>
+                <img className="task-remove-icon" src={removeIcon}/>
             </Button>
         </>
     )

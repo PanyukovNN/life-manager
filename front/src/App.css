@@ -152,12 +152,13 @@
     margin-top: 12px;
 }
 .task-edit-button {
-    width:  60px;
+    width:  20px;
     height: 20px;
 
     margin-left: 12px;
+    padding: 0 !important;
 
-    background-color: rgba(0, 0, 0, .05) !important;
+    background-color: rgba(0, 0, 0, .0) !important;
 
     color: black !important;
     font-size: 12px !important;
@@ -187,6 +188,14 @@
     background-color: white !important;
 
     box-shadow: 0 0 30px rgba(0, 0, 0, .07);
+
+    transition: 0.4s ease !important;
+}
+.add-task-button:hover,
+.add-category-button:hover,
+.task-done-button:hover,
+.task-remove-button:hover {
+    transform: scale(1.1);
 }
 .add-task-button,
 .add-category-button {
@@ -215,6 +224,27 @@
 .task-remove-button {
     right: 150px;
     bottom: 40px;
+
+    padding: 0 !important;
+}
+.task-ready-icon {
+    width: 19px;
+    height: 19px;
+}
+.task-remove-icon {
+    width: 30px;
+    height: 30px;
+}
+.task-edit-icon {
+    width: 15px;
+    height: 15px;
+
+    opacity: .8;
+
+    transition: .4s ease;
+}
+.task-edit-icon:hover {
+    transform: scale(1.2);
 }
 
 .plus-sign {
@@ -419,4 +449,12 @@
     cursor: pointer;
     text-decoration: none;
     color: black;
+}
+
+/* fix date/time-picker button size */
+.input-group-text {
+    height: 100%;
+}
+.input-group-text:hover {
+    cursor: pointer;
 }

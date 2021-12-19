@@ -2,6 +2,7 @@ import '../../App.css';
 import {React} from 'react';
 import {Button, Form} from "react-bootstrap";
 import {DONE_TASK_STATUS} from "../../Constants";
+import editIcon from '../../resources/icon/edit-icon.svg.png'
 
 /**
  * Карточка задачи
@@ -43,7 +44,7 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
                 <Button className="task-edit-button"
                         variant="primary"
                         onClick={() => {notifyEditBtnClick(task)}}>
-                    Edit
+                    <img className="task-edit-icon" src={editIcon}/>
                 </Button>
             </div>
 

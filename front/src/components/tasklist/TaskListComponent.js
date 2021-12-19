@@ -57,7 +57,6 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
                         return response;
                     })
                     .then((response) => response.json())
-
                     .catch((response) => {
                         response.text().then(message => alert.show(message));
                     });
