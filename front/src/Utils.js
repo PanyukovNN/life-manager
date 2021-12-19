@@ -26,12 +26,20 @@ export function FetchRawCategories(setLoading, setCategories, call, inArchive, a
             };
 
             fetch("http://localhost:80/api/category/find-list", requestOptions)
-                .then((response) => response.ok ? response : Promise.reject(response))
+                .then((response) => {
+                    if (!response.ok) {
+                        throw response;
+                    }
+
+                    return response;
+                })
                 .then(res => res.json().then(rawCategories => {
                     setCategories(rawCategories);
                     setLoading(false);
                 }))
-                .catch((response) => response.text().then(text => alert.show(text)));
+                .catch((response) => {
+                    response.text().then(message => alert.show(message));
+                });
         },
         [call]);
 }
@@ -66,7 +74,5 @@ export async function SendRequest(method, body, link, alert) {
         body: JSON.stringify(body)
     };
 
-    return await fetch(link, requestOptions)
-        .then((response) => response.ok ? response : Promise.reject(response))
-        .catch((response) => response.text().then(text => alert.show(text)));
+    return await fetch(link, requestOptions);
 }

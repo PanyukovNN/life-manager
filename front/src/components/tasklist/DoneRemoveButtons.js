@@ -9,10 +9,11 @@ import {useAlert} from "react-alert";
  * Кнопки "изменить статус на 'выполнено'" и "удалить"
  * @param refreshTaskList хук обновления списка задач
  * @param checkedTaskIds список идентификаторов выбранных задач
+ * @param disabled флаг отключения кнопок
  * @returns {*} кнопки
  * @constructor
  */
-export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds}) => {
+export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds, disabled}) => {
 
     const alert = useAlert();
 
@@ -30,7 +31,6 @@ export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds}) => {
 
         const response = await fetch("http://localhost:80/api/task/set-status", requestOptions)
             .then((response) => response.text().then(text => alert.show(text)));
-        await response;
 
         refreshTaskList();
     }
@@ -60,11 +60,17 @@ export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds}) => {
 
     return (
         <>
-            <Button className="task-done-button" variant="primary" onClick={markAsDone}>
+            <Button className="task-done-button"
+                    variant="primary"
+                    onClick={markAsDone}
+                    disabled={disabled}>
                 <span>Готово</span>
             </Button>
 
-            <Button className="task-remove-button" variant="primary" onClick={deleteTasks}>
+            <Button className="task-remove-button"
+                    variant="primary"
+                    onClick={deleteTasks}
+                    disabled={disabled}>
                 <span>Удалить</span>
             </Button>
         </>

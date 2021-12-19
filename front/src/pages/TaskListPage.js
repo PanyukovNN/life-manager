@@ -35,9 +35,6 @@ export const TaskListPage = ({showSpinner}) => {
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalTask, setModalTask] = useState(null);
 
-    if (loading) {
-        return ( <LoadingPage /> );
-    }
 
     return (
         <div className="TaskListPage">
@@ -46,6 +43,7 @@ export const TaskListPage = ({showSpinner}) => {
 
                 <FiltrationForm
                     categories={categories}
+                    loading={loading}
                     notifyRefresh={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
             </div>
 
@@ -61,6 +59,7 @@ export const TaskListPage = ({showSpinner}) => {
 
                 <Button className="add-task-button"
                         variant="primary"
+                        disabled={loading}
                         onClick={() => {
                             setShowModalCall(showModalCall => showModalCall + 1);
                             setModalTask(null);}}>
@@ -73,6 +72,7 @@ export const TaskListPage = ({showSpinner}) => {
                            categories={categories}  />
 
                 <DoneRemoveButtons
+                    disabled={loading}
                     checkedTaskIds={checkedTaskIds}
                     refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
             </div>

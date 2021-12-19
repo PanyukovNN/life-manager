@@ -10,10 +10,11 @@ import {React, useEffect, useState} from 'react';
  * @param optionMap карта опций выбора
  * @param notifySelection функция, вызываемая при изменении значения
  * @param defaultValue значение по умолчанию
+ * @param disabled флаг отключения селектора
  * @returns {*} селектор
  * @constructor
  */
-export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, defaultValue}) => {
+export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, defaultValue, disabled}) => {
 
     // Формируем варианты выбора
     let options = [];
@@ -48,6 +49,7 @@ export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, d
         <>
             <Form.Select id={id}
                          size="1"
+                         disabled={disabled}
                          value={selected}
                          onChange={handleSelected}>
                 {options}

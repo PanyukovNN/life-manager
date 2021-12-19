@@ -5,6 +5,7 @@ import {
     CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
     CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY, STATUS_SELECT_ID, STATUS_KEY
 } from '../../Constants'
+import {LoadingPage} from "../../pages/LoadingPage";
 
 /**
  * Параметры поиска задач
@@ -14,7 +15,7 @@ import {
  * @returns {*} селекторы с параметров поиска
  * @constructor
  */
-export const FiltrationForm = ({notifyRefresh, categories}) => {
+export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
 
     let categoriesWithDefault = {"": "Все"};
     for (const [key, value] of Object.entries(categories)) {
@@ -25,6 +26,11 @@ export const FiltrationForm = ({notifyRefresh, categories}) => {
         notifyRefresh();
     }, [])
 
+    // console.log(loading)
+    // if (loading) {
+    //     return ( <LoadingPage /> );
+    // }
+
     return (
         <>
             <div className="selectors-group">
@@ -34,6 +40,7 @@ export const FiltrationForm = ({notifyRefresh, categories}) => {
                     <div className="selector-wrapper">
                         <SelectorComponent
                             id={CATEGORY_SELECT_ID}
+                            disabled={loading}
                             storageKey={CATEGORY_KEY}
                             optionMap={categoriesWithDefault}
                             notifySelection={() => notifyRefresh()}/>

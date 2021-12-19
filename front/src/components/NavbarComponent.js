@@ -1,6 +1,7 @@
 import '../App.css';
 import {React} from 'react';
 import {Container, Nav, Navbar, Spinner} from "react-bootstrap";
+import {LoadingPage} from "../pages/LoadingPage";
 
 /**
  * Навигационная панель
@@ -23,7 +24,9 @@ export const NavbarComponent = ({spinnerCall}) => {
                             <Nav.Link href="/categories">Управление разделами</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
-                    {spinnerCall ? <Spinner animation="border" size="sm" variant="secondary" /> : ''}
+                    <div className="navbar-spinner">
+                        {spinnerCall ? <Spinner animation="border" size="sm" variant="secondary" /> : ''}
+                    </div>
                 </Container>
             </Navbar>
         </>

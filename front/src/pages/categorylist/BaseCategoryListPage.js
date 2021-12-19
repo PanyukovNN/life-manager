@@ -34,7 +34,14 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                 };
 
                 await SendRequest("POST", body, "http://localhost:80/api/category/set-in-archive", alert)
-                    .then((response) => response.text().then(text => alert.show(text)));
+                    .then((response) => {
+                        if (!response.ok) throw response;
+                        return response;
+                    })
+                    .then((response) => response.text().then(text => alert.show(text)))
+                    .catch((response) => {
+                        response.text().then(message => alert.show(message));
+                    });
 
                 setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
             }

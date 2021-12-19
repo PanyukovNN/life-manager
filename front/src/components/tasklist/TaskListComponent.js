@@ -49,9 +49,18 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
                 };
 
                 let tasks = await SendRequest("POST", body, "http://localhost:80/api/task/find-list", alert)
-                    .then((response) => response.ok ? response : Promise.reject(response))
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw response;
+                        }
+
+                        return response;
+                    })
                     .then((response) => response.json())
-                    .catch((response) => response.text().then(text => alert.show(text)));
+
+                    .catch((response) => {
+                        response.text().then(message => alert.show(message));
+                    });
 
                 setTasks(() => {
                     let taskComponents = [];
