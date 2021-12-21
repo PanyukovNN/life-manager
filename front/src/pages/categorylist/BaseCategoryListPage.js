@@ -55,6 +55,12 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                 return;
             }
 
+            let result = window.confirm("Вы уверены, что хотите удалить категорию \"" + removeCategory.name + "\"?");
+
+            if (!result) {
+                return;
+            }
+
             const remove = async () => {
                 let body = {
                     name: removeCategory.name

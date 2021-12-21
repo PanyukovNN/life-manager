@@ -14,7 +14,7 @@ import {useAlert} from "react-alert";
  * @returns {*} кнопки
  * @constructor
  */
-export const DoneRemoveButtons = ({refreshTaskList, checkedTaskIds, disabled}) => {
+export const DoneRemoveTaskButtons = ({refreshTaskList, checkedTaskIds, disabled}) => {
 
     const alert = useAlert();
 

@@ -3,7 +3,7 @@ import {React, useState} from 'react'
 import {Button} from "react-bootstrap";
 import {convertRawCategoriesToMap, FetchRawCategories} from "../Utils";
 import {TaskModal} from "../components/tasklist/TaskModal";
-import {DoneRemoveButtons} from "../components/tasklist/DoneRemoveButtons";
+import {DoneRemoveTaskButtons} from "../components/tasklist/DoneRemoveButtons";
 import {TaskListComponent} from "../components/tasklist/TaskListComponent";
 import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
 import {LoadingPage} from "./LoadingPage";
@@ -71,7 +71,7 @@ export const TaskListPage = ({showSpinner}) => {
                            task={modalTask}
                            categories={categories}  />
 
-                <DoneRemoveButtons
+                <DoneRemoveTaskButtons
                     disabled={loading}
                     checkedTaskIds={checkedTaskIds}
                     refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
