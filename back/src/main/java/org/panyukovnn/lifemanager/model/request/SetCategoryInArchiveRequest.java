@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class SetCategoryInArchiveRequest {
 
     @NotBlank
-    public String name;
+    private String name;
 
-    public boolean inArchive;
+    private boolean inArchive;
 }

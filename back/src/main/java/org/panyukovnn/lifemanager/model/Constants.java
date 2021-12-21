@@ -1,6 +1,10 @@
 package org.panyukovnn.lifemanager.model;
 
-public class Constants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Constants {
 
     /**
      * Сообщения

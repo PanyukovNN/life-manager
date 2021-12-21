@@ -7,13 +7,12 @@ import org.panyukovnn.lifemanager.model.PeriodStrategyType;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
 import java.util.List;
 
-import static org.panyukovnn.lifemanager.model.Constants.*;
+import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_LETTER_PATTERN_OR_EMPTY;
+import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
 
 /**
  * Запрос на поиск задач по набору параметров

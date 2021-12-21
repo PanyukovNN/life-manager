@@ -23,24 +23,24 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_V
 @NoArgsConstructor
 public class CreateUpdateTaskRequest {
 
-    public String id;
+    private String id;
 
     @NotBlank
-    public String description;
+    private String description;
 
     @NotBlank
     @Pattern(regexp = PRIORITY_PATTERN, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
-    public String priority;
+    private String priority;
 
     @NotBlank
-    public String category;
+    private String category;
 
     @NotNull
-    public TaskStatus status;
+    private TaskStatus status;
 
     @JsonFormat(pattern = "dd.MM.yyyy")
-    public LocalDate plannedDate;
+    private LocalDate plannedDate;
 
     @JsonFormat(pattern = "HH:mm")
-    public LocalTime plannedTime;
+    private LocalTime plannedTime;
 }

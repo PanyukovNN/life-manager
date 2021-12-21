@@ -3,7 +3,7 @@ package org.panyukovnn.lifemanager.service.periodstrategy;
 import org.panyukovnn.lifemanager.model.PeriodStrategyType;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +13,7 @@ import java.util.Set;
 @Service
 public class PeriodStrategyResolver {
 
-    private final Map<PeriodStrategyType, PeriodStrategy> strategyMap = new HashMap<>();
+    private final Map<PeriodStrategyType, PeriodStrategy> strategyMap = new EnumMap<>(PeriodStrategyType.class);
 
     /**
      * Конструктор

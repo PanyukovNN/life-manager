@@ -1,6 +1,8 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -15,7 +17,8 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
 /**
  * Вспомогательные методы для контроллеров
  */
-public class ControllerHelper {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ControllerHelper {
 
     public static final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public static final DateTimeFormatter FRONT_T_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
