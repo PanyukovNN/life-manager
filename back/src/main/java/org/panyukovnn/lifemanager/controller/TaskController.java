@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.TASKS_CREATED_UPDATED_SUCCESSFULLY;
 
@@ -33,11 +34,13 @@ public class TaskController {
      * Создать/обновить задачу
      *
      * @param request запрос
+     * @param timeZone часовой пояс клиента
      * @return сообщение об успешном сохранении/обновлении задачи
      */
     @PostMapping("/create-update")
-    public String createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request) {
-        taskServiceAdapter.createUpdate(request);
+    public String createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request, TimeZone timeZone) {
+        taskServiceAdapter.createUpdate(request, timeZone);
+
 
         return TASKS_CREATED_UPDATED_SUCCESSFULLY;
     }
@@ -46,11 +49,12 @@ public class TaskController {
      * Вернуть список задач по заданным параметрам
      *
      * @param request запрос
+     * @param timeZone часовой пояс клиента
      * @return список задач
      */
     @PostMapping("/find-list")
-    public List<TaskDto> findTaskList(@RequestBody @Valid FindTaskListRequest request) {
-        return taskServiceAdapter.findTaskList(request);
+    public List<TaskDto> findTaskList(@RequestBody @Valid FindTaskListRequest request, TimeZone timeZone) {
+        return taskServiceAdapter.findTaskList(request, timeZone);
     }
 
     /**

@@ -13,6 +13,8 @@ function App() {
 
     const [spinnerCall, showSpinner] = useState(false);
 
+    console.log(new Date().getTimezoneOffset())
+
     return (
         <div className="App">
             <Links />

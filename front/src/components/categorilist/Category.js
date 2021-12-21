@@ -1,6 +1,9 @@
 import '../../App.css';
 import {React} from 'react';
 import {Button} from "react-bootstrap";
+import editIcon from "../../resources/icon/edit-icon.svg.png";
+import removeIcon from "../../resources/icon/remove.svg.png";
+import archiveIcon from "../../resources/icon/archive.png";
 
 /**
  * Карточка категории
@@ -19,7 +22,7 @@ export const Category = ({category, notifyEditBtnClick, notifyMoveToArchiveClick
         <Button className="category-to-archive-button"
                 variant="primary"
                 onClick={() => {notifyMoveToArchiveClick(category)}}>
-            В архив
+            <img className="category-to-archive-icon" src={archiveIcon}/>
         </Button>
     );
 
@@ -27,7 +30,7 @@ export const Category = ({category, notifyEditBtnClick, notifyMoveToArchiveClick
         <Button className="category-remove-button"
                 variant="primary"
                 onClick={() => {notifyRemoveClick(category)}}>
-            Удалить
+            <img className="category-remove-icon" src={removeIcon}/>
         </Button>
     );
 
@@ -42,7 +45,7 @@ export const Category = ({category, notifyEditBtnClick, notifyMoveToArchiveClick
             <Button className="category-edit-button"
                     variant="primary"
                     onClick={() => {notifyEditBtnClick(category)}}>
-                Ред.
+                <img className="category-edit-icon" src={editIcon}/>
             </Button>
 
             {inArchive

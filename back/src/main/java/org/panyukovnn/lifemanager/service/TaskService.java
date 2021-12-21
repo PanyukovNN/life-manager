@@ -21,6 +21,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
 import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_D_FORMATTER;
@@ -59,6 +60,7 @@ public class TaskService {
      * @param description текст
      * @param categoryName наименование категории
      * @param status статус
+     * @param creationDateTime дата/время создания
      * @param plannedDate планируемая дата выполнения
      * @param plannedTime планируемое время выполнения
      * @return созданная/обновленная задача
@@ -68,6 +70,7 @@ public class TaskService {
                              String description,
                              String categoryName,
                              TaskStatus status,
+                             LocalDateTime creationDateTime,
                              LocalDate plannedDate,
                              LocalTime plannedTime) {
         Task task = new Task();
@@ -78,7 +81,7 @@ public class TaskService {
         }
 
         if (task.getCreationDateTime() == null) {
-            task.setCreationDateTime(LocalDateTime.now());
+            task.setCreationDateTime(creationDateTime);
         }
 
         task.setPriority(priority);
@@ -188,9 +191,10 @@ public class TaskService {
      * Конвертировать задачу в транспортный объект
      *
      * @param task задача
+     * @param timeZone часовой пояс клиента
      * @return транспортный объект задачи
      */
-    public TaskDto convertToDto(Task task) {
+    public TaskDto convertToDto(Task task, TimeZone timeZone) {
         Objects.requireNonNull(task, NULL_TASK_ERROR_MSG);
         Objects.requireNonNull(task.getCategoryName(), NULL_CATEGORY_NAME_ERROR_MSG);
 
@@ -216,7 +220,7 @@ public class TaskService {
                 LocalTime plannedTime = task.getPlannedTime() != null ? task.getPlannedTime() : LocalTime.MIN;
                 LocalDateTime plannedDateTime = LocalDateTime.of(task.getPlannedDate(), plannedTime);
 
-                if (plannedDateTime.isBefore(LocalDateTime.now())) {
+                if (plannedDateTime.isBefore(LocalDateTime.now(timeZone.toZoneId()))) {
                     builder.overdue(true);
                 }
             }

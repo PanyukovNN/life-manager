@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
@@ -49,13 +51,16 @@ public class TaskServiceControllerAdapter {
      * Создать/обновить задачу
      *
      * @param request запрос
+     * @param timeZone часовой пояс клиента
      * @return транспортный объект созданной/обновленной задачи
      */
-    public TaskDto createUpdate(CreateUpdateTaskRequest request) {
+    public TaskDto createUpdate(CreateUpdateTaskRequest request, TimeZone timeZone) {
         int priority = ControllerHelper.paramToPriority(request.getPriority());
         Category category = categoryService.findByName(request.getCategory())
                 .orElseThrow(() -> new NotFoundException(NO_CATEGORY_FOR_TASK_ERROR_MSG));
         String description = request.getDescription().trim();
+
+        LocalDateTime creationDateTime = LocalDateTime.now(timeZone.toZoneId());
 
         Task task = taskService.createUpdate(
                 request.getId(),
@@ -63,20 +68,22 @@ public class TaskServiceControllerAdapter {
                 description,
                 category.getName(),
                 request.getStatus(),
+                creationDateTime,
                 request.getPlannedDate(),
                 request.getPlannedTime());
 
-        return taskService.convertToDto(task);
+        return taskService.convertToDto(task, timeZone);
     }
 
     /**
      * Найти список задач по указанным параметрам
      *
      * @param request запрос
+     * @param timeZone часовой пояс клиента
      * @return список транспортных объектов задач
      */
-    public List<TaskDto> findTaskList(FindTaskListRequest request) {
-        LocalDate startDate = LocalDate.now();
+    public List<TaskDto> findTaskList(FindTaskListRequest request, TimeZone timeZone) {
+        LocalDate startDate = LocalDate.now(timeZone.toZoneId());
         LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
                 .getEndDate(startDate);
         List<Integer> priorityRange = ControllerHelper.letterToPriorityRange(request.getPriorityLetter());
@@ -92,7 +99,7 @@ public class TaskServiceControllerAdapter {
 
         return taskService.findList(params)
                 .stream()
-                .map(taskService::convertToDto)
+                .map(task -> taskService.convertToDto(task, timeZone))
                 .collect(Collectors.toList());
     }
 
@@ -111,12 +118,13 @@ public class TaskServiceControllerAdapter {
     /**
      * Вернуть все задачи
      *
+     * @param timeZone часовой пояс клиента
      * @return список задач
      */
-    public List<TaskDto> findAll() {
+    public List<TaskDto> findAll(TimeZone timeZone) {
         return taskService.findAll(TaskCompareType.PRIORITY_FIRST)
                 .stream()
-                .map(taskService::convertToDto)
+                .map(task -> taskService.convertToDto(task, timeZone))
                 .collect(Collectors.toList());
     }
 

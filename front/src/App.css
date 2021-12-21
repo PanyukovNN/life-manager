@@ -235,15 +235,39 @@
     width: 30px;
     height: 30px;
 }
-.task-edit-icon {
-    width: 15px;
-    height: 15px;
+.task-edit-icon,
+.category-edit-icon {
+    width: 20px;
+    height: 20px;
 
     opacity: .8;
 
     transition: .4s ease;
 }
-.task-edit-icon:hover {
+.category-remove-icon {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+
+    opacity: .8;
+
+    transition: .4s ease;
+}
+.category-to-archive-icon {
+    width: 18px;
+    height: 18px;
+
+    opacity: .8;
+
+    transition: .4s ease;
+}
+.task-edit-icon:hover,
+.category-edit-icon:hover,
+.category-remove-icon:hover,
+.category-to-archive-icon:hover {
     transform: scale(1.2);
 }
 
@@ -321,6 +345,7 @@
     flex-wrap: wrap;
 
     width: 450px;
+    min-height: calc(14px * 2 + 30px);
 
     align-items: center;
     align-content: space-between;
@@ -348,18 +373,18 @@
 }
 .category-edit-button {
     margin-left: auto;
+    padding: 0 !important;
 
-    background-color: rgba(0, 0, 0, .05) !important;
+    background-color: rgba(0, 0, 0, 0) !important;
 }
-.category-to-archive-button {
-    margin-left: 12px;
-
-    background-color: rgba(0, 0, 0, .1) !important;
-}
+.category-to-archive-button,
 .category-remove-button {
-    margin-left: 12px;
+    position: relative;
 
-    background-color: rgba(255, 0, 0, .1) !important;
+    margin-left: 12px;
+    padding: 0 !important;
+
+    background-color: rgba(0, 0, 0, 0) !important;
 }
 .category-archive-page-button {
     position: absolute;
