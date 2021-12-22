@@ -55,43 +55,25 @@ public class TaskService {
     /**
      * Создать/обновить задачу
      *
-     * @param id идентификатор
-     * @param priority приортитет
-     * @param description текст
-     * @param categoryName наименование категории
-     * @param status статус
-     * @param creationDateTime дата/время создания
-     * @param plannedDate планируемая дата выполнения
-     * @param plannedTime планируемое время выполнения
+     * @param rawTask задача, сформированная из запроса
+     * @param timeZone часовой пояс клиента
      * @return созданная/обновленная задача
      */
-    public Task createUpdate(String id,
-                             int priority,
-                             String description,
-                             String categoryName,
-                             TaskStatus status,
-                             LocalDateTime creationDateTime,
-                             LocalDate plannedDate,
-                             LocalTime plannedTime) {
-        Task task = new Task();
+    public Task createUpdate(Task rawTask, TimeZone timeZone) {
+        boolean notBlankId = StringUtils.isNotBlank(rawTask.getId());
+        boolean wrongTaskId = notBlankId
+                && !taskRepository.existsById(rawTask.getId());
 
-        if (StringUtils.isNotBlank(id)) {
-            taskRepository.findById(id)
-                    .ifPresent(taskFromDb -> task.setId(taskFromDb.getId()));
+        if (wrongTaskId) {
+            throw new IllegalArgumentException(WRONG_TASK_ID_ERROR_MSG);
         }
 
-        if (task.getCreationDateTime() == null) {
-            task.setCreationDateTime(creationDateTime);
+        if (notBlankId && rawTask.getCreationDateTime() == null) {
+            LocalDateTime creationDateTime = LocalDateTime.now(timeZone.toZoneId());
+            rawTask.setCreationDateTime(creationDateTime);
         }
 
-        task.setPriority(priority);
-        task.setDescription(description);
-        task.setStatus(status);
-        task.setCategoryName(categoryName);
-        task.setPlannedDate(plannedDate);
-        task.setPlannedTime(plannedTime);
-
-        return taskRepository.save(task);
+        return taskRepository.save(rawTask);
     }
 
     /**

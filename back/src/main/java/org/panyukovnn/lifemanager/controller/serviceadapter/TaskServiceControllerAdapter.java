@@ -1,5 +1,6 @@
 package org.panyukovnn.lifemanager.controller.serviceadapter;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
@@ -60,19 +61,18 @@ public class TaskServiceControllerAdapter {
                 .orElseThrow(() -> new NotFoundException(NO_CATEGORY_FOR_TASK_ERROR_MSG));
         String description = request.getDescription().trim();
 
-        LocalDateTime creationDateTime = LocalDateTime.now(timeZone.toZoneId());
+        Task task = new Task();
+        task.setId(request.getId());
+        task.setPriority(priority);
+        task.setDescription(description);
+        task.setStatus(request.getStatus());
+        task.setCategoryName(category.getName());
+        task.setPlannedDate(request.getPlannedDate());
+        task.setPlannedTime(request.getPlannedTime());
 
-        Task task = taskService.createUpdate(
-                request.getId(),
-                priority,
-                description,
-                category.getName(),
-                request.getStatus(),
-                creationDateTime,
-                request.getPlannedDate(),
-                request.getPlannedTime());
+        Task createdUpdatedTask = taskService.createUpdate(task, timeZone);
 
-        return taskService.convertToDto(task, timeZone);
+        return taskService.convertToDto(createdUpdatedTask, timeZone);
     }
 
     /**
