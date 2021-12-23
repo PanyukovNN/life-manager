@@ -6,6 +6,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Objects;
 
+import static org.panyukovnn.lifemanager.model.Constants.PASSWORD_KEY;
+
 /**
  * Валидатор совпадения пароля и пароля подтверждения
  */
@@ -27,7 +29,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
         if (!passwordsEquals) {
             context
                     .buildConstraintViolationWithTemplate(message)
-                    .addPropertyNode("matchingPassword")
+                    .addPropertyNode(PASSWORD_KEY)
                     .addConstraintViolation()
                     .disableDefaultConstraintViolation();
         }

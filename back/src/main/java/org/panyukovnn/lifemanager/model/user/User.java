@@ -35,18 +35,18 @@ public class User implements UserDetails, Serializable {
     @Id
     private Long id;
 
+    @NotBlank(message = "Имя пользователя не может быть пустым.")
+    private String username;
+
     @Email(message = "Некорректный email.")
     @NotBlank(message = "Email не может быть пустым.")
-    private String username;
+    private String email;
 
     @ValidPassword
     @NotBlank(message = "Пароль не может быть пустым.")
     private String password;
 
     private transient String confirmPassword;
-
-    @NotBlank(message = "Имя пользователя не может быть пустым.")
-    private String name;
 
     private String activationCode;
 

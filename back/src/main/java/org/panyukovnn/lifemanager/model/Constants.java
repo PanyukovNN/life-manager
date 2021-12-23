@@ -43,6 +43,8 @@ public final class Constants {
     public static final String PRIORITY = "priority";
     public static final String CATEGORY_NAME = "categoryName";
     public static final String PLANNED_DATE = "plannedDate";
+    public static final String PASSWORD_KEY = "password";
+
 
     /**
      * Другое

@@ -48,15 +48,14 @@ allprojects {
 
         testImplementation libraryTest.junit5api
         testImplementation libraryTest.junit5engine
-        testImplementation libraryTest.mockito
-        testImplementation libraryTest.powerMockito
-        testImplementation libraryTest.powerMockitoJunit
+//        testImplementation libraryTest.mockito
+//        testImplementation libraryTest.powerMockito
+//        testImplementation libraryTest.powerMockitoJunit
         testImplementation libraryTest.springBootTest
     }
 
     test {
-        useJUnit()
-//        useJUnitPlatform()
+        useJUnitPlatform()
     }
 }
 
