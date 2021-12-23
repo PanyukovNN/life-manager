@@ -74,7 +74,7 @@ public class CategoryController {
      */
     @PostMapping("/set-in-archive")
     public String setInArchive(@RequestBody @Valid SetCategoryInArchiveRequest request) {
-        categoryService.setToArchiveByName(request.getName(), request.inArchive);
+        categoryService.setToArchiveByName(request.getName(), request.isInArchive());
 
         return String.format(CATEGORY_SET_IN_ARCHIVE_SUCCESSFULLY, request.getName());
     }

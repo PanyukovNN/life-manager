@@ -33,6 +33,8 @@ public final class Constants {
     public static final String CATEGORY_ALREADY_IN_ARCHIVE_ERROR_MSG = "Раздел \"%s\" уже находится в архиве";
     public static final String UNABLE_TO_DELETE_CATEGORY_ERROR_MSG = "Невозможно удалить раздел, поскольку имеются выполненные задачи";
     public static final String WRONG_TASK_ID_ERROR_MSG = "Неверный идентификатор задачи.";
+    public static final String RESOURCE_FILE_NOT_FOUND_ERROR_MSG = "Не найден файл ресурсов ";
+
 
     /**
      * Параметры

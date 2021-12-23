@@ -71,11 +71,12 @@ public class TaskController {
     /**
      * Вернуть все задачи
      *
+     * @param timeZone часовой пояс клиента
      * @return список задач
      */
     @GetMapping("/find-all")
-    public List<TaskDto> findAll() {
-        return taskServiceAdapter.findAll();
+    public List<TaskDto> findAll(TimeZone timeZone) {
+        return taskServiceAdapter.findAll(timeZone);
     }
 
     /**

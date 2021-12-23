@@ -1,0 +1,65 @@
+package org.panyukovnn.lifemanager.model.validator;
+
+import org.panyukovnn.lifemanager.exception.LifeManagerException;
+import org.passay.*;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
+
+import static org.panyukovnn.lifemanager.model.Constants.RESOURCE_FILE_NOT_FOUND_ERROR_MSG;
+
+/**
+ * Валидатор паролей
+ */
+public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
+
+	private static final String PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE = "password-validation-messages.properties";
+
+	@Override
+	public boolean isValid(String password, ConstraintValidatorContext context) {
+		MessageResolver messageResolver = loadValidationErrorMessages();
+
+		PasswordValidator validator = new PasswordValidator(
+				messageResolver,
+				List.of(new LengthRule(8, 100),
+						new CharacterRule(EnglishCharacterData.Digit, 1),
+						new WhitespaceRule()
+				));
+
+		RuleResult result = validator.validate(new PasswordData(password));
+
+		if (result.isValid()) {
+			return true;
+		}
+
+		List<String> messages = validator.getMessages(result);
+
+		String messageTemplate = String.join(",", messages);
+		context.buildConstraintViolationWithTemplate(messageTemplate)
+				.addConstraintViolation()
+				.disableDefaultConstraintViolation();
+
+		return false;
+	}
+
+	private MessageResolver loadValidationErrorMessages() {
+		URL resource = this.getClass().getClassLoader().getResource(PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);
+		Objects.requireNonNull(resource, RESOURCE_FILE_NOT_FOUND_ERROR_MSG + PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);
+
+		Properties props = new Properties();
+		try (InputStream is = new FileInputStream(resource.getPath())) {
+			props.load(is);
+		} catch (IOException e) {
+			throw new LifeManagerException(e.getMessage(), e);
+		}
+
+		return new PropertiesMessageResolver(props);
+	}
+}

@@ -1,13 +1,14 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {React, useState} from 'react'
-import {Links} from "./components/Links";
 import {TaskListPage} from "./pages/TaskListPage";
 import {CategoryListPage} from "./pages/categorylist/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
 import {ArchiveCategoryListPage} from "./pages/categorylist/ArchiveCategoryListPage";
 import {NotFoundPage} from "./pages/exception/NotFoundPage";
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import '../node_modules/font-awesome/css/font-awesome.css';
 
 function App() {
 
@@ -17,8 +18,6 @@ function App() {
 
     return (
         <div className="App">
-            <Links />
-
             <NavbarComponent spinnerCall={spinnerCall} />
 
             <Router>

@@ -3,10 +3,9 @@ import {React, useState} from 'react'
 import {Button} from "react-bootstrap";
 import {convertRawCategoriesToMap, FetchRawCategories} from "../Utils";
 import {TaskModal} from "../components/tasklist/TaskModal";
-import {DoneRemoveTaskButtons} from "../components/tasklist/DoneRemoveButtons";
+import {DoneRemoveTaskButtons} from "../components/tasklist/DoneRemoveTaskButtons";
 import {TaskListComponent} from "../components/tasklist/TaskListComponent";
 import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
-import {LoadingPage} from "./LoadingPage";
 import {useAlert} from "react-alert";
 
 /**
