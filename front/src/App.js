@@ -1,5 +1,6 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
 import {React, useState} from 'react'
 import {TaskListPage} from "./pages/TaskListPage";
 import {CategoryListPage} from "./pages/categorylist/CategoryListPage";
@@ -7,8 +8,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
 import {ArchiveCategoryListPage} from "./pages/categorylist/ArchiveCategoryListPage";
 import {NotFoundPage} from "./pages/exception/NotFoundPage";
-import '../node_modules/bootstrap/dist/css/bootstrap.css';
-import '../node_modules/font-awesome/css/font-awesome.css';
+import {LoginRegistrationPage} from "./pages/LoginRegistrationPage";
 
 function App() {
 
@@ -25,6 +25,8 @@ function App() {
                     <Route path="/" element={<TaskListPage showSpinner={showSpinner} />} />
                     <Route path="/categories" element={<CategoryListPage showSpinner={showSpinner} />} />
                     <Route path="/categories/archive" element={<ArchiveCategoryListPage showSpinner={showSpinner} />} />
+                    <Route path="/sign-in" element={<LoginRegistrationPage isRegistration={false}/>} />
+                    <Route path="/sign-up" element={<LoginRegistrationPage isRegistration={true}/>} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </Router>

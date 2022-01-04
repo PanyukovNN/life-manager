@@ -11,7 +11,7 @@ import static org.panyukovnn.lifemanager.model.Constants.PASSWORD_KEY;
 /**
  * Валидатор совпадения пароля и пароля подтверждения
  */
-public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
+public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, User> {
 
     private String message;
 
@@ -21,9 +21,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     }
 
     @Override
-    public boolean isValid(Object obj, ConstraintValidatorContext context) {
-        User user = (User) obj;
-
+    public boolean isValid(User user, ConstraintValidatorContext context) {
         boolean passwordsEquals = Objects.equals(user.getPassword(), user.getConfirmPassword());
 
         if (!passwordsEquals) {

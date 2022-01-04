@@ -22,6 +22,7 @@ export const NavbarComponent = ({spinnerCall}) => {
                             navbarScroll>
                             <Nav.Link href="/">Задачи</Nav.Link>
                             <Nav.Link href="/categories">Управление разделами</Nav.Link>
+                            <Nav.Link href="/sign-up">Регистрация</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                     <div className="navbar-spinner">

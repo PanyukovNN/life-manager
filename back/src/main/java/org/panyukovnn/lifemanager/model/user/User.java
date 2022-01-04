@@ -46,8 +46,14 @@ public class User implements UserDetails, Serializable {
     @NotBlank(message = "Пароль не может быть пустым.")
     private String password;
 
+    /**
+     * Подтверждение пароля.
+     */
     private transient String confirmPassword;
 
+    /**
+     * Код активации (присылается один раз на почтовый ящик при регистрации, после чего остается null)
+     */
     private String activationCode;
 
     private LocalDate creationDate;
