@@ -17,6 +17,7 @@ public final class Constants {
     public static final String CATEGORY_CREATED_UPDATED_SUCCESSFULLY = "Раздел \"%s\" успешно создан/обновлен";
     public static final String CATEGORY_SET_IN_ARCHIVE_SUCCESSFULLY = "Раздел \"%s\" успешно перемещён в архив";
     public static final String STATUS_SET_SUCCESSFULLY = "Успешно установлен статус \"%s\" задачам \"%s\"";
+    public static final String SING_UP_SUCCESSFUL = "Пользователь успешно зарегистрирован.";
 
     /**
      * Текстовки ошибок
@@ -37,7 +38,10 @@ public final class Constants {
     public static final String USER_NOT_FOUND_ERROR = "Пользователь \"%s\" не найден.";
     public static final String USER_NOT_ACTIVATED = "Аккаунт \"%s\" не активирован.";
     public static final String USER_ALREADY_EXISTS = "Пользователь с данным именем уже зарегистрирован.";
-
+    public static final String BLANK_USER_NAME_ERROR_MSG = "Имя пользователя не может быть пустым.";
+    public static final String BLANK_PASSWORD_ERROR_MSG = "Пароль не может быть пустым.";
+    public static final String WRONG_EMAIL_ERROR_MSG = "Некорректный email.";
+    public static final String BLANK_EMAIL_ERROR_MSG = "Email не может быть пустым.";
 
     /**
      * Параметры

@@ -1,53 +1,55 @@
 package org.panyukovnn.lifemanager.service;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.model.user.Role;
+import org.panyukovnn.lifemanager.model.user.RoleName;
 import org.panyukovnn.lifemanager.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Сервис ролей
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoleService {
 
-    private static final String ADMIN = "ADMIN";
-    private static final String USER = "USER";
-    private static final List<Role> roles = List.of(
-            new Role(ADMIN),
-            new Role(USER)
-    );
+    private static final Map<RoleName, Role> roleCache = new HashMap<>();
 
     private final RoleRepository roleRepository;
 
     /**
-     * Создаем роли, которых нет в базе данных
+     * Создаем роли, которых нет в базе данных и заполняем кеш
      */
     @PostConstruct
     private void postConstruct() {
         List<Role> allRoles = roleRepository.findAll();
 
-        roles.forEach(
-                role -> {
-                    boolean roleDoesNotExists = allRoles
-                            .stream()
-                            .noneMatch(ar -> ar.getName().equals(role.getName()));
-                    if (roleDoesNotExists) {
-                        roleRepository.save(role);
-                    }
-                });
+        Arrays.stream(RoleName.values()).forEach(roleName -> allRoles
+                .stream()
+                .filter(ar -> ar.getName().equals(roleName.name()))
+                .findAny()
+                .ifPresentOrElse(
+                        role -> roleCache.put(roleName, role),
+                        () -> {
+                            Role savedRole = roleRepository.save(new Role(roleName.name()));
+                            roleCache.put(roleName, savedRole);
+                        }));
     }
 
-    // TODO добавить кэширование
-    public Role getAdminRole() {
-        return roleRepository.findByName(ADMIN);
-    }
-
-    public Role getUserRole() {
-        return roleRepository.findByName(USER);
+    /**
+     * Возвращает сущность роли по её имени
+     *
+     * @param roleName имя роли
+     * @return сущность роли
+     */
+    public Role findByRoleName(RoleName roleName) {
+        return roleCache.get(roleName);
     }
 }

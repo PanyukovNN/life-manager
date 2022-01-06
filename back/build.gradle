@@ -3,6 +3,7 @@ dependencies {
     implementation library.jjwt
     implementation library.guava
     implementation library.passay
+    implementation library.jasypt
     implementation library.springBootAOP
     implementation library.springBootWeb
     implementation library.springBootDataJpa

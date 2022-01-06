@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.panyukovnn.lifemanager.model.Constants.*;
+
 /**
  * Пользователь
  */
@@ -35,15 +37,15 @@ public class User implements UserDetails, Serializable {
     @Id
     private String id;
 
-    @NotBlank(message = "Имя пользователя не может быть пустым.")
+    @NotBlank(message = BLANK_USER_NAME_ERROR_MSG)
     private String username;
 
-    @Email(message = "Некорректный email.")
-    @NotBlank(message = "Email не может быть пустым.")
+    @Email(message = WRONG_EMAIL_ERROR_MSG)
+    @NotBlank(message = BLANK_EMAIL_ERROR_MSG)
     private String email;
 
     @ValidPassword
-    @NotBlank(message = "Пароль не может быть пустым.")
+    @NotBlank(message = BLANK_PASSWORD_ERROR_MSG)
     private String password;
 
     /**
