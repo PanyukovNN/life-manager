@@ -483,3 +483,14 @@
 .input-group-text:hover {
     cursor: pointer;
 }
+
+.login-registration-form-wrap {
+    width: 450px;
+
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-registration-form-header-wrap {
+    margin-bottom: 60px;
+}

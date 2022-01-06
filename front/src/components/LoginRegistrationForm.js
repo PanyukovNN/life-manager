@@ -11,22 +11,25 @@ import {Button, Form} from "react-bootstrap";
  */
 export const LoginRegistrationForm = ({isRegistration}) => {
 
+    // const nameInput = (
+    //     <div className="mt-3">
+    //         <div className="">
+    //             <input type="text" className="form-control feedback-valid registration-form-input" id="name" name="name"
+    //                    placeholder="Имя" value={user ? user.name : ""}/>
+    //             <div className="invalid-feedback" id="nameError"></div>
+    //         </div>
+    //     </div>
+    // );
+
     return (
         <Form className="login-form">
 
-            <div className="d-flex justify-content-center">
-                <h5>{isRegistration ? "Регистрация" : "Вход"}</h5>
+            <div className="d-flex justify-content-center login-registration-form-header-wrap">
+                <h3>{isRegistration ? "Регистрация" : "Вход"}</h3>
             </div>
 
-            {/*<div style="margin-top: 60px"></div>*/}
-
-            {/*/!*Поле ввода имени*!/*/}
-            {/*<div class="mt-3" th:if="${isRegistration}">*/}
-            {/*    <div class="">*/}
-            {/*        <input type="text" class="form-control feedback-valid registration-form-input" id="name" name="name" placeholder="Имя" th:value="${user} ? ${user.name}"/>*/}
-            {/*        <div class="invalid-feedback" id="nameError"></div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            {/*Поле ввода имени*/}
+            {/*{isRegistration ? nameInput : ""}*/}
 
             {/*/!*Поле ввода email*!/*/}
             {/*<div class="mt-3">*/}

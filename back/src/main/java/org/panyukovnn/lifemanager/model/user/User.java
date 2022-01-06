@@ -29,11 +29,11 @@ import java.util.Set;
 @ToString
 @PasswordMatches
 @NoArgsConstructor
-@Document(collection = "usr")
+@Document(collection = "user_details")
 public class User implements UserDetails, Serializable {
 
     @Id
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Имя пользователя не может быть пустым.")
     private String username;

@@ -18,9 +18,15 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Регистрация пользователя
+     *
+     * @param user пользователь
+     * @return сообщение об успешной регистрации
+     */
     @PostMapping("/sign-up")
-    public String createUpdateUser(@Valid @RequestBody User user) {
-        userService.createUpdateUser(user);
+    public String signUp(@Valid @RequestBody User user) {
+        userService.signUp(user);
 
         return "Пользователь успешно создан/обновлен.";
     }

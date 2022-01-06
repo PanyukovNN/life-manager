@@ -8,7 +8,7 @@ ext.library = [
         'springBootDataJpa':'org.springframework.boot:spring-boot-starter-data-jpa:2.6.0',
         'springBootDataMongo':'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.0',
         'springBootValidation':'org.springframework.boot:spring-boot-starter-validation',
-        'springBootSecurity':'org.springframework.security:spring-security-core:5.5.1',
+        'springBootSecurity':'org.springframework.boot:spring-boot-starter-security',
         'springBootAOP':'org.springframework.boot:spring-boot-starter-aop',
         'springSwagger':'io.springfox:springfox-swagger2:3.0.0',
         'springSwaggerUI':'io.springfox:springfox-swagger-ui:3.0.0',
@@ -26,12 +26,16 @@ ext.library = [
 
         // Валидатор паролей
         'passay':'org.passay:passay:1.6.0',
+
+        // Поддержка JWT
+        'jjwt' : 'io.jsonwebtoken:jjwt:0.9.1'
+
 ]
 
 ext.libraryTest = [
-//        'mockito' : 'org.mockito:mockito-all:2.1.0',
-//        'powerMockito' : 'org.powermock:powermock-api-mockito:1.7.4',
-//        'powerMockitoJunit' : 'org.powermock:powermock-module-junit4:1.7.4',
+        'mockito' : 'org.mockito:mockito-all:2.1.0',
+        'powerMockito' : 'org.powermock:powermock-api-mockito:1.7.4',
+        'powerMockitoJunit' : 'org.powermock:powermock-module-junit4:1.7.4',
         'junit5api' : 'org.junit.jupiter:junit-jupiter-api:5.3.1',
         'junit5engine' : 'org.junit.jupiter:junit-jupiter-engine:5.3.1',
         'springBootTest' : 'org.springframework.boot:spring-boot-starter-test',

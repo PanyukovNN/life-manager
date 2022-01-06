@@ -12,8 +12,8 @@ export const LoginRegistrationPage = ({isRegistration}) => {
 
 
     return (
-        <div className="loading-page-wrap">
-        <LoginRegistrationForm isRegistration={isRegistration}/>
+        <div className="login-registration-form-wrap">
+            <LoginRegistrationForm isRegistration={isRegistration}/>
         </div>
     );
 }
