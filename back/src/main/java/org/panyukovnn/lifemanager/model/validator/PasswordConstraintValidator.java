@@ -8,7 +8,9 @@ import javax.validation.ConstraintValidatorContext;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
@@ -53,9 +55,10 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 		URL resource = this.getClass().getClassLoader().getResource(PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);
 		Objects.requireNonNull(resource, RESOURCE_FILE_NOT_FOUND_ERROR_MSG + PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);
 
-		try (InputStream is = new FileInputStream(resource.getPath())) {
+		try (InputStream is = new FileInputStream(resource.getPath());
+			 InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8)) {
 			Properties props = new Properties();
-			props.load(is);
+			props.load(isr);
 
 			return new PropertiesMessageResolver(props);
 		} catch (IOException e) {

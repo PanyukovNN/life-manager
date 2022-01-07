@@ -13,10 +13,18 @@ import java.util.Optional;
 public interface UserRepository extends MongoRepository<User, String> {
 
     /**
-     * Находит пользователя по имени без учета регистра
+     * Находит пользователя по имени (без учета регистра)
      *
      * @param username имя пользователя
      * @return пользователь
      */
     Optional<User> findByUsernameIgnoreCase(String username);
+
+    /**
+     * Существует ли пользовать с данным email (без учета регистра)
+     *
+     * @param email почта пользователя
+     * @return существует ли пользователья
+     */
+    Boolean existsByEmailIgnoreCase(String email);
 }

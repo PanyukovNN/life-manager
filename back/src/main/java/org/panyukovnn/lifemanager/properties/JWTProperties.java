@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Настройки JWT
+ * Настройки JWT.
  */
 @Getter
 @Setter

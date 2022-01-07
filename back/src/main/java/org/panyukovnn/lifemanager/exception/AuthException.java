@@ -3,16 +3,16 @@ package org.panyukovnn.lifemanager.exception;
 import lombok.NoArgsConstructor;
 
 /**
- * Исключение при не активном аккаунте пользователя
+ * Исключение при регистрации/аутентификации
  */
 @NoArgsConstructor
-public class UserServiceException extends LifeManagerException {
+public class AuthException extends LifeManagerException {
 
     /**
      * Конструктор
      * @param message сообщение
      */
-    public UserServiceException(String message) {
+    public AuthException(String message) {
         super(message);
     }
 
@@ -21,7 +21,7 @@ public class UserServiceException extends LifeManagerException {
      * @param message сообщение
      * @param e исключение
      */
-    public UserServiceException(String message, Exception e) {
+    public AuthException(String message, Exception e) {
         super(message, e);
     }
 }

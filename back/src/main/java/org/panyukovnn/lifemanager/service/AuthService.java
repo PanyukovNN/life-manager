@@ -3,8 +3,7 @@ package org.panyukovnn.lifemanager.service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.panyukovnn.lifemanager.exception.UserServiceException;
-import org.panyukovnn.lifemanager.model.Constants;
+import org.panyukovnn.lifemanager.exception.AuthException;
 import org.panyukovnn.lifemanager.model.user.RoleName;
 import org.panyukovnn.lifemanager.model.user.User;
 import org.panyukovnn.lifemanager.properties.JWTProperties;
@@ -13,26 +12,23 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
+import java.util.TimeZone;
 
-import static org.panyukovnn.lifemanager.model.Constants.USER_ALREADY_EXISTS;
-import static org.panyukovnn.lifemanager.model.Constants.USER_NOT_FOUND_ERROR;
+import static org.panyukovnn.lifemanager.model.Constants.USER_ALREADY_EXISTS_BY_EMAIL;
+import static org.panyukovnn.lifemanager.model.Constants.USER_ALREADY_EXISTS_BY_NAME;
 
 /**
- * Сервис пользователей.
+ * Сервис аутентификации.
  */
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class AuthService {
 
     private final RoleService roleService;
     private final JWTProperties jwtProperties;
@@ -40,41 +36,43 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameIgnoreCase(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_ERROR, username)));
-
-        if (user.getActivationCode() != null) {
-            throw new UserServiceException(String.format(Constants.USER_NOT_ACTIVATED, username));
-        }
-
-        return user;
-    }
-
     /**
      * Регистрация пользователя.
+     *
+     * @param userTemplate частично заполненная сущность пользователя
+     * @param timeZone частовой пояс пользователя
      */
-    public void signUp(User user) {
-        userRepository.findByUsernameIgnoreCase(user.getUsername())
+    public void signUp(User userTemplate, TimeZone timeZone) {
+        userRepository.findByUsernameIgnoreCase(userTemplate.getUsername())
                 .ifPresent(u -> {
-                    throw new UserServiceException(USER_ALREADY_EXISTS);
+                    throw new AuthException(USER_ALREADY_EXISTS_BY_NAME);
                 });
 
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(Set.of(roleService.findByRoleName(RoleName.USER)));
+        boolean existsWithEmail = userRepository.existsByEmailIgnoreCase(userTemplate.getEmail());
 
-        userRepository.save(user);
+        if (existsWithEmail) {
+            throw new AuthException(USER_ALREADY_EXISTS_BY_EMAIL);
+        }
+
+        userTemplate.setPassword(bCryptPasswordEncoder.encode(userTemplate.getPassword()));
+        userTemplate.setRoles(Set.of(roleService.findByRoleName(RoleName.USER)));
+        userTemplate.setConfirmPassword(null);
+        userTemplate.setCreationDate(LocalDate.now(timeZone.toZoneId()));
+        //TODO подтверждение по email
+        userTemplate.setActivationCode(null);
+
+        userRepository.save(userTemplate);
     }
 
     /**
-     * Провести аутентификацию пользователя
+     * Провести аутентификацию пользователя.
      *
      * @param username имя пользователя
      * @param password пароль
+     * @param timeZone частовой пояс пользователя
      * @return jwt токен
      */
-    public String authenticateUser(String username, String password) {
+    public String signIn(String username, String password, TimeZone timeZone) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authToken);
 
@@ -82,17 +80,18 @@ public class UserService implements UserDetailsService {
 
         User user = (User) authentication.getPrincipal();
 
-        return generateToken(user.getUsername());
+        return generateToken(user.getUsername(), timeZone);
     }
 
     /**
-     * Сгенерировать токен пользователя
+     * Сгенерировать токен пользователя.
      *
      * @param username имя пользователя
+     * @param timeZone часовой пояс пользователя
      * @return JWT токен
      */
-    private String generateToken(String username) {
-        Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    private String generateToken(String username, TimeZone timeZone) {
+        Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(timeZone.toZoneId()).toInstant());
 
         return Jwts.builder()
                 .setSubject(username)

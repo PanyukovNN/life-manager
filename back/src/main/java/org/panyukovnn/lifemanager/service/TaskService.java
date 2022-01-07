@@ -28,7 +28,7 @@ import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_D_FORMAT
 import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_T_FORMATTER;
 
 /**
- * Сервис задач
+ * Сервис задач.
  */
 @Service
 public class TaskService {
@@ -38,7 +38,7 @@ public class TaskService {
     private final TaskCompareStrategyResolver compareStrategyResolver;
 
     /**
-     * Конструктор
+     * Конструктор.
      *
      * @param taskRepository репозиторий задач
      * @param mongoTemplate операции для работы с монго запросами
@@ -53,7 +53,7 @@ public class TaskService {
     }
 
     /**
-     * Создать/обновить задачу
+     * Создать/обновить задачу.
      *
      * @param rawTask задача, сформированная из запроса
      * @param timeZone часовой пояс клиента
@@ -77,8 +77,8 @@ public class TaskService {
     }
 
     /**
-     * Поиск задач по набору параметров
-     * Если какой либо из параметров равен null, то он не учитывается
+     * Поиск задач по набору параметров.
+     * Если какой либо из параметров равен null, то он не учитывается.
      *
      * @param params параметры поиска задач
      * @return список задач
@@ -124,7 +124,7 @@ public class TaskService {
     }
 
     /**
-     * Изменяет статус задач
+     * Изменяет статус задач.
      *
      * @param ids список идентификаторов задач
      * @param status статус
@@ -139,7 +139,7 @@ public class TaskService {
     }
 
     /**
-     * Вернуть все задачи, отсортированные сначала по приоритету, затем по дате
+     * Вернуть все задачи, отсортированные сначала по приоритету, затем по дате.
      *
      * @param compareType способ сортировки задач
      * @return список задач
@@ -152,7 +152,7 @@ public class TaskService {
     }
 
     /**
-     * Удалить задачу по идентификатору
+     * Удалить задачу по идентификатору.
      *
      * @param id идентификатор
      */
@@ -161,7 +161,7 @@ public class TaskService {
     }
 
     /**
-     * Удалить задачи по списку идентификаторов
+     * Удалить задачи по списку идентификаторов.
      *
      * @param ids список идентификаторов
      */
@@ -170,7 +170,7 @@ public class TaskService {
     }
 
     /**
-     * Конвертировать задачу в транспортный объект
+     * Конвертировать задачу в транспортный объект.
      *
      * @param task задача
      * @param timeZone часовой пояс клиента

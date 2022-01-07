@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.panyukovnn.lifemanager.model.user.User;
 import org.panyukovnn.lifemanager.repository.UserRepository;
-import org.panyukovnn.lifemanager.service.UserService;
+import org.panyukovnn.lifemanager.service.LifeManagerUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,17 +21,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerIntegrationTest {
+public class AuthControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private UserController userController;
+    private AuthController authController;
 
     @MockBean
-    private UserService userService;
+    private LifeManagerUserDetailService lifeManagerUserDetailService;
     @MockBean
     private UserRepository userRepository;
 

@@ -5,7 +5,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.panyukovnn.lifemanager.properties.JWTProperties;
-import org.panyukovnn.lifemanager.service.UserService;
+import org.panyukovnn.lifemanager.service.LifeManagerUserDetailService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,12 +25,12 @@ import java.io.IOException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtFilter extends GenericFilterBean {
+public class JWTFilter extends GenericFilterBean {
 
     private static final String BEARER = "Bearer ";
     private static final String AUTHORIZATION = "Authorization";
 
-    private final UserService userService;
+    private final LifeManagerUserDetailService lifeManagerUserDetailService;
     private final JWTProperties jwtProperties;
 
     @Override
@@ -39,7 +39,7 @@ public class JwtFilter extends GenericFilterBean {
 
         if (token != null && validateToken(token)) {
             String userLogin = getLoginFromToken(token);
-            UserDetails customUserDetails = userService.loadUserByUsername(userLogin);
+            UserDetails customUserDetails = lifeManagerUserDetailService.loadUserByUsername(userLogin);
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
@@ -57,18 +57,18 @@ public class JwtFilter extends GenericFilterBean {
         return null;
     }
 
-    public boolean validateToken(String token) {
+    private boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(jwtProperties.getSecret()).parseClaimsJws(token);
 
             return true;
-        } catch (ExpiredJwtException expEx) {
+        } catch (ExpiredJwtException e) {
             log.error("Token expired");
-        } catch (UnsupportedJwtException unsEx) {
+        } catch (UnsupportedJwtException e) {
             log.error("Unsupported jwt");
-        } catch (MalformedJwtException mjEx) {
+        } catch (MalformedJwtException e) {
             log.error("Malformed jwt");
-        } catch (SignatureException sEx) {
+        } catch (SignatureException e) {
             log.error("Invalid signature");
         } catch (Exception e) {
             log.error("invalid token");
@@ -77,7 +77,7 @@ public class JwtFilter extends GenericFilterBean {
         return false;
     }
 
-    public String getLoginFromToken(String token) {
+    private String getLoginFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtProperties.getSecret()).parseClaimsJws(token).getBody();
 
         return claims.getSubject();

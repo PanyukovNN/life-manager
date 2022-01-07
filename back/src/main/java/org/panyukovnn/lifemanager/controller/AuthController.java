@@ -5,33 +5,35 @@ import org.panyukovnn.lifemanager.model.request.AuthRequest;
 import org.panyukovnn.lifemanager.model.request.UserSignUpRequest;
 import org.panyukovnn.lifemanager.model.response.AuthResponse;
 import org.panyukovnn.lifemanager.model.user.User;
-import org.panyukovnn.lifemanager.service.UserService;
+import org.panyukovnn.lifemanager.service.AuthService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.SING_UP_SUCCESSFUL;
 
 /**
  * Контроллер пользователей
  */
-@RestController("/user")
+@CrossOrigin
+@RestController
+@RequestMapping("/auth")
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     /**
      * Регистрация пользователя
      *
      * @param request запрос
+     * @param timeZone частовой пояс пользователя
      * @return сообщение об успешной регистрации
      */
     @PostMapping("/sign-up")
-    public String signUp(@Valid @RequestBody UserSignUpRequest request) {
+    public String signUp(@Valid @RequestBody UserSignUpRequest request, TimeZone timeZone) {
         User user = new User();
         user.setId(request.getId());
         user.setUsername(request.getUsername());
@@ -39,7 +41,7 @@ public class UserController {
         user.setPassword(request.getPassword());
         user.setConfirmPassword(request.getConfirmPassword());
 
-        userService.signUp(user);
+        authService.signUp(user, timeZone);
 
         return SING_UP_SUCCESSFUL;
     }
@@ -48,11 +50,12 @@ public class UserController {
      * Аутентификация пользователя
      *
      * @param request запрос на аутентификацию пользователя
+     * @param timeZone частовой пояс пользователя
      * @return ответ с токеном
      */
-    @PostMapping("/auth")
-    public ResponseEntity<AuthResponse> auth(@RequestBody @Valid AuthRequest request) {
-        String jwtToken = userService.authenticateUser(request.getUsername(), request.getPassword());
+    @PostMapping("/sign-in")
+    public ResponseEntity<AuthResponse> signIn(@RequestBody @Valid AuthRequest request, TimeZone timeZone) {
+        String jwtToken = authService.signIn(request.getUsername(), request.getPassword(), timeZone);
 
         AuthResponse response = new AuthResponse(jwtToken);
 
