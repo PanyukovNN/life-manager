@@ -28,7 +28,7 @@ import static org.panyukovnn.lifemanager.model.Constants.USER_ALREADY_EXISTS;
 import static org.panyukovnn.lifemanager.model.Constants.USER_NOT_FOUND_ERROR;
 
 /**
- * Сервис пользователей
+ * Сервис пользователей.
  */
 @Service
 @RequiredArgsConstructor
@@ -40,23 +40,6 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    /**
-     * Регистрация пользователя
-     *
-     * @return зарегистрированный пользователь
-     */
-    public User signUp(User user) {
-        userRepository.findByUsernameIgnoreCase(user.getEmail())
-                .ifPresent(u -> {
-                    throw new UserServiceException(USER_ALREADY_EXISTS);
-                });
-
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(Set.of(roleService.findByRoleName(RoleName.USER)));
-
-        return userRepository.save(user);
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsernameIgnoreCase(username)
@@ -67,6 +50,21 @@ public class UserService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    /**
+     * Регистрация пользователя.
+     */
+    public void signUp(User user) {
+        userRepository.findByUsernameIgnoreCase(user.getUsername())
+                .ifPresent(u -> {
+                    throw new UserServiceException(USER_ALREADY_EXISTS);
+                });
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(Set.of(roleService.findByRoleName(RoleName.USER)));
+
+        userRepository.save(user);
     }
 
     /**

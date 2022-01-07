@@ -53,13 +53,13 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 		URL resource = this.getClass().getClassLoader().getResource(PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);
 		Objects.requireNonNull(resource, RESOURCE_FILE_NOT_FOUND_ERROR_MSG + PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);
 
-		Properties props = new Properties();
 		try (InputStream is = new FileInputStream(resource.getPath())) {
+			Properties props = new Properties();
 			props.load(is);
+
+			return new PropertiesMessageResolver(props);
 		} catch (IOException e) {
 			throw new LifeManagerException(e.getMessage(), e);
 		}
-
-		return new PropertiesMessageResolver(props);
 	}
 }

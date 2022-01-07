@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.panyukovnn.lifemanager.model.validator.PasswordMatches;
-import org.panyukovnn.lifemanager.model.validator.ValidPassword;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,15 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
-
-import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
  * Пользователь
@@ -32,20 +26,13 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
 @PasswordMatches
 @NoArgsConstructor
 @Document(collection = "user_details")
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails {
 
     @Id
     private String id;
 
-    @NotBlank(message = BLANK_USER_NAME_ERROR_MSG)
     private String username;
-
-    @Email(message = WRONG_EMAIL_ERROR_MSG)
-    @NotBlank(message = BLANK_EMAIL_ERROR_MSG)
     private String email;
-
-    @ValidPassword
-    @NotBlank(message = BLANK_PASSWORD_ERROR_MSG)
     private String password;
 
     /**
