@@ -1,17 +1,17 @@
 package org.panyukovnn.lifemanager.model.validator;
 
-import org.panyukovnn.lifemanager.model.user.User;
+import org.panyukovnn.lifemanager.model.request.UserSignUpRequest;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Objects;
 
-import static org.panyukovnn.lifemanager.model.Constants.PASSWORD_KEY;
+import static org.panyukovnn.lifemanager.model.Constants.CONFIRM_PASSWORD_KEY;
 
 /**
  * Валидатор совпадения пароля и пароля подтверждения
  */
-public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, User> {
+public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, UserSignUpRequest> {
 
     private String message;
 
@@ -21,13 +21,13 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     }
 
     @Override
-    public boolean isValid(User user, ConstraintValidatorContext context) {
-        boolean passwordsEquals = Objects.equals(user.getPassword(), user.getConfirmPassword());
+    public boolean isValid(UserSignUpRequest request, ConstraintValidatorContext context) {
+        boolean passwordsEquals = Objects.equals(request.getPassword(), request.getConfirmPassword());
 
         if (!passwordsEquals) {
             context
                     .buildConstraintViolationWithTemplate(message)
-                    .addPropertyNode(PASSWORD_KEY)
+                    .addPropertyNode(CONFIRM_PASSWORD_KEY)
                     .addConstraintViolation()
                     .disableDefaultConstraintViolation();
         }

@@ -56,7 +56,6 @@ public class AuthService {
 
         userTemplate.setPassword(bCryptPasswordEncoder.encode(userTemplate.getPassword()));
         userTemplate.setRoles(Set.of(roleService.findByRoleName(RoleName.USER)));
-        userTemplate.setConfirmPassword(null);
         userTemplate.setCreationDate(LocalDate.now(timeZone.toZoneId()));
         //TODO подтверждение по email
         userTemplate.setActivationCode(null);

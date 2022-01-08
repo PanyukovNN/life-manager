@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.panyukovnn.lifemanager.model.validator.PasswordMatches;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +22,6 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@PasswordMatches
 @NoArgsConstructor
 @Document(collection = "user_details")
 public class User implements UserDetails {
@@ -34,11 +32,6 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
-
-    /**
-     * Подтверждение пароля.
-     */
-    private transient String confirmPassword;
 
     /**
      * Код активации (присылается один раз на почтовый ящик при регистрации, после чего остается null)

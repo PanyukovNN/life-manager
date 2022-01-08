@@ -5,9 +5,12 @@ import {DONE_TASK_STATUS} from "../../Constants";
 import removeIcon from "../../resources/icon/remove.svg.png";
 import readyIcon from "../../resources/icon/ready.svg";
 import {useAlert} from "react-alert";
+import getAccessToken from "../../services/AuthHeader";
+import axios from "axios";
 
 /**
  * Кнопки "изменить статус на 'выполнено'" и "удалить"
+ *
  * @param refreshTaskList хук обновления списка задач
  * @param checkedTaskIds список идентификаторов выбранных задач
  * @param disabled флаг отключения кнопок
@@ -24,14 +27,21 @@ export const DoneRemoveTaskButtons = ({refreshTaskList, checkedTaskIds, disabled
             status: DONE_TASK_STATUS
         };
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body)
-        };
+        await axios.post("http://localhost:80/api/task/set-status",
+            JSON.stringify(body),
+            {
+                headers : {'Authorization': getAccessToken(), 'Content-Type': 'application/json'}
+            })
+            .then((response) => {
+                if (response.status !== 200) {
+                    throw response;
+                }
 
-        await fetch("http://localhost:80/api/task/set-status", requestOptions)
-            .then((response) => response.text().then(text => alert.show(text)));
+                alert.show(response.data)
+            })
+            .catch((error) => {
+                alert.show(error.response.data.message)
+            });
 
         refreshTaskList();
     }
@@ -47,14 +57,21 @@ export const DoneRemoveTaskButtons = ({refreshTaskList, checkedTaskIds, disabled
             ids: checkedTaskIds
         };
 
-        const requestOptions = {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body)
-        };
+        await axios.delete("http://localhost:80/api/task/delete-by-ids",{
+            data: JSON.stringify(body),
+            headers : {'Authorization': getAccessToken(), 'Content-Type': 'application/json'}
+        })
+            .then((response) => {
+                console.log(response)
+                if (response.status !== 200) {
+                    throw response;
+                }
 
-        await fetch("http://localhost:80/api/task/delete-by-ids", requestOptions)
-            .then((response) => response.text().then(text => alert.show(text)));
+                alert.show(response.data)
+            })
+            .catch((error) => {
+                alert.show(error.response.data.message)
+            });
 
         refreshTaskList();
     }

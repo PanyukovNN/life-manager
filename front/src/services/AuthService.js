@@ -1,16 +1,34 @@
 import axios from "axios";
+import getAccessToken from "./AuthHeader";
 
 const API_URL = "http://localhost/api/auth/";
 
-const register = (username, email, password) => {
+/**
+ * Запрос на регистрацию пользователя
+ *
+ * @param username имя пользователя
+ * @param email почтовый ящик
+ * @param password пароль
+ * @param comfirmPassword подтверждение пароля
+ * @returns ответ на запрос
+ */
+const signUp = (username, email, password, comfirmPassword) => {
     return axios.post(API_URL + "sign-up", {
         username,
         email,
         password,
+        comfirmPassword
     });
 };
 
-const login = (username, password) => {
+/**
+ * Запрос на аутентификаци
+ *
+ * @param username имя пользователя
+ * @param password пароль
+ * @returns ответ на запрос
+ */
+const signIn = (username, password) => {
     return axios
         .post(API_URL + "sign-in", {
             username,
@@ -25,23 +43,26 @@ const login = (username, password) => {
         });
 };
 
-const logout = () => {
+/**
+ * Выход пользователя
+ */
+const signOut = () => {
     localStorage.removeItem("user");
     window.location.href = "/sign-in";
 };
 
+/**
+ * Аутентифицирован ли пользователь
+ *
+ * @returns {boolean} аутентифицирован ли пользователь
+ */
 const isLoggedIn = () => {
-    return localStorage.getItem("user") !== null;
+    return getAccessToken() !== null;
 }
 
-const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
-};
-
 export default {
-    register,
-    login,
-    logout,
-    isLoggedIn,
-    getCurrentUser,
+    signUp,
+    signIn,
+    signOut,
+    isLoggedIn
 };

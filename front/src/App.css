@@ -484,33 +484,47 @@
     cursor: pointer;
 }
 
-.login-form-profile-icon {
+.sign-form-profile-icon {
     width: 80px;
     height: 80px;
 
     opacity: .5;
     margin-bottom: 30px;
 }
-.login-registration-form-wrap {
+.sign-form-wrap {
     width: 420px;
 
-    margin-top: 60px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 60px auto;
 
     padding: 60px;
     box-shadow: 0 3px 50px 0 rgba(0,0,0,.1);
     text-align: center;
     border-radius: 5px
 }
-.login-registration-form-header-wrap {
+.sign-form-header-wrap {
     margin-bottom: 40px;
 }
-.login-registration-from-fa-input-icon-wrap {
+.sign-from-fa-input-icon-wrap {
     width: 40px;
     height: 38px !important;
 }
-.login-registration-from-fa-input-icon {
+.sign-from-fa-lock-icon {
     text-align: center;
     line-height: 1.5 !important;
+    opacity: .7;
+}
+.sign-form-login-label-icon {
+    width: 15px;
+    height: 16px;
+}
+
+.profile-page-wrap {
+    width: 420px;
+
+    margin: 60px auto;
+
+    padding: 60px;
+    box-shadow: 0 3px 50px 0 rgba(0,0,0,.1);
+    text-align: center;
+    border-radius: 5px
 }

@@ -8,8 +8,9 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
 import {ArchiveCategoryListPage} from "./pages/categorylist/ArchiveCategoryListPage";
 import {NotFoundPage} from "./pages/exception/NotFoundPage";
-import {LoginPage} from "./pages/LoginPage";
+import {LoginPage} from "./pages/auth/LoginPage";
 import RequireAuth from "./services/RequireAuth";
+import {RegistrationPage} from "./pages/auth/RegistratioinPage";
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
 
                     <Route path="*" element={<NotFoundPage />} />
                     <Route path="/sign-in" element={<LoginPage />} />
-                    {/*<Route path="/sign-up" component={<RegisterPage />} />*/}
+                    <Route path="/sign-up" element={<RegistrationPage />} />
                     {/*<Route path="/profile" component={<Profile />} />*/}
                 </Routes>
             </Router>

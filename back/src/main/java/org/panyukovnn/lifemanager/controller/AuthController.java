@@ -39,7 +39,6 @@ public class AuthController {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setConfirmPassword(request.getConfirmPassword());
 
         authService.signUp(user, timeZone);
 

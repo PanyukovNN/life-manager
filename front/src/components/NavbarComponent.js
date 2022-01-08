@@ -1,6 +1,6 @@
 import '../App.css';
 import {React} from 'react';
-import {Container, Nav, Navbar, Spinner} from "react-bootstrap";
+import {Container, Nav, Navbar, Spinner, Button} from "react-bootstrap";
 import AuthService from "../services/AuthService";
 
 /**
@@ -29,7 +29,11 @@ export const NavbarComponent = ({spinnerCall}) => {
                         </Nav>
                         <Nav style={{position: 'absolute', right: '20px'}}>
                             {!auth && <Nav.Link style={{marginLeft: 'auto'}} href="/sign-in">Вход</Nav.Link>}
-                            {auth && <Nav.Link onClick={AuthService.logout}>Выйти</Nav.Link>}
+                            {!auth && <a style={{marginLeft: '20px'}} href="/sign-up">
+                                    <Button variant="outline-secondary">Регистрация</Button>
+                                </a>
+                            }
+                            {auth && <Nav.Link onClick={AuthService.signOut}>Выйти</Nav.Link>}
                         </Nav>
                     </Navbar.Collapse>
                     <div className="navbar-spinner">

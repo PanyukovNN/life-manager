@@ -36,12 +36,12 @@ public final class Constants {
     public static final String RESOURCE_FILE_NOT_FOUND_ERROR_MSG = "Не найден файл ресурсов ";
     public static final String USER_NOT_FOUND_ERROR = "Пользователь \"%s\" не найден.";
     public static final String USER_NOT_ACTIVATED = "Аккаунт \"%s\" не активирован.";
-    public static final String USER_ALREADY_EXISTS_BY_NAME = "Пользователь с данным именем уже зарегистрирован.";
-    public static final String USER_ALREADY_EXISTS_BY_EMAIL = "Пользователь с данным почтовым ящиком уже зарегистрирован.";
-    public static final String BLANK_USER_NAME_ERROR_MSG = "Имя пользователя не может быть пустым.";
-    public static final String BLANK_PASSWORD_ERROR_MSG = "Пароль не может быть пустым.";
-    public static final String WRONG_EMAIL_ERROR_MSG = "Некорректный email.";
-    public static final String BLANK_EMAIL_ERROR_MSG = "Email не может быть пустым.";
+    public static final String USER_ALREADY_EXISTS_BY_NAME = "Пользователь с данным именем уже зарегистрирован";
+    public static final String USER_ALREADY_EXISTS_BY_EMAIL = "Пользователь с данным почтовым ящиком уже зарегистрирован";
+    public static final String BLANK_USER_NAME_ERROR_MSG = "Имя пользователя не может быть пустым";
+    public static final String BLANK_PASSWORD_ERROR_MSG = "Пароль не может быть пустым";
+    public static final String WRONG_EMAIL_ERROR_MSG = "Некорректный email";
+    public static final String BLANK_EMAIL_ERROR_MSG = "Email не может быть пустым";
 
     /**
      * Параметры
@@ -50,7 +50,7 @@ public final class Constants {
     public static final String PRIORITY = "priority";
     public static final String CATEGORY_NAME = "categoryName";
     public static final String PLANNED_DATE = "plannedDate";
-    public static final String PASSWORD_KEY = "password";
+    public static final String CONFIRM_PASSWORD_KEY = "confirmPassword";
 
 
     /**

@@ -3,6 +3,7 @@ package org.panyukovnn.lifemanager.model.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.panyukovnn.lifemanager.model.validator.PasswordMatches;
 import org.panyukovnn.lifemanager.model.validator.ValidPassword;
 
 import javax.validation.constraints.Email;
@@ -15,6 +16,7 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
  */
 @Getter
 @Setter
+@PasswordMatches
 @NoArgsConstructor
 public class UserSignUpRequest {
 
