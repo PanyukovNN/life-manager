@@ -1,17 +1,17 @@
 package org.panyukovnn.lifemanager.model.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Ответ на аутентификацию пользователя
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthResponse {
 
 	/**
-	 * Индивидуальный jwt токен
+	 * JWT токен доступа
 	 */
-	private String token;
+	private final String accessToken;
 }

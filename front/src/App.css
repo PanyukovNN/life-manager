@@ -484,13 +484,33 @@
     cursor: pointer;
 }
 
+.login-form-profile-icon {
+    width: 80px;
+    height: 80px;
+
+    opacity: .5;
+    margin-bottom: 30px;
+}
 .login-registration-form-wrap {
-    width: 450px;
+    width: 420px;
 
     margin-top: 60px;
     margin-left: auto;
     margin-right: auto;
+
+    padding: 60px;
+    box-shadow: 0 3px 50px 0 rgba(0,0,0,.1);
+    text-align: center;
+    border-radius: 5px
 }
 .login-registration-form-header-wrap {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+}
+.login-registration-from-fa-input-icon-wrap {
+    width: 40px;
+    height: 38px !important;
+}
+.login-registration-from-fa-input-icon {
+    text-align: center;
+    line-height: 1.5 !important;
 }

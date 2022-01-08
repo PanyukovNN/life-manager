@@ -8,13 +8,14 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
 import {ArchiveCategoryListPage} from "./pages/categorylist/ArchiveCategoryListPage";
 import {NotFoundPage} from "./pages/exception/NotFoundPage";
-import {LoginRegistrationPage} from "./pages/LoginRegistrationPage";
+import {LoginPage} from "./pages/LoginPage";
+import RequireAuth from "./services/RequireAuth";
 
 function App() {
 
     const [spinnerCall, showSpinner] = useState(false);
 
-    console.log(new Date().getTimezoneOffset())
+    // console.log(new Date().getTimezoneOffset())
 
     return (
         <div className="App">
@@ -22,12 +23,14 @@ function App() {
 
             <Router>
                 <Routes>
-                    <Route path="/" element={<TaskListPage showSpinner={showSpinner} />} />
-                    <Route path="/categories" element={<CategoryListPage showSpinner={showSpinner} />} />
-                    <Route path="/categories/archive" element={<ArchiveCategoryListPage showSpinner={showSpinner} />} />
-                    <Route path="/sign-in" element={<LoginRegistrationPage isRegistration={false}/>} />
-                    <Route path="/sign-up" element={<LoginRegistrationPage isRegistration={true}/>} />
+                    <Route exact path='/' element={<RequireAuth><TaskListPage showSpinner={showSpinner} /></RequireAuth>}/>
+                    <Route path="/categories" element={<RequireAuth><CategoryListPage showSpinner={showSpinner} /></RequireAuth>} />
+                    <Route path="/categories/archive" element={<RequireAuth><ArchiveCategoryListPage showSpinner={showSpinner} /></RequireAuth>} />
+
                     <Route path="*" element={<NotFoundPage />} />
+                    <Route path="/sign-in" element={<LoginPage />} />
+                    {/*<Route path="/sign-up" component={<RegisterPage />} />*/}
+                    {/*<Route path="/profile" component={<Profile />} />*/}
                 </Routes>
             </Router>
         </div>

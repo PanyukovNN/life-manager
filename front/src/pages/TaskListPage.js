@@ -34,7 +34,6 @@ export const TaskListPage = ({showSpinner}) => {
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalTask, setModalTask] = useState(null);
 
-
     return (
         <div className="TaskListPage">
             <div className="filter-form-block">

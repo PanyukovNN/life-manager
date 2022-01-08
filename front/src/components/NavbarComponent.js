@@ -1,7 +1,7 @@
 import '../App.css';
 import {React} from 'react';
 import {Container, Nav, Navbar, Spinner} from "react-bootstrap";
-import {LoadingPage} from "../pages/LoadingPage";
+import AuthService from "../services/AuthService";
 
 /**
  * Навигационная панель
@@ -10,6 +10,8 @@ import {LoadingPage} from "../pages/LoadingPage";
  * @returns {*} компонент навигационной панели
  */
 export const NavbarComponent = ({spinnerCall}) => {
+
+    let auth = AuthService.isLoggedIn();
 
     return (
         <>
@@ -22,7 +24,12 @@ export const NavbarComponent = ({spinnerCall}) => {
                             navbarScroll>
                             <Nav.Link href="/">Задачи</Nav.Link>
                             <Nav.Link href="/categories">Управление разделами</Nav.Link>
-                            <Nav.Link href="/sign-up">Регистрация</Nav.Link>
+
+
+                        </Nav>
+                        <Nav style={{position: 'absolute', right: '20px'}}>
+                            {!auth && <Nav.Link style={{marginLeft: 'auto'}} href="/sign-in">Вход</Nav.Link>}
+                            {auth && <Nav.Link onClick={AuthService.logout}>Выйти</Nav.Link>}
                         </Nav>
                     </Navbar.Collapse>
                     <div className="navbar-spinner">

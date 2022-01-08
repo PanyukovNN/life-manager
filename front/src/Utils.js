@@ -1,4 +1,7 @@
+
 import {useEffect} from 'react';
+import getAccessToken from "./services/AuthHeader";
+import axios from "axios";
 
 /**
  * Запрашивает с сервера список категорий и возвращает его
@@ -19,26 +22,24 @@ export function FetchRawCategories(setLoading, setCategories, call, inArchive, a
                 inArchive: inArchive === undefined ? false : inArchive.inArchive
             };
 
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            };
-
-            fetch("http://localhost:80/api/category/find-list", requestOptions)
+            axios
+                .post("http://localhost:80/api/category/find-list",
+                    JSON.stringify(body),
+                    {
+                        headers : {'Authorization': getAccessToken(), 'Content-Type': 'application/json'}
+                    })
                 .then((response) => {
-                    if (!response.ok) {
+                    if (response.status !== 200) {
                         throw response;
                     }
 
+                    setCategories(response.data);
+                    setLoading(false);
+
                     return response;
                 })
-                .then(res => res.json().then(rawCategories => {
-                    setCategories(rawCategories);
-                    setLoading(false);
-                }))
-                .catch((response) => {
-                    response.text().then(message => alert.show(message));
+                .catch((error) => {
+                    alert.show(error.response.data.message)
                 });
         },
         [call]);
@@ -70,7 +71,7 @@ export function convertRawCategoriesToMap(rawCategories) {
 export async function SendRequest(method, body, link, alert) {
     const requestOptions = {
         method: method,
-        headers: {'Content-Type': 'application/json'},
+        headers: { Authorization: getAccessToken(), 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
     };
 

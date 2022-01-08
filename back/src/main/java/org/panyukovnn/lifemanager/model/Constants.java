@@ -9,7 +9,6 @@ public final class Constants {
     /**
      * Сообщения
      */
-    public static final String ERROR_OCCURRED_MSG = "Возникла ошибка: ";
     public static final String TASK_REMOVED_SUCCESSFULLY = "Задача \"%s\" успешно удалена";
     public static final String TASKS_REMOVED_SUCCESSFULLY = "Задачи успешно удалены";
     public static final String TASKS_CREATED_UPDATED_SUCCESSFULLY = "Задача успешно создана/обновлена";

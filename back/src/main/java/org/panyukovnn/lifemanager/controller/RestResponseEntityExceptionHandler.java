@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.panyukovnn.lifemanager.model.Constants.ERROR_OCCURRED_MSG;
-
 /**
  * Адвайс для обработки исключений контроллеров
  */
@@ -29,7 +27,7 @@ public class RestResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleConflict(Exception e) {
         e.printStackTrace();
 
-        return ResponseEntity.internalServerError().body(ERROR_OCCURRED_MSG + e.getMessage());
+        return ResponseEntity.internalServerError().body(e.getMessage());
     }
 
     /**

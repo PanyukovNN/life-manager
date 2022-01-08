@@ -1,73 +1,79 @@
 import '../App.css';
-import {React} from 'react';
-import {Button, Form} from "react-bootstrap";
+import {React, useState} from 'react';
+import {Button, Form, FormControl, InputGroup} from "react-bootstrap";
+import profileIcon from "../resources/icon/profile.png";
 
 /**
  * Форма логиа/регистрации
  *
  * @param isRegistration флаг регистрации (если false - логин, если true - регистрации)
+ * @param handleSubmit функця нажатия на кнопку отправки формы
+ * @param loading флаг загрузки
  * @returns {*} форма логина/регистрации
  * @constructor
  */
-export const LoginRegistrationForm = ({isRegistration}) => {
+export const LoginRegistrationForm = ({isRegistration, handleSubmit1, loading, errors}) => {
 
-    // const nameInput = (
-    //     <div className="mt-3">
-    //         <div className="">
-    //             <input type="text" className="form-control feedback-valid registration-form-input" id="name" name="name"
-    //                    placeholder="Имя" value={user ? user.name : ""}/>
-    //             <div className="invalid-feedback" id="nameError"></div>
-    //         </div>
-    //     </div>
-    // );
+    // const [errors, setErrors] = useState({})
+
+
+    const [form, setForm] = useState({});
+    const setField = (field, value) => {
+        setForm({
+            ...form,
+            [field]: value
+        })
+    }
 
     return (
-        <Form className="login-form">
+        <Form>
+            <img className="login-form-profile-icon" src={profileIcon}/>
 
-            <div className="d-flex justify-content-center login-registration-form-header-wrap">
-                <h3>{isRegistration ? "Регистрация" : "Вход"}</h3>
+            <div className="text-center login-registration-form-header-wrap">
+                <h5>Введите свои данные</h5>
             </div>
 
-            {/*Поле ввода имени*/}
-            {/*{isRegistration ? nameInput : ""}*/}
+            <InputGroup className="mb-3">
+                <InputGroup.Text>@</InputGroup.Text>
+                <FormControl
+                    placeholder="Имя пользователя"
+                    aria-label="Имя пользователя"
+                    onChange={ e => setField('username', e.target.value) }
+                    isInvalid={ !!errors.username }
+                />
+                <Form.Control.Feedback type='invalid'>
+                    { errors.username }
+                </Form.Control.Feedback>
+            </InputGroup>
 
-            {/*/!*Поле ввода email*!/*/}
-            {/*<div class="mt-3">*/}
-            {/*    <div class="">*/}
-            {/*        <input type="email" class="form-control feedback-valid registration-form-input" id="username" name="username" placeholder="Email" th:value="${user} ? ${user.username}"/>*/}
-            {/*        <div class="invalid-feedback" id="usernameError"></div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <InputGroup className="mt-3">
+                <InputGroup.Text className={"login-registration-from-fa-input-icon-wrap"}>
+                    <i className="fa fa-lock login-registration-from-fa-input-icon" aria-hidden="true"></i>
+                </InputGroup.Text>
+                <FormControl
+                    type="password"
+                    placeholder="Пароль"
+                    aria-label="Пароль"
+                    onChange={ e => setField('password', e.target.value) }
+                    isInvalid={ !!errors.password }
+                />
+                <Form.Control.Feedback type='invalid'>
+                    { errors.password }
+                </Form.Control.Feedback>
+            </InputGroup>
 
-            {/*/!*Поле ввода пароля*!/*/}
-            {/*<div class="mt-3">*/}
-            {/*    <div class="">*/}
-            {/*        <input type="password" class="form-control feedback-valid registration-form-input" id="password" name="password" placeholder="Пароль"/>*/}
-            {/*        <div class="invalid-feedback" id="passwordError"></div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <Button variant="outline-primary w-100 mt-5 mb-3"
+                    type="submit"
+                    onClick={(e) => handleSubmit1(e, form)}>
+                {loading && <span className="spinner-border spinner-border-sm mr-2"></span>}
+                <span>Войти на сайт</span>
+            </Button>
 
-            {/*/!*Поле ввода подтверждения пароля*!/*/}
-            {/*<div class="form-group mt-2" th:if="${isRegistration}">*/}
-            {/*    <div class="">*/}
-            {/*        <input type="password" class="form-control feedback-valid registration-form-input" id="passwordConfirmation" name="passwordConfirmation" placeholder="Подтверждение пароля"/>*/}
-            {/*        <div class="invalid-feedback" id="passwordConfirmationError"></div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <a href="/sign-up">Ещё не зарегистрированы?</a>
 
-            {/*<div class="d-flex justify-content-center mt-5">*/}
-            {/*    <button type="button" class="btn btn-outline-primary submit-btn" style="width: 10rem"*/}
-            {/*            th:text="${registration} ? 'Подтвердить' : 'Войти'"></button>*/}
-            {/*</div>*/}
-
-            {/*<input type="hidden" name="_csrf" th:value="${_csrf.token}"/>*/}
-            {/*<input type="hidden" name="remember-me" value="true"/>*/}
-
-            {/*<div class="text-center" style="margin-top: 1.5rem">*/}
-            {/*    <a th:href="${registration} ? '/user/login' : '/user/registration'" class="link-hover text__light-color"*/}
-            {/*       th:text="${registration} ? 'Уже зарегистрированы?' : 'Ещё не зарегистрированы?'">*/}
-            {/*    </a>*/}
-            {/*</div>*/}
+            <Form.Control.Feedback type='invalid'>
+                { errors.name }
+            </Form.Control.Feedback>
         </Form>
     )
 }

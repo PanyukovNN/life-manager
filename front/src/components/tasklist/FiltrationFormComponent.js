@@ -26,11 +26,6 @@ export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
         notifyRefresh();
     }, [])
 
-    // console.log(loading)
-    // if (loading) {
-    //     return ( <LoadingPage /> );
-    // }
-
     return (
         <>
             <div className="selectors-group">
