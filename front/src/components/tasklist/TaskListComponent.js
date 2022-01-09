@@ -8,8 +8,8 @@ import {
     PRIORITY_LETTER_SELECT_ID,
     STATUS_SELECT_ID
 } from '../../Constants'
-import {SendRequest} from "../../Utils";
 import {useAlert} from "react-alert";
+import {postReq} from "../../services/RequestService";
 
 /**
  * Загружает и формирует список задач
@@ -48,23 +48,19 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
                     compareType: compareType !== "" ? compareType : "PRIORITY_FIRST"
                 };
 
-                let tasks = await SendRequest("POST", body, "http://localhost:80/api/task/find-list", alert)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw response;
+                let tasks = await postReq("http://localhost:80/api/task/find-list", body, alert)
+                    .then(response => {
+                        if (response && response.data) {
+                            return response.data;
                         }
 
-                        return response;
-                    })
-                    .then((response) => response.json())
-                    .catch((response) => {
-                        response.text().then(message => alert.show(message));
+                        return null;
                     });
 
                 setTasks(() => {
                     let taskComponents = [];
 
-                    if (tasks.length === 0) {
+                    if (!tasks || tasks.length === 0) {
                         return (
                             <div className="empty-list-label">Нет элементов</div>
                         );
@@ -79,6 +75,7 @@ export const TaskListComponent = ({refreshTaskListCall, handleCheck, notifyUpdat
 
                     return taskComponents;
                 });
+
                 showSpinner(false);
             }
 

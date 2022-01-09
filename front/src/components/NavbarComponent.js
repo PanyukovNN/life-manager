@@ -27,7 +27,7 @@ export const NavbarComponent = ({spinnerCall}) => {
 
 
                         </Nav>
-                        <Nav style={{position: 'absolute', right: '20px'}}>
+                        <Nav style={{position: 'absolute', right: '35px'}}>
                             {!auth && <Nav.Link style={{marginLeft: 'auto'}} href="/sign-in">Вход</Nav.Link>}
                             {!auth && <a style={{marginLeft: '20px'}} href="/sign-up">
                                     <Button variant="outline-secondary">Регистрация</Button>

@@ -3,8 +3,8 @@ import {React, useEffect, useState} from 'react'
 import {CategoryListComponent} from "../../components/categorilist/CategoryListComponent";
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../../components/categorilist/CategoryModal";
-import {SendRequest} from "../../Utils";
 import {useAlert} from "react-alert";
+import {postReq, deleteReq} from "../../services/RequestService"
 
 /**
  * Базовая страница управления разделами
@@ -33,14 +33,11 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                     inArchive: !inArchive
                 };
 
-                await SendRequest("POST", body, "http://localhost:80/api/category/set-in-archive", alert)
-                    .then((response) => {
-                        if (!response.ok) throw response;
-                        return response;
-                    })
-                    .then((response) => response.text().then(text => alert.show(text)))
-                    .catch((response) => {
-                        response.text().then(message => alert.show(message));
+                await postReq("http://localhost:80/api/category/set-in-archive", body, alert)
+                    .then(response => {
+                        if (response && response.data) {
+                            alert.show(response.data)
+                        }
                     });
 
                 setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
@@ -66,8 +63,8 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                     name: removeCategory.name
                 };
 
-                await SendRequest("DELETE", body, "http://localhost:80/api/category/delete-by-name", alert)
-                    .then((response) => response.text().then(text => alert.show(text)));
+                await deleteReq("http://localhost:80/api/category/delete-by-name", body, alert)
+                    .then(response => alert.show(response.data));
 
                 setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
             }
@@ -95,8 +92,7 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
 
                     <Button className="category-archive-page-button"
                             href={inArchive ? "/categories" : "/categories/archive"}
-                            variant="primary"
-                            onClick={() => {}}>
+                            variant="primary">
                         {inArchive ? "Разделы" : "Архив"}
                     </Button>
                 </div>

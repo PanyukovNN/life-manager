@@ -37,12 +37,10 @@ public class AuthControllerIntegrationTest {
 
     @Test
     public void should_returnBadRequest_when_passwordTooShort() throws Exception {
-
         User user = new User();
         user.setUsername("bob");
         user.setEmail("bob@domain.com");
         user.setPassword("123");
-        user.setConfirmPassword("123");
 
         String body = objectMapper.writer().writeValueAsString(user);
 

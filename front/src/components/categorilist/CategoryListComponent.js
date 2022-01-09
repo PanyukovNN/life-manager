@@ -1,6 +1,6 @@
 import '../../App.css';
 import {Category} from "./Category";
-import {FetchRawCategories} from "../../Utils";
+import {FetchRawCategories} from "../../services/CategoryService";
 import {React, useEffect, useState} from 'react';
 import {useAlert} from "react-alert";
 

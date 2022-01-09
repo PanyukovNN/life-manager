@@ -26,7 +26,7 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
                     <Form.Check
                         inline
                         type="checkbox"
-                        onChange={() => handleCheck(task.id)}/>
+                        onChange={(e) => handleCheck(task.id, e.target.checked)}/>
                 </div>
 
                 <div className="task-priority">{task.priority}</div>

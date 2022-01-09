@@ -1,7 +1,6 @@
 import axios from "axios";
-import getAccessToken from "./AuthHeader";
 
-const API_URL = "http://localhost/api/auth/";
+const AUTH_URL = "http://localhost/api/auth/";
 
 /**
  * Запрос на регистрацию пользователя
@@ -13,7 +12,7 @@ const API_URL = "http://localhost/api/auth/";
  * @returns ответ на запрос
  */
 const signUp = (username, email, password, comfirmPassword) => {
-    return axios.post(API_URL + "sign-up", {
+    return axios.post(AUTH_URL + "sign-up", {
         username,
         email,
         password,
@@ -30,7 +29,7 @@ const signUp = (username, email, password, comfirmPassword) => {
  */
 const signIn = (username, password) => {
     return axios
-        .post(API_URL + "sign-in", {
+        .post(AUTH_URL + "sign-in", {
             username,
             password,
         })
@@ -60,9 +59,25 @@ const isLoggedIn = () => {
     return getAccessToken() !== null;
 }
 
+/**
+ * Взять токен доступа из локального хранилища
+ *
+ * @returns {boolean} аутентифицирован ли пользователь
+ */
+const getAccessToken = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user && user.accessToken) {
+        return 'Bearer ' + user.accessToken;
+    } else {
+        return null;
+    }
+}
+
 export default {
     signUp,
     signIn,
     signOut,
-    isLoggedIn
+    isLoggedIn,
+    getAccessToken
 };

@@ -7,8 +7,8 @@ import {
     DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
     MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS
 } from "../../Constants";
-import {SendRequest} from "../../Utils";
 import {useAlert} from "react-alert";
+import {postReq} from "../../services/RequestService";
 
 /**
  * Кнопка с открытием модального окна добавления задачи
@@ -68,8 +68,12 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
             plannedTime: time
         };
 
-        await SendRequest("POST", body, 'http://localhost:80/api/task/create-update', alert)
-            .then((response) => response.text().then(text => alert.show(text)));;
+        await postReq('http://localhost:80/api/task/create-update', body, alert)
+            .then(response => {
+                if (response && response.data) {
+                    alert.show(response.data)
+                }
+            });
 
         refreshTaskList();
         setShow(false);

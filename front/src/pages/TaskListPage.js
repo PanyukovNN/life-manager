@@ -1,7 +1,7 @@
 import '../App.css';
 import {React, useState} from 'react'
 import {Button} from "react-bootstrap";
-import {convertRawCategoriesToMap, FetchRawCategories} from "../Utils";
+import {convertRawCategoriesToMap, FetchRawCategories} from "../services/CategoryService";
 import {TaskModal} from "../components/tasklist/TaskModal";
 import {DoneRemoveTaskButtons} from "../components/tasklist/DoneRemoveTaskButtons";
 import {TaskListComponent} from "../components/tasklist/TaskListComponent";
@@ -34,6 +34,27 @@ export const TaskListPage = ({showSpinner}) => {
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalTask, setModalTask] = useState(null);
 
+    function handleCheckedTaskIds(isChecked, taskId) {
+        setCheckedTaskIds(checkedTaskIds => {
+            if (!isChecked) {
+                // Если сняли выделение с чекбокса, то удаляем taskId из списка
+                const index = checkedTaskIds.indexOf(taskId);
+                if (index > -1) {
+                    checkedTaskIds.splice(index, 1);
+                }
+
+                return [...checkedTaskIds];
+            }
+
+            // Если taskId уже имеется в списке, то не добавляем
+            if (checkedTaskIds.includes(taskId)) {
+                return [...checkedTaskIds];
+            }
+
+            return [...checkedTaskIds, taskId]
+        });
+    }
+
     return (
         <div className="TaskListPage">
             <div className="filter-form-block">
@@ -52,7 +73,7 @@ export const TaskListPage = ({showSpinner}) => {
                         setShowModalCall(showModalCall => showModalCall + 1);
                         setModalTask(task);
                     }}
-                    handleCheck={(taskId) => setCheckedTaskIds(checkedTaskIds => [...checkedTaskIds, taskId])}
+                    handleCheck={(taskId, isChecked) => handleCheckedTaskIds(isChecked, taskId)}
                     showSpinner={showSpinner}/>
 
                 <Button className="add-task-button"
