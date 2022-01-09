@@ -1,21 +1,22 @@
-import '../App.css';
+import '../../App.css';
 import {React, useState} from 'react'
 import {Button} from "react-bootstrap";
-import {convertRawCategoriesToMap, FetchRawCategories} from "../services/CategoryService";
-import {TaskModal} from "../components/tasklist/TaskModal";
-import {DoneRemoveTaskButtons} from "../components/tasklist/DoneRemoveTaskButtons";
-import {TaskListComponent} from "../components/tasklist/TaskListComponent";
-import {FiltrationForm} from "../components/tasklist/FiltrationFormComponent";
+import {convertRawCategoriesToMap, FetchRawCategories} from "../../services/CategoryService";
+import {TaskModal} from "../../components/tasklist/TaskModal";
+import {DoneRemoveTaskButtons} from "../../components/tasklist/DoneRemoveTaskButtons";
+import {PriorityTaskBlocksComponent} from "../../components/tasklist/PriorityTaskBlocksComponent";
+import {FiltrationForm} from "../../components/tasklist/FiltrationFormComponent";
 import {useAlert} from "react-alert";
 
 /**
  * Главная страница со списком задачи и формой фильтрации
  *
  * @param spinnerCall хук показа спиннера загрузки
+ * @param taskStatus статус задач
  * @returns {*} главная страница со списком задач
  * @constructor
  */
-export const TaskListPage = ({showSpinner}) => {
+export const BaseTaskListPage = ({showSpinner, taskStatus}) => {
 
     const alert = useAlert();
     const [loading, setLoading] = useState(true);
@@ -56,9 +57,9 @@ export const TaskListPage = ({showSpinner}) => {
     }
 
     return (
-        <div className="TaskListPage">
-            <div className="filter-form-block">
-                <div className="filter-block-header">Список задач</div>
+        <div className="task-list-page">
+            <div className="filter-form-wrap">
+                {/*<div className="filter-block-header">Список задач</div>*/}
 
                 <FiltrationForm
                     categories={categories}
@@ -66,14 +67,15 @@ export const TaskListPage = ({showSpinner}) => {
                     notifyRefresh={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
             </div>
 
-            <div className="task-list-block">
-                <TaskListComponent
+            <div className="task-list-wrap">
+                <PriorityTaskBlocksComponent
                     refreshTaskListCall={refreshTaskListCall}
                     notifyUpdateTaskClick={(task) => {
                         setShowModalCall(showModalCall => showModalCall + 1);
                         setModalTask(task);
                     }}
                     handleCheck={(taskId, isChecked) => handleCheckedTaskIds(isChecked, taskId)}
+                    taskStatus={taskStatus}
                     showSpinner={showSpinner}/>
 
                 <Button className="add-task-button"

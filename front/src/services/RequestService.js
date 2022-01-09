@@ -21,7 +21,7 @@ export function getReq(url, alert) {
 }
 
 export function deleteReq(url, body, alert) {
-    let deleteResponse = axios.delete("http://localhost:80/api/task/delete-by-ids",{
+    let deleteResponse = axios.delete(url,{
         data: JSON.stringify(body),
         headers : {'Authorization': AuthService.getAccessToken(), 'Content-Type': 'application/json'}
     });

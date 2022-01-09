@@ -64,7 +64,11 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                 };
 
                 await deleteReq("http://localhost:80/api/category/delete-by-name", body, alert)
-                    .then(response => alert.show(response.data));
+                    .then(response => {
+                        if (response && response.data) {
+                            alert.show(response.data)
+                        }
+                    });
 
                 setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
             }

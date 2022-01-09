@@ -18,6 +18,14 @@ import archiveIcon from "../../resources/icon/archive.png";
  */
 export const Category = ({category, notifyEditBtnClick, notifyMoveToArchiveClick, notifyRemoveClick, inArchive}) => {
 
+    const editButton = (
+        <Button className="category-edit-button"
+                variant="primary"
+                onClick={() => {notifyEditBtnClick(category)}}>
+            <img className="category-edit-icon" src={editIcon}/>
+        </Button>
+    );
+
     const toArchiveButton = (
         <Button className="category-to-archive-button"
                 variant="primary"
@@ -42,11 +50,7 @@ export const Category = ({category, notifyEditBtnClick, notifyMoveToArchiveClick
                 {category.name}
             </div>
 
-            <Button className="category-edit-button"
-                    variant="primary"
-                    onClick={() => {notifyEditBtnClick(category)}}>
-                <img className="category-edit-icon" src={editIcon}/>
-            </Button>
+            {editButton}
 
             {inArchive
                 ? removeButton

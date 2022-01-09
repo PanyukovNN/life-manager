@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
@@ -61,6 +63,25 @@ public class TaskController {
         taskService.createUpdate(task, timeZone);
 
         return TASKS_CREATED_UPDATED_SUCCESSFULLY;
+    }
+
+    /**
+     * Вернуть карту, где задачи сгруппированы по приоритету.
+     * В качестве ключа выступает буква от A до D
+     *
+     * @param request запрос
+     * @param timeZone часовой пояс клиента
+     * @return карта задач
+     */
+    @PostMapping("/find-priority-task-list-map")
+    public Map<Character, List<TaskDto>> findPriorityTaskListMap(@RequestBody @Valid FindTaskListRequest request, TimeZone timeZone) {
+        List<TaskDto> taskList = findTaskList(request, timeZone);
+
+        return taskList.stream().collect(Collectors.groupingBy(
+                taskDto -> taskDto.getPriority().charAt(0),
+                TreeMap::new,
+                Collectors.toList()
+        ));
     }
 
     /**

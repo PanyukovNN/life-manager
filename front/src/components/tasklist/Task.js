@@ -29,9 +29,9 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
                         onChange={(e) => handleCheck(task.id, e.target.checked)}/>
                 </div>
 
-                <div className="task-priority">{task.priority}</div>
+                {/*<div className="task-priority">{task.priority}</div>*/}
 
-                <div className="task-category">{task.category}</div>
+                {/*<div className="task-category">{task.category}</div>*/}
 
                 <div className={"task-planned-date-time-wrap" + overdueStyle}>
                     {task.plannedTime

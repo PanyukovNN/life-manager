@@ -56,7 +56,11 @@ export const DoneRemoveTaskButtons = ({refreshTaskList, checkedTaskIds, disabled
         };
 
         await deleteReq("http://localhost:80/api/task/delete-by-ids", body, alert)
-            .then(response => alert.show(response.data));
+            .then(response => {
+                if (response && response.data) {
+                    alert.show(response.data)
+                }
+            });
 
         refreshTaskList();
     }

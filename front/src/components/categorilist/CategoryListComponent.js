@@ -1,4 +1,5 @@
 import '../../App.css';
+import {NO_ELEMENTS_DIV} from '../../Constants'
 import {Category} from "./Category";
 import {FetchRawCategories} from "../../services/CategoryService";
 import {React, useEffect, useState} from 'react';
@@ -44,9 +45,7 @@ export const CategoryListComponent = ({refreshCategoryListCall,
                 let categoryComponents = [];
 
                 if (rawCategories.length === 0) {
-                    return (
-                        <div className="empty-list-label">Нет элементов</div>
-                    );
+                    return NO_ELEMENTS_DIV;
                 }
 
                 rawCategories.forEach(category => categoryComponents.push(

@@ -22,9 +22,9 @@ export const NavbarComponent = ({spinnerCall}) => {
                         <Nav
                             className="my-2 my-lg-0"
                             navbarScroll>
-                            <Nav.Link href="/">Задачи</Nav.Link>
+                            <Nav.Link href="/">Главная</Nav.Link>
+                            <Nav.Link href="/done-tasks">Выполненные</Nav.Link>
                             <Nav.Link href="/categories">Управление разделами</Nav.Link>
-
 
                         </Nav>
                         <Nav style={{position: 'absolute', right: '35px'}}>

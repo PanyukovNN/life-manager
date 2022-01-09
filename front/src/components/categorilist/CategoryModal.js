@@ -3,6 +3,7 @@ import {React, useEffect, useState} from 'react';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {NAME_TEXTAREA_ID} from "../../Constants";
 import {useAlert} from "react-alert";
+import {postReq} from "../../services/RequestService"
 
 export const CategoryModal = ({refreshCategoryList, showModalCall, category}) => {
 
@@ -37,14 +38,12 @@ export const CategoryModal = ({refreshCategoryList, showModalCall, category}) =>
             name: name
         };
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        };
-
-        await fetch('http://localhost:80/api/category/create-update', requestOptions)
-            .then((response) => response.text().then(text => alert.show(text)));
+        await postReq('http://localhost:80/api/category/create-update', body, alert)
+            .then(response => {
+                if (response && response.data) {
+                    alert.show(response.data)
+                }
+            })
 
         refreshCategoryList();
         setShow(false);
@@ -76,7 +75,7 @@ export const CategoryModal = ({refreshCategoryList, showModalCall, category}) =>
                     <Button variant="secondary" onClick={handleClose}>
                         Закрыть
                     </Button>
-                    <Button variant="primary" onClick={() => handleSave()}>
+                    <Button variant="primary" onClick={handleSave}>
                         Сохранить
                     </Button>
                 </Modal.Footer>

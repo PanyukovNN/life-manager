@@ -2,15 +2,16 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 import {React, useState} from 'react'
-import {TaskListPage} from "./pages/TaskListPage";
-import {CategoryListPage} from "./pages/categorylist/CategoryListPage";
+import {CategoryListPage} from "./pages/categorн/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
-import {ArchiveCategoryListPage} from "./pages/categorylist/ArchiveCategoryListPage";
+import {ArchiveCategoryListPage} from "./pages/categorн/ArchiveCategoryListPage";
 import {NotFoundPage} from "./pages/exception/NotFoundPage";
 import {LoginPage} from "./pages/auth/LoginPage";
 import RequireAuth from "./services/RequireAuth";
 import {RegistrationPage} from "./pages/auth/RegistratioinPage";
+import {DoneTaskListPage} from "./pages/task/DoneTaskListPage";
+import {ToDoTaskListPage} from "./pages/task/ToDoTaskListPage";
 
 function App() {
 
@@ -24,7 +25,8 @@ function App() {
 
             <Router>
                 <Routes>
-                    <Route exact path='/' element={<RequireAuth><TaskListPage showSpinner={showSpinner} /></RequireAuth>}/>
+                    <Route path='/' element={<RequireAuth><ToDoTaskListPage showSpinner={showSpinner} /></RequireAuth>}/>
+                    <Route path='/done-tasks' element={<RequireAuth><DoneTaskListPage showSpinner={showSpinner} /></RequireAuth>}/>
                     <Route path="/categories" element={<RequireAuth><CategoryListPage showSpinner={showSpinner} /></RequireAuth>} />
                     <Route path="/categories/archive" element={<RequireAuth><ArchiveCategoryListPage showSpinner={showSpinner} /></RequireAuth>} />
 

@@ -2,16 +2,18 @@ import '../../App.css';
 import {React, useEffect} from 'react';
 import {SelectorComponent} from './SelectorComponent'
 import {
-    CATEGORY_SELECT_ID, PRIORITY_LETTER_SELECT_ID, PERIOD_SELECT_ID, COMPARE_TO_SELECT_ID,
-    CATEGORY_KEY, PRIORITY_LETTER_KEY, PERIOD_KEY, COMPARE_TO_KEY, STATUS_SELECT_ID, STATUS_KEY
+    CATEGORY_KEY,
+    CATEGORY_SELECT_ID,
+    COMPARE_TO_KEY,
+    COMPARE_TO_SELECT_ID
 } from '../../Constants'
-import {LoadingPage} from "../../pages/LoadingPage";
 
 /**
  * Параметры поиска задач
  *
  * @param notifyRefresh уведомление об обновлении формы
  * @param categories список категорий
+ * @param loading флаг загрузки
  * @returns {*} селекторы с параметров поиска
  * @constructor
  */
@@ -41,44 +43,9 @@ export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
                             notifySelection={() => notifyRefresh()}/>
                     </div>
                 </div>
-
-                {/* Селектор приоритета */}
-                <div className="selector-block">
-                    <div className="selector-header">Приоритет:</div>
-                    <div className="selector-wrapper">
-                        <SelectorComponent
-                            id={PRIORITY_LETTER_SELECT_ID}
-                            storageKey={PRIORITY_LETTER_KEY}
-                            optionMap={{
-                                "": "Все",
-                                "A": "A",
-                                "B": "B",
-                                "C": "C",
-                                "D": "D"
-                            }}
-                            notifySelection={() => notifyRefresh()}/>
-                    </div>
-                </div>
             </div>
 
             <div className="selectors-group">
-                {/* Селектор периода */}
-                <div className="selector-block">
-                    <div className="selector-header">За период:</div>
-                    <div className="selector-wrapper">
-                        <SelectorComponent
-                            id={PERIOD_SELECT_ID}
-                            storageKey={PERIOD_KEY}
-                            optionMap={{
-                                "ALL": "Все время",
-                                "DAY": "День",
-                                "WEEK": "Неделя",
-                                "MONTH": "Месяц"
-                            }}
-                            notifySelection={() => notifyRefresh()}/>
-                    </div>
-                </div>
-
                 {/* Селектор сортировки */}
                 <div className="selector-block">
                     <div className="selector-header">Сортировать по:</div>
@@ -93,22 +60,6 @@ export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
                             }}
                             notifySelection={() => notifyRefresh()}/>
                     </div>
-                </div>
-            </div>
-
-            {/* Селектор статуса */}
-            <div className="selector-block">
-                <div className="selector-header">Показывать:</div>
-                <div className="selector-wrapper">
-                    <SelectorComponent
-                        id={STATUS_SELECT_ID}
-                        storageKey={STATUS_KEY}
-                        optionMap={{
-                            ""      : "Все",
-                            "TO_DO" : "В работе",
-                            "DONE"  : "Выполненные"
-                        }}
-                        notifySelection={() => notifyRefresh()}/>
                 </div>
             </div>
         </>
