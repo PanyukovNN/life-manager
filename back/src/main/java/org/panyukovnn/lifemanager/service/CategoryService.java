@@ -1,6 +1,7 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.exception.UnableToRemoveException;
 import org.panyukovnn.lifemanager.model.Category;
@@ -17,35 +18,24 @@ import java.util.Optional;
 import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
- * Сервис категорий задач
+ * Сервис категорий задач.
  */
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
     private final TaskRepository taskRepository;
     private final CategoryRepository categoryRepository;
 
     /**
-     * Конструктор
-     *
-     * @param categoryRepository репозиторий категорий
-     * @param taskRepository репозиторий задач
-     */
-    public CategoryService(CategoryRepository categoryRepository, TaskRepository taskRepository) {
-        this.categoryRepository = categoryRepository;
-        this.taskRepository = taskRepository;
-    }
-
-    /**
-     * Создать/обновить категорию
-     * Запрещено создавать категорию с одинаковыми именами
+     * Создать/обновить категорию.
+     * Запрещено создавать категорию с одинаковыми именами.
      *
      * @param id идентификатор
      * @param name наименование
-     * @return созданная/обновленная категория
      */
     @Transactional
-    public Category createUpdate(String id, String name) {
+    public void createUpdate(String id, String name) {
         Category category = new Category();
 
         Category categoryFromDb = categoryRepository.findByName(name).orElse(null);
@@ -54,7 +44,9 @@ public class CategoryService {
             if (categoryFromDb.isInArchive()) {
                 categoryFromDb.setInArchive(false);
 
-                return categoryRepository.save(categoryFromDb);
+                categoryRepository.save(categoryFromDb);
+
+                return;
             }
 
             throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
@@ -69,11 +61,11 @@ public class CategoryService {
 
         category.setName(name);
 
-        return categoryRepository.save(category);
+        categoryRepository.save(category);
     }
 
     /**
-     * Найти по наименованию
+     * Найти по наименованию.
      *
      * @param name наименование
      * @return категория
@@ -83,7 +75,7 @@ public class CategoryService {
     }
 
     /**
-     * Вернуть список категорий по заданным параметрам
+     * Вернуть список категорий по заданным параметрам.
      *
      * @param inArchive флаг в/вне архива
      * @return список категорий
@@ -93,17 +85,19 @@ public class CategoryService {
     }
 
     /**
-     * Удалить категорию по наименованию
-     * Запрещено удалять категории, за которыми закреплены невыполненные задачи
+     * Удалить категорию по наименованию.
+     * Запрещено удалять категории, за которыми закреплены невыполненные задачи.
      * Если у удаляемой категории есть выполненные задачи выставляется флаг previouslyExisted
-     * и она не удаляется
+     * и она не удаляется.
      *
      * @param name наименование
      */
     @Transactional
     public void deleteByName(String name) {
-        categoryRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
+        boolean existsByName = categoryRepository.existsByName(name);
+        if (!existsByName) {
+            throw new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG);
+        }
 
         boolean doneTaskExists = taskRepository.existsByCategoryNameAndStatus(name, TaskStatus.DONE);
 
@@ -115,7 +109,7 @@ public class CategoryService {
     }
 
     /**
-     * Установить флаг toArchive
+     * Установить флаг toArchive.
      *
      * @param name наименование категории
      * @param inArchive флаг нахождения в архиве

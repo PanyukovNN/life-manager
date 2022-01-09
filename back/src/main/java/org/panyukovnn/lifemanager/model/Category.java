@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Категория задачи
+ * Категория задачи.
  */
 @Getter
 @Setter
@@ -21,12 +21,12 @@ public class Category {
     private String id;
 
     /**
-     * Наименование
+     * Наименование.
      */
     private String name;
 
     /**
-     * Находится ли категория в архиве
+     * Находится ли категория в архиве.
      */
     private boolean inArchive;
 }

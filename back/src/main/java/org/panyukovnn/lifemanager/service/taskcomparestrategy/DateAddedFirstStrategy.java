@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 
 /**
- * Стратегия сортировки задач в порядке даты добавления
+ * Стратегия сортировки задач в порядке даты добавления.
  */
 @Service
 public class DateAddedFirstStrategy implements TaskCompareStrategy {

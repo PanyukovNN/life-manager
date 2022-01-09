@@ -16,7 +16,7 @@ import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_PATTERN;
 import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
 
 /**
- * Запрос на создание/изменение задачи
+ * Запрос на создание/изменение задачи.
  */
 @Getter
 @Setter

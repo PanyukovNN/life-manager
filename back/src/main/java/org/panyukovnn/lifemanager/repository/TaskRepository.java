@@ -7,19 +7,19 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 /**
- * Репозиторий задач
+ * Репозиторий задач.
  */
 public interface TaskRepository extends MongoRepository<Task, String> {
 
     /**
-     * Вернуть список задач по идентификатору
+     * Вернуть список задач по идентификатору.
      *
      * @param ids список идентификаторов
      */
     List<Task> findByIdIn(List<String> ids);
 
     /**
-     * Существуют ли задачи с заданной категорией и статусом
+     * Существуют ли задачи с заданной категорией и статусом.
      *
      * @param categoryName наименование категории
      * @param status статус

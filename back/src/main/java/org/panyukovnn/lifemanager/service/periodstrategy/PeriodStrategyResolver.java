@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Менеджер стратегий определения периода
+ * Менеджер стратегий определения периода.
  */
 @Service
 public class PeriodStrategyResolver {
@@ -16,7 +16,7 @@ public class PeriodStrategyResolver {
     private final Map<PeriodStrategyType, PeriodStrategy> strategyMap = new EnumMap<>(PeriodStrategyType.class);
 
     /**
-     * Конструктор
+     * Конструктор.
      *
      * @param periodStrategies стратегия определения периода
      */
@@ -25,7 +25,7 @@ public class PeriodStrategyResolver {
     }
 
     /**
-     * Возвращает стратегию по типу
+     * Возвращает стратегию по типу.
      *
      * @param type тип стратегии
      * @return стратегия

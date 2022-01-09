@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * Запрос на изменение статуса списка задач
+ * Запрос на изменение статуса списка задач.
  */
 @Getter
 @Setter

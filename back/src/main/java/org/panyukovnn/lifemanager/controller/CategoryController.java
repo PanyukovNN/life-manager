@@ -1,5 +1,6 @@
 package org.panyukovnn.lifemanager.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.request.*;
@@ -12,26 +13,18 @@ import java.util.List;
 import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
- * Контроллер категорий
+ * Контроллер категорий.
  */
 @CrossOrigin
 @RestController
 @RequestMapping("/category")
+@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
 
     /**
-     * Конструктор
-     *
-     * @param categoryService сервис категорий
-     */
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
-    /**
-     * Создать/обновить категорию
+     * Создать/обновить категорию.
      *
      * @param request запрос
      * @return сообщение об успешном сохранении/обновлении задачи
@@ -44,7 +37,7 @@ public class CategoryController {
     }
 
     /**
-     * Найти категорию по наименованию
+     * Найти категорию по наименованию.
      *
      * @param request запрос
      * @return категория
@@ -56,7 +49,7 @@ public class CategoryController {
     }
 
     /**
-     * Вернуть все категории по флагу inArchive
+     * Вернуть все категории по флагу inArchive.
      *
      * @param request запрос
      * @return список категорий
@@ -67,7 +60,7 @@ public class CategoryController {
     }
 
     /**
-     * Установить флаг toArchive
+     * Установить флаг toArchive.
      *
      * @param request запрос
      * @return сообщение об успешном перемещении в архив
@@ -80,7 +73,7 @@ public class CategoryController {
     }
 
     /**
-     * Удалить категорию по имени
+     * Удалить категорию по имени.
      *
      * @param request запрос
      * @return сообщение об успешном удалении

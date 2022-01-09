@@ -3,13 +3,13 @@ package org.panyukovnn.lifemanager.exception;
 import lombok.NoArgsConstructor;
 
 /**
- * Исключение приложения
+ * Исключение приложения.
  */
 @NoArgsConstructor
 public class LifeManagerException extends RuntimeException {
 
     /**
-     * Конструктор
+     * Конструктор.
      *
      * @param message сообщение
      */
@@ -18,8 +18,7 @@ public class LifeManagerException extends RuntimeException {
     }
 
     /**
-     * Конструктор
-     *
+     * Конструктор.
      * @param message сообщение
      * @param e исключение
      */

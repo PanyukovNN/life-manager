@@ -4,14 +4,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Ответ на аутентификацию пользователя
+ * Ответ на аутентификацию пользователя.
  */
 @Getter
 @RequiredArgsConstructor
 public class AuthResponse {
 
 	/**
-	 * JWT токен доступа
+	 * Токен доступа в формате JWT.
 	 */
 	private final String accessToken;
 }

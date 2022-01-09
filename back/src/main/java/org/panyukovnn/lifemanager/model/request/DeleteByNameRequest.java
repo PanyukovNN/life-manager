@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Запрос на удаление по наименованию
+ * Запрос на удаление по наименованию.
  */
 @Getter
 @Setter

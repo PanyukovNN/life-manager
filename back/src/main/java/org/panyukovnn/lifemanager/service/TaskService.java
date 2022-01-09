@@ -1,6 +1,7 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskCompareType;
@@ -31,26 +32,12 @@ import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_T_FORMAT
  * Сервис задач.
  */
 @Service
+@RequiredArgsConstructor
 public class TaskService {
 
     private final TaskRepository taskRepository;
     private final MongoTemplate mongoTemplate;
     private final TaskCompareStrategyResolver compareStrategyResolver;
-
-    /**
-     * Конструктор.
-     *
-     * @param taskRepository репозиторий задач
-     * @param mongoTemplate операции для работы с монго запросами
-     * @param compareStrategyResolver менеджер стратегий сортировки задач
-     */
-    public TaskService(TaskRepository taskRepository,
-                       MongoTemplate mongoTemplate,
-                       TaskCompareStrategyResolver compareStrategyResolver) {
-        this.taskRepository = taskRepository;
-        this.mongoTemplate = mongoTemplate;
-        this.compareStrategyResolver = compareStrategyResolver;
-    }
 
     /**
      * Создать/обновить задачу.

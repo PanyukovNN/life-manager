@@ -1,22 +1,22 @@
 package org.panyukovnn.lifemanager.model;
 
 /**
- * Статус задачи
+ * Статус задачи.
  */
 public enum TaskStatus {
 
     /**
-     * К выполнению
+     * К выполнению.
      */
     TO_DO,
 
     /**
-     * Просрочена
+     * Просрочена.
      */
     EXPIRED,
 
     /**
-     * Выполнена
+     * Выполнена.
      */
     DONE
 }

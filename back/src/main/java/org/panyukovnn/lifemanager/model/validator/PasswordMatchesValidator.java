@@ -9,7 +9,7 @@ import java.util.Objects;
 import static org.panyukovnn.lifemanager.model.Constants.CONFIRM_PASSWORD_KEY;
 
 /**
- * Валидатор совпадения пароля и пароля подтверждения
+ * Валидатор совпадения пароля и пароля подтверждения.
  */
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, UserSignUpRequest> {
 

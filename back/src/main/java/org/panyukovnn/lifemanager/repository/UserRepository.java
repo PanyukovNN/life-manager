@@ -7,13 +7,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * Репозиторий пользователей
+ * Репозиторий пользователей.
  */
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 
     /**
-     * Находит пользователя по имени (без учета регистра)
+     * Находит пользователя по имени (без учета регистра).
      *
      * @param username имя пользователя
      * @return пользователь
@@ -21,7 +21,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByUsernameIgnoreCase(String username);
 
     /**
-     * Существует ли пользовать с данным email (без учета регистра)
+     * Существует ли пользовать с данным email (без учета регистра).
      *
      * @param email почта пользователя
      * @return существует ли пользователья

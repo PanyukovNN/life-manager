@@ -18,7 +18,7 @@ import java.util.Properties;
 import static org.panyukovnn.lifemanager.model.Constants.RESOURCE_FILE_NOT_FOUND_ERROR_MSG;
 
 /**
- * Валидатор паролей
+ * Валидатор паролей.
  */
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
@@ -51,6 +51,11 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 		return false;
 	}
 
+	/**
+	 * Загружаются собственные текстовки сообщений из файла ресурсов
+	 *
+	 * @return менеджер сообщений
+	 */
 	private MessageResolver loadValidationErrorMessages() {
 		URL resource = this.getClass().getClassLoader().getResource(PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);
 		Objects.requireNonNull(resource, RESOURCE_FILE_NOT_FOUND_ERROR_MSG + PASSWORD_VALIDATION_MESSAGES_PROPERTIES_FILE);

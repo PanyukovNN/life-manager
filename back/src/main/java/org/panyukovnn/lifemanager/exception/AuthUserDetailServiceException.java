@@ -4,13 +4,13 @@ import lombok.NoArgsConstructor;
 import org.panyukovnn.lifemanager.service.LifeManagerUserDetailService;
 
 /**
- * Исключение в сервисе {@link LifeManagerUserDetailService}
+ * Исключение в работе сервиса {@link LifeManagerUserDetailService}
  */
 @NoArgsConstructor
 public class AuthUserDetailServiceException extends LifeManagerException {
 
     /**
-     * Конструктор
+     * Конструктор.
      * @param message сообщение
      */
     public AuthUserDetailServiceException(String message) {
@@ -18,7 +18,7 @@ public class AuthUserDetailServiceException extends LifeManagerException {
     }
 
     /**
-     * Конструктор
+     * Конструктор.
      * @param message сообщение
      * @param e исключение
      */

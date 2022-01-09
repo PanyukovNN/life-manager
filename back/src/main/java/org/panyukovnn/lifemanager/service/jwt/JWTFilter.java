@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * JWT фильтр для обработки токена пользователя
+ * JWT фильтр для обработки токена пользователя.
  */
 @Slf4j
 @Component

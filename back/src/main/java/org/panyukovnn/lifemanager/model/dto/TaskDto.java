@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.panyukovnn.lifemanager.model.Task;
 
 /**
- * Транспортный объект задачи {@link Task}
+ * Транспортный объект задачи {@link Task}.
  */
 @Getter
 @Builder
@@ -22,7 +22,7 @@ public class TaskDto {
     private final String status;
 
     /**
-     * Просрочена ли задача
+     * Просрочена ли задача.
      */
     private final boolean overdue;
 }

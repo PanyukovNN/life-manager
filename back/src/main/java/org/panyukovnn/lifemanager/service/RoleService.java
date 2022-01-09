@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Сервис ролей
+ * Сервис ролей.
  */
 @Service
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class RoleService {
     private final RoleRepository roleRepository;
 
     /**
-     * Создаем роли, которых нет в базе данных и заполняем кеш
+     * Создаем роли, которых нет в базе данных и заполняем кеш.
      */
     @PostConstruct
     private void postConstruct() {
@@ -44,7 +44,7 @@ public class RoleService {
     }
 
     /**
-     * Возвращает сущность роли по её имени
+     * Возвращает сущность роли по её имени.
      *
      * @param roleName имя роли
      * @return сущность роли

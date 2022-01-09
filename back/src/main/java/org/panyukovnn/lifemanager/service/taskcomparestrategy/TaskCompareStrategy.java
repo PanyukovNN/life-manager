@@ -6,19 +6,19 @@ import org.panyukovnn.lifemanager.model.TaskCompareType;
 import java.util.Comparator;
 
 /**
- * Стратегии сортировки задач
+ * Стратегии сортировки задач.
  */
 public interface TaskCompareStrategy {
 
     /**
-     * Вернуть компаратор
+     * Вернуть компаратор.
      *
      * @return компаратор
      */
     Comparator<Task> getComparator();
 
     /**
-     * Вернуть способ сортировки
+     * Вернуть способ сортировки.
      *
      * @return способ сортировки
      */

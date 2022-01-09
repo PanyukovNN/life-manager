@@ -10,7 +10,7 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Аннотация валидации пароля
+ * Аннотация валидации пароля.
  */
 @Documented
 @Retention(RUNTIME)

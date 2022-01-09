@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 
 /**
- * Стратегия сортировки задач в порядке приоритета
+ * Стратегия сортировки задач в порядке приоритета.
  */
 @Service
 public class PriorityFirstStrategy implements TaskCompareStrategy {

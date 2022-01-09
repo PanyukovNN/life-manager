@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * Запрос на удаление по списку идентификаторов
+ * Запрос на удаление по списку идентификаторов.
  */
 @Getter
 @Setter

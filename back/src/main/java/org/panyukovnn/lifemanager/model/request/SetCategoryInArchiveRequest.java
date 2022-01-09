@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Запрос выставление флага inArchive у сущности категории
+ * Запрос выставление флага inArchive у категории.
  */
 @Getter
 @Setter

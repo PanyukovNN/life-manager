@@ -3,11 +3,14 @@ package org.panyukovnn.lifemanager.model;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Константы.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
 
     /**
-     * Сообщения
+     * Сообщения.
      */
     public static final String TASK_REMOVED_SUCCESSFULLY = "Задача \"%s\" успешно удалена";
     public static final String TASKS_REMOVED_SUCCESSFULLY = "Задачи успешно удалены";
@@ -19,7 +22,7 @@ public final class Constants {
     public static final String SING_UP_SUCCESSFUL = "Пользователь успешно зарегистрирован.";
 
     /**
-     * Текстовки ошибок
+     * Текстовки ошибок.
      */
     public static final String WRONG_PRIORITY_STRING_VALUE_ERROR_MSG = "Неверное строковое значение приоритета";
     public static final String WRONG_PRIORITY_LETTER_VALUE_ERROR_MSG = "Неверная буква приоритета";
@@ -44,7 +47,7 @@ public final class Constants {
     public static final String BLANK_EMAIL_ERROR_MSG = "Email не может быть пустым";
 
     /**
-     * Параметры
+     * Параметры.
      */
     public static final String STATUS = "status";
     public static final String PRIORITY = "priority";
@@ -54,7 +57,7 @@ public final class Constants {
 
 
     /**
-     * Другое
+     * Другое.
      */
     // Строка должна состоять из двух символов, первый от A до D, второй от 1 до 4
     public static final String PRIORITY_PATTERN = "^[A-D][1-4]$";

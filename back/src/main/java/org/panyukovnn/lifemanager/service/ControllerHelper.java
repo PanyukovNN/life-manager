@@ -1,8 +1,6 @@
 package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -15,18 +13,17 @@ import java.util.stream.IntStream;
 import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
- * Вспомогательные методы для контроллеров
+ * Вспомогательные методы для контроллеров.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class ControllerHelper {
+public class ControllerHelper {
 
     public static final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public static final DateTimeFormatter FRONT_T_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     /**
-     * Конвертировать строчную запись приоритета в числовое значение
-     * Первый символ от A до D, второй символ число от 1 до 4
-     * Например строке А1 соответствует приоритет 15
+     * Конвертировать строчную запись приоритета в числовое значение.
+     * Первый символ от A до D, второй символ число от 1 до 4.
+     * Например строке А1 соответствует приоритет 15.
      * B1 -> 11
      * C1 -> 7
      * D1 -> 3
@@ -54,7 +51,7 @@ public final class ControllerHelper {
     }
 
     /**
-     * Конвертировать букву приоритета в диапазон числовых значений
+     * Конвертировать букву приоритета в диапазон числовых значений.
      * A -> [12, 13, 14, 15]
      * D -> [ 0,  1,  2,  3]
      *
@@ -85,7 +82,7 @@ public final class ControllerHelper {
     }
 
     /**
-     * Конвертировать числовой приоритет в строчную запись
+     * Конвертировать числовой приоритет в строчную запись.
      *
      * @param priority приоритет в числовом виде
      * @return строчная запись приоритета

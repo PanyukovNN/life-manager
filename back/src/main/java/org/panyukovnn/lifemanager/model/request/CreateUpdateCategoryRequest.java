@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Запрос на создание/изменение категории задач
+ * Запрос на создание/изменение категории задач.
  */
 @Getter
 @Setter

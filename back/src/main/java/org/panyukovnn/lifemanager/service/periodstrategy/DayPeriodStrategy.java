@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 /**
- * Стратегия определения периода продолжительностью в один день
+ * Стратегия определения периода продолжительностью в один день.
  */
 @Service
 public class DayPeriodStrategy implements PeriodStrategy {

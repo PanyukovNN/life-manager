@@ -5,13 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- * Конфигурация шифрования
+ * Конфигурация шифрования.
  */
 @Configuration
 public class EncryptionConfig {
 
     /**
-     * Бин шифрования паролей
+     * Бин шифрования паролей.
      *
      * @return реализация шифрователя паролей
      */

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 /**
- * Менеджер стратегий сортировки задач
+ * Менеджер стратегий сортировки задач.
  */
 @Service
 public class TaskCompareStrategyResolver {
@@ -15,7 +15,7 @@ public class TaskCompareStrategyResolver {
     private final Map<TaskCompareType, TaskCompareStrategy> strategyMap = new EnumMap<>(TaskCompareType.class);
 
     /**
-     * Конструктор
+     * Конструктор.
      *
      * @param compareStrategies стратегии сортировки задач
      */
@@ -24,7 +24,7 @@ public class TaskCompareStrategyResolver {
     }
 
     /**
-     * Получить компаратор по способу сортировки
+     * Получить компаратор по способу сортировки.
      *
      * @param type способ сортировки
      * @return компаратор

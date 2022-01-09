@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Пользователь
+ * Пользователь.
  */
 @Getter
 @Setter
@@ -34,7 +34,8 @@ public class User implements UserDetails {
     private String password;
 
     /**
-     * Код активации (присылается один раз на почтовый ящик при регистрации, после чего остается null)
+     * Код активации
+     * Присылается один раз на почтовый ящик при регистрации, после успешного подтверждения выставляется в null
      */
     private String activationCode;
 

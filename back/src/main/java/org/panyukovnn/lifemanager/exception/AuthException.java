@@ -3,13 +3,13 @@ package org.panyukovnn.lifemanager.exception;
 import lombok.NoArgsConstructor;
 
 /**
- * Исключение при регистрации/аутентификации
+ * Исключение при регистрации/аутентификации.
  */
 @NoArgsConstructor
 public class AuthException extends LifeManagerException {
 
     /**
-     * Конструктор
+     * Конструктор.
      * @param message сообщение
      */
     public AuthException(String message) {
@@ -17,7 +17,7 @@ public class AuthException extends LifeManagerException {
     }
 
     /**
-     * Конструктор
+     * Конструктор.
      * @param message сообщение
      * @param e исключение
      */

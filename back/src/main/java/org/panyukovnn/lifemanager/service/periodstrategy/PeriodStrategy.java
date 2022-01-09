@@ -5,17 +5,17 @@ import org.panyukovnn.lifemanager.model.PeriodStrategyType;
 import java.time.LocalDate;
 
 /**
- * Стратегия для определения периода за который требуется вернуть задачи
+ * Стратегия для определения периода за который требуется вернуть задачи.
  */
 public interface PeriodStrategy {
 
     /**
-     * Возвращает дату окончания периода
+     * Возвращает дату окончания периода.
      */
     LocalDate getEndDate(LocalDate startDate);
 
     /**
-     * Возвращает тип стратегии
+     * Возвращает тип стратегии.
      *
      * @return тип стратегии
      */

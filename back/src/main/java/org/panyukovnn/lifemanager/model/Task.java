@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Задача
+ * Задача.
  */
 @Getter
 @Setter
@@ -25,39 +25,39 @@ public class Task {
     private String id;
 
     /**
-     * Текст задачи
+     * Текст задачи.
      */
     private String description;
 
     /**
-     * Приоритет может иметь значения от 0 до 15
+     * Приоритет может иметь значения от 0 до 15.
      * 15 - A1
      *  0 - D4
      */
     private int priority;
 
     /**
-     * Наименование категории (не может быть пустым)
+     * Наименование категории (не может быть пустым).
      */
     private String categoryName;
 
     /**
-     * Статус задачи
+     * Статус задачи.
      */
     private TaskStatus status;
 
     /**
-     * Пларинуемая дата выполнения
+     * Пларинуемая дата выполнения.
      */
     private LocalDate plannedDate;
 
     /**
-     * Планируемое время выполнения (не может быть заполнено без планируемой даты выполнения)
+     * Планируемое время выполнения (не может быть заполнено без планируемой даты выполнения).
      */
     private LocalTime plannedTime;
 
     /**
-     * Дата и время создания
+     * Дата и время создания.
      */
     private LocalDateTime creationDateTime;
 }

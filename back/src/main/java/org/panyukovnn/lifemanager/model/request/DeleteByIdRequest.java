@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Запрос на удаление по идентификатору
+ * Запрос на удаление по идентификатору.
  */
 @Getter
 @Setter

@@ -15,7 +15,7 @@ import java.util.TimeZone;
 import static org.panyukovnn.lifemanager.model.Constants.SING_UP_SUCCESSFUL;
 
 /**
- * Контроллер пользователей
+ * Контроллер пользователей.
  */
 @CrossOrigin
 @RestController
@@ -26,7 +26,7 @@ public class AuthController {
     private final AuthService authService;
 
     /**
-     * Регистрация пользователя
+     * Регистрация пользователя.
      *
      * @param request запрос
      * @param timeZone частовой пояс пользователя
@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     /**
-     * Аутентификация пользователя
+     * Аутентификация пользователя.
      *
      * @param request запрос на аутентификацию пользователя
      * @param timeZone частовой пояс пользователя

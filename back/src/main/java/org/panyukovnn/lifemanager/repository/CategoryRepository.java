@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Репозиторий категорий задач
+ * Репозиторий категорий задач.
  */
 public interface CategoryRepository extends MongoRepository<Category, String> {
 
     /**
-     * Найти по наименованию
+     * Найти по наименованию.
      *
      * @param name наименование
      * @return категория
@@ -20,14 +20,22 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     Optional<Category> findByName(String name);
 
     /**
-     * Удалить по наименованию
+     * Существует ли категория с заданным наименованием.
+     *
+     * @param name наименование
+     * @return существует ли категория
+     */
+    Boolean existsByName(String name);
+
+    /**
+     * Удалить по наименованию.
      *
      * @param name наименование
      */
     void deleteByName(String name);
 
     /**
-     * Возвращает категории по флагу в/вне архива
+     * Возвращает категории по флагу в/вне архива.
      *
      * @param inArchive флаг в/вне архива
      * @return спиоск категорий

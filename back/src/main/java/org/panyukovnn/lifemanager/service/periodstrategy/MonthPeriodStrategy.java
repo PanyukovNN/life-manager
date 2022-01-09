@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 /**
- * Стратегия определения периода продолжительностью в один месяц
+ * Стратегия определения периода продолжительностью в один месяц.
  */
 @Service
 public class MonthPeriodStrategy implements PeriodStrategy {

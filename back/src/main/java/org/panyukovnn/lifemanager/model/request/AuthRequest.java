@@ -9,7 +9,7 @@ import static org.panyukovnn.lifemanager.model.Constants.BLANK_PASSWORD_ERROR_MS
 import static org.panyukovnn.lifemanager.model.Constants.BLANK_USER_NAME_ERROR_MSG;
 
 /**
- * Запрос аутентификации пользователя
+ * Запрос аутентификации пользователя.
  */
 @Getter
 @Setter

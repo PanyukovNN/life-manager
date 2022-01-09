@@ -11,7 +11,7 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Аннотация для сравнения пароля с паролем подтверждения
+ * Аннотация для сравнения пароля с паролем подтверждения.
  */
 @Documented
 @Retention(RUNTIME)

@@ -9,39 +9,39 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Параметры для поиска списка задач
+ * Параметры для поиска списка задач.
  */
 @Getter
 @Builder
 public class TaskListParams {
 
     /**
-     * Диапазон приоритетов
+     * Диапазон приоритетов.
      */
     private final List<Integer> priorityRange;
 
     /**
-     * Список статусов
+     * Список статусов.
      */
     private final List<TaskStatus> statuses;
 
     /**
-     * Список категорий
+     * Список категорий.
      */
     private final List<String> categories;
 
     /**
-     * Дата начала периода
+     * Дата начала периода.
      */
     private final LocalDate startDate;
 
     /**
-     * Дата окончания периода
+     * Дата окончания периода.
      */
     private final LocalDate endDate;
 
     /**
-     * Способ сортировки
+     * Способ сортировки.
      */
     private final TaskCompareType compareType;
 }

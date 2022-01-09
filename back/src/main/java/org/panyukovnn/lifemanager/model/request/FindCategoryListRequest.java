@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 
 /**
- * Запрос на поиск разделов по набору параметров
+ * Запрос на поиск разделов по набору параметров.
  */
 @Getter
 @Setter
