@@ -5,7 +5,7 @@ import {convertRawCategoriesToMap, FetchRawCategories} from "../../services/Cate
 import {TaskModal} from "../../components/tasklist/TaskModal";
 import {DoneRemoveTaskButtons} from "../../components/tasklist/DoneRemoveTaskButtons";
 import {PriorityTaskBlocksComponent} from "../../components/tasklist/PriorityTaskBlocksComponent";
-import {FiltrationForm} from "../../components/tasklist/FiltrationFormComponent";
+import {FiltrationForm} from "../../components/filtrationform/FiltrationFormComponent";
 import {useAlert} from "react-alert";
 
 /**
@@ -32,8 +32,6 @@ export const BaseTaskListPage = ({showSpinner, taskStatus}) => {
 
     const [checkedTaskIds, setCheckedTaskIds] = useState([]);
     const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
-    const [showModalCall, setShowModalCall] = useState(0);
-    const [modalTask, setModalTask] = useState(null);
 
     function handleCheckedTaskIds(isChecked, taskId) {
         setCheckedTaskIds(checkedTaskIds => {
@@ -58,44 +56,28 @@ export const BaseTaskListPage = ({showSpinner, taskStatus}) => {
 
     return (
         <div className="task-list-page">
-            <div className="filter-form-wrap">
-                {/*<div className="filter-block-header">Список задач</div>*/}
-
+            <div className="functional-block-wrap">
                 <FiltrationForm
                     categories={categories}
                     loading={loading}
                     notifyRefresh={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
+
+                <div className="functional-buttons-wrap">
+                    <DoneRemoveTaskButtons
+                        disabled={loading}
+                        checkedTaskIds={checkedTaskIds}
+                        refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
+                </div>
             </div>
 
             <div className="task-list-wrap">
                 <PriorityTaskBlocksComponent
                     refreshTaskListCall={refreshTaskListCall}
-                    notifyUpdateTaskClick={(task) => {
-                        setShowModalCall(showModalCall => showModalCall + 1);
-                        setModalTask(task);
-                    }}
+                    refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}
                     handleCheck={(taskId, isChecked) => handleCheckedTaskIds(isChecked, taskId)}
                     taskStatus={taskStatus}
-                    showSpinner={showSpinner}/>
-
-                <Button className="add-task-button"
-                        variant="primary"
-                        disabled={loading}
-                        onClick={() => {
-                            setShowModalCall(showModalCall => showModalCall + 1);
-                            setModalTask(null);}}>
-                    <span className="plus-sign">&#43;</span>
-                </Button>
-
-                <TaskModal refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}
-                           showModalCall={showModalCall}
-                           task={modalTask}
-                           categories={categories}  />
-
-                <DoneRemoveTaskButtons
-                    disabled={loading}
-                    checkedTaskIds={checkedTaskIds}
-                    refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
+                    showSpinner={showSpinner}
+                    categories={categories}/>
             </div>
         </div>
     );

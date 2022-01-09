@@ -3,7 +3,7 @@ import {Form} from "react-bootstrap";
 import {React, useEffect, useState} from 'react';
 
 /**
- * Компонент селектора
+ * Компонент селектора формы фильтрации
  *
  * @param id html идентификатор селектора
  * @param storageKey ключ локального хранилища

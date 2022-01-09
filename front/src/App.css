@@ -32,41 +32,32 @@
     min-height: calc(100vh);
 }
 
-.filter-form-wrap {
+.functional-block-wrap {
     /*width: 900px;*/
 
     display: flex;
     flex-wrap: wrap;
 
-    padding-top: 40px;
-    padding-left: 115px;
-    padding-right: 115px;
-    margin-bottom: auto;
+    padding: 20px 115px;
 }
-.filter-block-header {
-    width: 100%;
-    font-size: 50px;
-
-    margin-bottom: 38px;
+.functional-buttons-wrap {
+    margin-left: auto;
 }
-
-.selector-block {
-    width: 100%;
-
+.selector-wrap {
     display: flex;
-    flex-wrap: wrap;
 
-    margin-left: 15px;
-    margin-bottom: 34px;
+    align-items: center;
+}
+.selector-wrap + .selector-wrap {
+    margin-left: 20px;
 }
 .selector-header {
-    width: 100%;
-    font-size: 24px;
+    margin-right: 20px;
+
+    font-size: 16px;
 }
 .selector-wrapper {
     width: 200px;
-
-    margin-top: 10px;
 }
 .selectors-group {
     display: flex;
@@ -77,14 +68,26 @@
 
     min-width: 100%;
     width: fit-content;
-    height: 100vh;
+    /*height: 100vh;*/
 
-    background-color: #D4F2EF;
+    /*background-color: #D4F2EF;*/
 
-    padding: 60px;
+    padding: 0 60px 60px 60px;
 }
 .priority-task-block + .priority-task-block {
-    margin-left: 20px;
+    margin-left: 15px;
+}
+.priority-task-block {
+    border-radius: 5px;
+    padding: 10px 5px;
+
+    background-color: #F4F5F7;
+}
+.priority-task-block-header {
+    margin-left: 10px;
+    margin-bottom: 20px;
+
+    opacity: .7;
 }
 .task-components-spinner-wrap {
     text-align: center;
@@ -188,63 +191,10 @@
     background-color: whitesmoke;
 }
 
-.add-task-button,
-.add-category-button,
-.task-done-button,
-.task-remove-button {
-    position: fixed;
-
-    width:  60px;
-
-    color: black !important;
-
-    border-color: white !important;
-    background-color: white !important;
-
-    box-shadow: 0 0 30px rgba(0, 0, 0, .07);
-
-    transition: 0.4s ease !important;
+.functional-button + .functional-button {
+    margin-left: 15px;
 }
-.add-task-button:hover,
-.add-category-button:hover,
-.task-done-button:hover,
-.task-remove-button:hover {
-    transform: scale(1.1);
-}
-.add-task-button,
-.add-category-button {
-    height: 60px;
 
-    right: 150px;
-    bottom: 120px;
-
-    font-size: 40px !important;
-    font-weight: bold !important;
-
-    border-radius: 100px !important;
-}
-.task-done-button,
-.task-remove-button {
-    height: 30px;
-
-    font-size: 10px !important;
-
-    border-radius: 20px !important;
-}
-.task-done-button {
-    right: 150px;
-    bottom: 80px;
-}
-.task-remove-button {
-    right: 150px;
-    bottom: 40px;
-
-    padding: 0 !important;
-}
-.task-ready-icon {
-    width: 19px;
-    height: 19px;
-}
 .task-remove-icon {
     width: 30px;
     height: 30px;
@@ -283,14 +233,10 @@
     transform: scale(1.2);
 }
 
-.plus-sign {
-    display: flex;
-
-    top: -4px;
-    left: 15px;
-    position: absolute;
+.task-modal-priority-wrap {
+    padding: 10px;
+    opacity: .7;
 }
-
 .add-task-inputs-wrap {
     padding: 10px;
 }

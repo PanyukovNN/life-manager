@@ -1,11 +1,11 @@
 import '../../App.css';
 import {React, useEffect, useState} from 'react';
-import {SelectorComponent} from "./SelectorComponent";
+import {SelectorComponent} from "../filtrationform/SelectorComponent";
 import {TimePicker, DatePicker} from 'react-tempusdominus-bootstrap';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {
     DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
-    MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS
+    MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS, PRIORITY_2_DEFINITION
 } from "../../Constants";
 import {useAlert} from "react-alert";
 import {postReq} from "../../services/RequestService";
@@ -15,14 +15,13 @@ import {postReq} from "../../services/RequestService";
  *
  * @param refreshTaskList функция обновления списка задач
  * @param showModalCall хук показа окна
- * @param categories список категорий
- * @param taks задача
+ * @param category категория
+ * @param task задача
+ * @param priorityLetter буква приоритета
  * @returns {*} кнопку с модальным окном
  * @constructor
  */
-export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) => {
-
-    const noCategories = Object.keys(categories).length === 0;
+export const TaskModal = ({refreshTaskList, showModalCall, category, task, priorityLetter}) => {
 
     const alert = useAlert();
     const [show, setShow] = useState(false);
@@ -54,14 +53,11 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
         }
 
         let id = task ? task.id : null;
-        let category = document.getElementById(MODAL_CATEGORY_SELECT_ID).selectedOptions[0].value;
-        let priorityLetter = document.getElementById(MODAL_PRIORITY_LETTER_SELECT_ID).selectedOptions[0].value;
-        let priorityDigit = document.getElementById(MODAL_PRIORITY_DIGIT_SELECT_ID).selectedOptions[0].value;
 
         let body = {
             id: id,
             description: description,
-            priority: priorityLetter + priorityDigit,
+            priority: priorityLetter + 1,
             category: category,
             status: TO_DO_TASK_STATUS,
             plannedDate: date,
@@ -79,18 +75,17 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
         setShow(false);
     }
 
-    const impossibleToCreateTaskAlert = (
-        <div className="danger-alert">
-            Невозможно создать задачу без раздела
-        </div>
-    );
-
     return (
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{task ? "Редактировать задачу" : "Новая задача"}</Modal.Title>
                 </Modal.Header>
+
+                <div className="task-modal-priority-wrap">
+                    Раздел: category
+                    Приоритет: {PRIORITY_2_DEFINITION[priorityLetter]}
+                </div>
 
                 <div className="add-task-inputs-wrap">
                     {/* Поле ввода текста задачи */}
@@ -107,50 +102,10 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
                     </div>
 
                     <div className="modal-selectors-group-wrap">
-                        {/* Селектор раздела */}
-                        <div className="modal-selector-block">
-                            <div className="modal-selector-header">Раздел:</div>
-                            <div className="modal-selector-wrapper">
-                                <SelectorComponent
-                                    id={MODAL_CATEGORY_SELECT_ID}
-                                    defaultValue={task ? task.category : undefined}
-                                    optionMap={categories}
-                                    notifySelection={() => {}}/>
-                            </div>
-                        </div>
-
-                        {/* Селектор буквы приоритета */}
-                        <div className="modal-selector-block">
-                            <div className="modal-selector-header">Приоритет:</div>
-                            <div className="modal-priority-selector-wrapper">
-                                <SelectorComponent
-                                    id={MODAL_PRIORITY_LETTER_SELECT_ID}
-                                    defaultValue={task ? task.priority[0] : undefined}
-                                    optionMap={{
-                                        "A" : "A",
-                                        "B" : "B",
-                                        "C" : "C",
-                                        "D" : "D"}}
-                                    notifySelection={() => {}}/>
-                                <SelectorComponent
-                                    id={MODAL_PRIORITY_DIGIT_SELECT_ID}
-                                    defaultValue={task ? task.priority[1] : undefined}
-                                    optionMap={{
-                                        "1" : "1",
-                                        "2" : "2",
-                                        "3" : "3",
-                                        "4" : "4"}}
-                                    notifySelection={() => {}}/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="modal-selectors-group-wrap">
                         <div className="modal-selector-block">
                             <div className="modal-selector-header">Дата:</div>
                             <DatePicker format={"DD.MM.YYYY"}
                                         date={date}
-                                        // icons={type: "feather"}
                                         onChange={(e) => {
                                             if (e.date !== undefined) {
                                                 setDate(e.date.format("DD.MM.YYYY"));
@@ -169,8 +124,6 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
                                         }}/>
                         </div>
                     </div>
-
-                    {noCategories ? impossibleToCreateTaskAlert : ""}
                 </div>
 
                 <Modal.Footer>
@@ -178,8 +131,7 @@ export const TaskModal = ({refreshTaskList, showModalCall, categories, task}) =>
                         Закрыть
                     </Button>
                     <Button variant="primary"
-                            onClick={() => handleSave()}
-                            disabled={noCategories}>
+                            onClick={() => handleSave()}>
                         Сохранить
                     </Button>
                 </Modal.Footer>

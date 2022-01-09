@@ -2,10 +2,10 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 import {React, useState} from 'react'
-import {CategoryListPage} from "./pages/categorн/CategoryListPage";
+import {CategoryListPage} from "./pages/category/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
-import {ArchiveCategoryListPage} from "./pages/categorн/ArchiveCategoryListPage";
+import {ArchiveCategoryListPage} from "./pages/category/ArchiveCategoryListPage";
 import {NotFoundPage} from "./pages/exception/NotFoundPage";
 import {LoginPage} from "./pages/auth/LoginPage";
 import RequireAuth from "./services/RequireAuth";

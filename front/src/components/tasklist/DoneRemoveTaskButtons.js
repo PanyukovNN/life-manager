@@ -2,8 +2,6 @@ import '../../App.css';
 import {React} from 'react';
 import {Button} from "react-bootstrap";
 import {DONE_TASK_STATUS} from "../../Constants";
-import removeIcon from "../../resources/icon/remove.svg.png";
-import readyIcon from "../../resources/icon/ready.svg";
 import {useAlert} from "react-alert";
 import {deleteReq, postReq} from "../../services/RequestService";
 
@@ -67,18 +65,18 @@ export const DoneRemoveTaskButtons = ({refreshTaskList, checkedTaskIds, disabled
 
     return (
         <>
-            <Button className="task-done-button"
-                    variant="primary"
+            <Button className="functional-button"
+                    variant="outline-success"
                     onClick={markAsDone}
                     disabled={disabled || !checkedTaskIds.length}>
-                <img className="task-ready-icon" src={readyIcon}/>
+                Выполнена
             </Button>
 
-            <Button className="task-remove-button"
-                    variant="primary"
+            <Button className="functional-button"
+                    variant="outline-danger"
                     onClick={deleteTasks}
                     disabled={disabled || !checkedTaskIds.length}>
-                <img className="task-remove-icon" src={removeIcon}/>
+                Удалить
             </Button>
         </>
     )

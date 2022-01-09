@@ -9,21 +9,31 @@ import {
 import {useAlert} from "react-alert";
 import {postReq} from "../../services/RequestService";
 import {PriorityTaskBlock} from "./PriorityTaskBlock";
+import {TaskModal} from "./TaskModal";
 
 /**
  * Загружает и формирует список задач
  *
  * @param refreshTaskListCall хук обновления списка задач
+ * @param refreshTaskList функция обновления списка задач
  * @param handleCheck обработка выбора задачи
- * @param notifyUpdateTaskClick функция клика на кнопке редактирования задачи
  * @param taskStatus статус задач
  * @param spinnerCall хук показа спиннера загрузки
+ * @param categories список категорий
  * @returns {*} список задач
  * @constructor
  */
-export const PriorityTaskBlocksComponent = ({refreshTaskListCall, handleCheck, notifyUpdateTaskClick, taskStatus, showSpinner}) => {
+export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
+                                                refreshTaskList,
+                                                handleCheck,
+                                                taskStatus,
+                                                showSpinner,
+                                                categories}) => {
     const alert = useAlert();
     const [taskComponentBlocks, setTaskComponentBlocks] = useState();
+    const [showModalCall, setShowModalCall] = useState(0);
+    const [modalTask, setModalTask] = useState(null);
+    const [modalPriority, setModalPriority] = useState('A');
 
     useEffect(
         () => {
@@ -67,7 +77,10 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall, handleCheck, n
                             taskComponents.push(
                                 <Task task={task}
                                       handleCheck={handleCheck}
-                                      notifyEditBtnClick={(task) => notifyUpdateTaskClick(task)}
+                                      notifyEditBtnClick={task => {
+                                          setShowModalCall(showModalCall => showModalCall + 1);
+                                          setModalTask(task);
+                                      }}
                                       key={task.id}/>
                             )
                         })
@@ -75,7 +88,12 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall, handleCheck, n
                         taskComponentBlocks.push(
                             <PriorityTaskBlock
                                 priorityLetter={priorityLetter}
-                                taskComponents={taskComponents} />
+                                taskComponents={taskComponents}
+                                showModal={(chosenPriorityLetter) => {
+                                    setShowModalCall(showModalCall => showModalCall + 1);
+                                    setModalTask(null);
+                                    setModalPriority(chosenPriorityLetter);
+                                }} />
                         );
                     }
 
@@ -90,9 +108,20 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall, handleCheck, n
         [refreshTaskListCall]
     );
 
+    const createUpdateTaskModal = <TaskModal
+        refreshTaskList={refreshTaskList}
+        showModalCall={showModalCall}
+        task={modalTask}
+        categories={categories}
+        modalPriority={modalPriority}/>
+
     return (
-        <div className="task-component-blocks-wrap">
-            {taskComponentBlocks}
-        </div>
+        <>
+            <div className="task-component-blocks-wrap">
+                {taskComponentBlocks}
+            </div>
+
+            {createUpdateTaskModal}
+        </>
     )
 }

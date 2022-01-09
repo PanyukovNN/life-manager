@@ -84,7 +84,7 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                     setShowModalCall(showModalCall => showModalCall + 1);
                     setModalCategory(null);
                 }}>
-            <span className="plus-sign">&#43;</span>
+            Добавить
         </Button>
     );
 

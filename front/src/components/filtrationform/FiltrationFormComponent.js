@@ -32,7 +32,7 @@ export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
         <>
             <div className="selectors-group">
                 {/* Селектор категорий */}
-                <div className="selector-block">
+                <div className="selector-wrap">
                     <div className="selector-header">Раздел:</div>
                     <div className="selector-wrapper">
                         <SelectorComponent
@@ -43,11 +43,9 @@ export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
                             notifySelection={() => notifyRefresh()}/>
                     </div>
                 </div>
-            </div>
 
-            <div className="selectors-group">
                 {/* Селектор сортировки */}
-                <div className="selector-block">
+                <div className="selector-wrap">
                     <div className="selector-header">Сортировать по:</div>
                     <div className="selector-wrapper">
                         <SelectorComponent
