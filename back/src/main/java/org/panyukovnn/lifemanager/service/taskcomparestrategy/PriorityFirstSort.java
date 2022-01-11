@@ -1,7 +1,7 @@
 package org.panyukovnn.lifemanager.service.taskcomparestrategy;
 
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.TaskCompareType;
+import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -10,7 +10,7 @@ import java.util.Comparator;
  * Стратегия сортировки задач в порядке приоритета.
  */
 @Service
-public class PriorityFirstStrategy implements TaskCompareStrategy {
+public class PriorityFirstSort implements TaskSortStrategy {
 
     @Override
     public Comparator<Task> getComparator() {
@@ -21,7 +21,7 @@ public class PriorityFirstStrategy implements TaskCompareStrategy {
     }
 
     @Override
-    public TaskCompareType getTaskCompareType() {
-        return TaskCompareType.PRIORITY_FIRST;
+    public TaskSortType getTaskCompareType() {
+        return TaskSortType.PRIORITY_FIRST;
     }
 }

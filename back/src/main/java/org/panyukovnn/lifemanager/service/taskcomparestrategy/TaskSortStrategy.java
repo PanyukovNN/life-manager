@@ -1,14 +1,14 @@
 package org.panyukovnn.lifemanager.service.taskcomparestrategy;
 
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.TaskCompareType;
+import org.panyukovnn.lifemanager.model.TaskSortType;
 
 import java.util.Comparator;
 
 /**
  * Стратегии сортировки задач.
  */
-public interface TaskCompareStrategy {
+public interface TaskSortStrategy {
 
     /**
      * Вернуть компаратор.
@@ -22,5 +22,5 @@ public interface TaskCompareStrategy {
      *
      * @return способ сортировки
      */
-    TaskCompareType getTaskCompareType();
+    TaskSortType getTaskCompareType();
 }

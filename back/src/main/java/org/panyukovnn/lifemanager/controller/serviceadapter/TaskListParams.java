@@ -2,7 +2,7 @@ package org.panyukovnn.lifemanager.controller.serviceadapter;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.panyukovnn.lifemanager.model.TaskCompareType;
+import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
 import java.time.LocalDate;
@@ -43,5 +43,5 @@ public class TaskListParams {
     /**
      * Способ сортировки.
      */
-    private final TaskCompareType compareType;
+    private final TaskSortType sortType;
 }

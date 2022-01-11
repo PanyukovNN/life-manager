@@ -3,7 +3,12 @@ package org.panyukovnn.lifemanager.model;
 /**
  * Способ сортировки задач.
  */
-public enum TaskCompareType {
+public enum TaskSortType {
+
+    /**
+     * Без сортировки.
+     */
+    NONE,
 
     /**
      * В порядке приоритета.

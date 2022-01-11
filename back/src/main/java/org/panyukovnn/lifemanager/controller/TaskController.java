@@ -5,7 +5,7 @@ import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
 import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.TaskCompareType;
+import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.model.request.*;
 import org.panyukovnn.lifemanager.service.CategoryService;
@@ -104,7 +104,7 @@ public class TaskController {
                 .categories(request.getCategories())
                 .startDate(null) // мы хотим показывать просроченные задачи
                 .endDate(endDate)
-                .compareType(request.getCompareType())
+                .sortType(request.getSortType())
                 .build();
 
         return taskService.findList(params)
@@ -134,7 +134,7 @@ public class TaskController {
      */
     @GetMapping("/find-all")
     public List<TaskDto> findAll(TimeZone timeZone) {
-        return taskService.findAll(TaskCompareType.PRIORITY_FIRST)
+        return taskService.findAll(TaskSortType.PRIORITY_FIRST)
                 .stream()
                 .map(task -> taskService.convertToDto(task, timeZone))
                 .collect(Collectors.toList());

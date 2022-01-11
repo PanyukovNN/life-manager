@@ -4,8 +4,6 @@ import {SelectorComponent} from './SelectorComponent'
 import {
     CATEGORY_KEY,
     CATEGORY_SELECT_ID,
-    COMPARE_TO_KEY,
-    COMPARE_TO_SELECT_ID
 } from '../../Constants'
 
 /**
@@ -40,22 +38,6 @@ export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
                             disabled={loading}
                             storageKey={CATEGORY_KEY}
                             optionMap={categoriesWithDefault}
-                            notifySelection={() => notifyRefresh()}/>
-                    </div>
-                </div>
-
-                {/* Селектор сортировки */}
-                <div className="selector-wrap">
-                    <div className="selector-header">Сортировать по:</div>
-                    <div className="selector-wrapper">
-                        <SelectorComponent
-                            id={COMPARE_TO_SELECT_ID}
-                            storageKey={COMPARE_TO_KEY}
-                            optionMap={{
-                                "PRIORITY_FIRST": "Приоритету",
-                                "DATE_PLANNED_FIRST": "Дате исполнения",
-                                "DATE_ADDED_FIRST": "Дате добавления"
-                            }}
                             notifySelection={() => notifyRefresh()}/>
                     </div>
                 </div>

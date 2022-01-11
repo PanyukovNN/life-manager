@@ -21,18 +21,19 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
         <div className={"task-block" + doneStatusStyle}>
             <input className="task-id" type={"hidden"} value={task.id}/>
 
-            <div className="task-info">
-                <div className="task-check">
-                    <Form.Check
-                        inline
-                        type="checkbox"
-                        onChange={(e) => handleCheck(task.id, e.target.checked)}/>
+            <div className="task-description-buttons-wrap">
+                <div className="task-description">{task.description}</div>
+
+                <div className="task-info">
+                    <Button className="task-edit-button"
+                            variant="primary"
+                            onClick={() => {notifyEditBtnClick(task)}}>
+                        <img className="task-edit-icon" src={editIcon}/>
+                    </Button>
                 </div>
+            </div>
 
-                {/*<div className="task-priority">{task.priority}</div>*/}
-
-                {/*<div className="task-category">{task.category}</div>*/}
-
+            <div className="task-footer-wrap">
                 <div className={"task-planned-date-time-wrap" + overdueStyle}>
                     {task.plannedTime
                         ? <div className="task-planned-time">{task.plannedTime}</div>
@@ -40,15 +41,7 @@ export const Task = ({task, handleCheck, notifyEditBtnClick}) => {
 
                     <div className="task-planned-date">{task.plannedDate}</div>
                 </div>
-
-                <Button className="task-edit-button"
-                        variant="primary"
-                        onClick={() => {notifyEditBtnClick(task)}}>
-                    <img className="task-edit-icon" src={editIcon}/>
-                </Button>
             </div>
-
-            <div className="task-description">{task.description}</div>
         </div>
     )
 }

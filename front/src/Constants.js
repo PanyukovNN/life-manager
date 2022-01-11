@@ -2,8 +2,6 @@ import {React} from "react";
 
 export const PERIOD_KEY     = "period";
 export const CATEGORY_KEY   = "category";
-export const COMPARE_TO_KEY = "sortOrder";
-export const STATUS_KEY = "status";
 export const PRIORITY_LETTER_KEY = "priorityLetter"
 export const PRIORITY_DIGIT_KEY = "priorityDigit"
 

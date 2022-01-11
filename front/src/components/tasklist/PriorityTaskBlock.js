@@ -23,7 +23,7 @@ export const PriorityTaskBlock = ({priorityLetter,
 
             {taskComponents}
 
-            <Button className="functional-button w-100"
+            <Button className="add-task-button w-100"
                     variant="outline-secondary"
                     onClick={() => showModal(priorityLetter)}>
                 Добавить

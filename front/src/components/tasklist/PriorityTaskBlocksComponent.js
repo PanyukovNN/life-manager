@@ -3,7 +3,6 @@ import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
 import {
     CATEGORY_SELECT_ID,
-    COMPARE_TO_SELECT_ID,
     NO_ELEMENTS_DIV
 } from '../../Constants'
 import {useAlert} from "react-alert";
@@ -34,6 +33,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalTask, setModalTask] = useState(null);
     const [modalPriority, setModalPriority] = useState('A');
+    const [currentCategory, setCurrentCategory] = useState("");
 
     useEffect(
         () => {
@@ -43,15 +43,14 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
 
             showSpinner(true);
 
-            const category = document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value;
-            const compareType = document.getElementById(COMPARE_TO_SELECT_ID).selectedOptions[0].value;
+            setCurrentCategory(document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value);
 
             const fetchTasks = async () => {
                 let body = {
                     taskStatuses: taskStatus !== "" ? [taskStatus] : [],
-                    categories: category !== "" ? [category] : [],
+                    categories: currentCategory !== "" ? [currentCategory] : [],
                     periodType: "ALL",
-                    compareType: compareType !== "" ? compareType : "PRIORITY_FIRST"
+                    sortType: "NONE"
                 };
 
                 let priorityTaskListMap = await postReq("http://localhost:80/api/task/find-priority-task-list-map", body, alert)
@@ -112,8 +111,8 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
         refreshTaskList={refreshTaskList}
         showModalCall={showModalCall}
         task={modalTask}
-        categories={categories}
-        modalPriority={modalPriority}/>
+        category={currentCategory}
+        priorityLetter={modalPriority}/>
 
     return (
         <>

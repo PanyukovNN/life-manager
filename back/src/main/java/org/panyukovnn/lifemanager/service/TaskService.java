@@ -4,11 +4,11 @@ import io.micrometer.core.instrument.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.TaskCompareType;
+import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
-import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskCompareStrategyResolver;
+import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskSortStrategyResolver;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -37,7 +37,7 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final MongoTemplate mongoTemplate;
-    private final TaskCompareStrategyResolver compareStrategyResolver;
+    private final TaskSortStrategyResolver compareStrategyResolver;
 
     /**
      * Создать/обновить задачу.
@@ -104,7 +104,9 @@ public class TaskService {
         }
 
         List<Task> tasks = mongoTemplate.find(query, Task.class);
-        tasks.sort(compareStrategyResolver.resolve(params.getCompareType()));
+        if (params.getSortType() != TaskSortType.NONE) {
+            tasks.sort(compareStrategyResolver.resolve(params.getSortType()));
+        }
 
         return tasks;
     }
@@ -130,7 +132,7 @@ public class TaskService {
      * @param compareType способ сортировки задач
      * @return список задач
      */
-    public List<Task> findAll(TaskCompareType compareType) {
+    public List<Task> findAll(TaskSortType compareType) {
         List<Task> allTasks = taskRepository.findAll();
         allTasks.sort(compareStrategyResolver.resolve(compareType));
 

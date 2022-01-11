@@ -79,11 +79,14 @@ export const TaskModal = ({refreshTaskList, showModalCall, category, task, prior
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{task ? "Редактировать задачу" : "Новая задача"}</Modal.Title>
+                    <Modal.Title>
+                        {task
+                            ? "Редактировать задачу в разделе \"" + category + "\""
+                            : "Новая задача в разделе \"" + category + "\""}
+                    </Modal.Title>
                 </Modal.Header>
 
                 <div className="task-modal-priority-wrap">
-                    Раздел: category
                     Приоритет: {PRIORITY_2_DEFINITION[priorityLetter]}
                 </div>
 

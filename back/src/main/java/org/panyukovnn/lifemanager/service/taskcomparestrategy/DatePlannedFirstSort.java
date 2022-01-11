@@ -1,7 +1,7 @@
 package org.panyukovnn.lifemanager.service.taskcomparestrategy;
 
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.TaskCompareType;
+import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -10,7 +10,7 @@ import java.util.Comparator;
  * Стратегия сортировки задач в порядке планируемой даты исполенния.
  */
 @Service
-public class DatePlannedFirstStrategy implements TaskCompareStrategy {
+public class DatePlannedFirstSort implements TaskSortStrategy {
 
     @Override
     public Comparator<Task> getComparator() {
@@ -20,7 +20,7 @@ public class DatePlannedFirstStrategy implements TaskCompareStrategy {
     }
 
     @Override
-    public TaskCompareType getTaskCompareType() {
-        return TaskCompareType.DATE_PLANNED_FIRST;
+    public TaskSortType getTaskCompareType() {
+        return TaskSortType.DATE_PLANNED_FIRST;
     }
 }
