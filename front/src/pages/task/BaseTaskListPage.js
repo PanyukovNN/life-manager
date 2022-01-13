@@ -1,5 +1,5 @@
 import '../../App.css';
-import {React, useState} from 'react'
+import {React, useEffect, useState} from 'react'
 import {Button} from "react-bootstrap";
 import {convertRawCategoriesToMap, FetchRawCategories} from "../../services/CategoryService";
 import {TaskModal} from "../../components/tasklist/TaskModal";
@@ -53,6 +53,21 @@ export const BaseTaskListPage = ({showSpinner, taskStatus}) => {
             return [...checkedTaskIds, taskId]
         });
     }
+
+    // Функция закрытия всплывающих меню у задач, при клике мышкой вне меню
+    useEffect(() => {
+        window.onclick = function(event) {
+            if (event.target.matches('.dropdown-element')) {
+                return;
+            }
+
+            let elementsByClassName = document.getElementsByClassName('dropdown-show');
+
+            if (elementsByClassName && elementsByClassName.length !== 0) {
+                elementsByClassName[0].classList.remove('dropdown-show');
+            }
+        }
+    }, []);
 
     return (
         <div className="task-list-page">

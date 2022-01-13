@@ -116,8 +116,12 @@
 
     background-color: white;
 }
-.task-info {
+.task-buttons {
     display: flex;
+
+    width: 20px;
+
+    flex-wrap: wrap;
 
     align-content: center;
     align-items: center;
@@ -168,12 +172,12 @@
     margin-top: 10px;
     margin-bottom: 12px;
 }
+.task-ellipsis-button,
 .task-edit-button {
-    width:  20px;
-    height: 20px;
+    min-width:  30px;
+    height: 30px;
 
-    margin-left: 12px;
-    padding: 0 !important;
+    padding: 5px !important;
 
     background-color: rgba(0, 0, 0, .0) !important;
 
@@ -181,8 +185,20 @@
     font-size: 12px !important;
     line-height: 6px !important;
 
-    border-radius: 20px !important;
+    border-radius: 5px !important;
     border: none !important;
+
+    transition: .1s ease !important;
+}
+.task-ellipsis-button + .task-edit-button {
+    margin-top: 10px;
+}
+.task-ellipsis-button:hover,
+.task-edit-button:hover {
+    background-color: #e5e5e5 !important;
+}
+.task-ellipsis-button:focus {
+    background-color: #6c6c6c !important;
 }
 .task-overdue {
     background-color: rgb(255, 229, 229);
@@ -201,6 +217,12 @@
 .task-remove-icon {
     width: 30px;
     height: 30px;
+}
+.task-ellipsis-icon {
+    width: 15px;
+    height: 15px;
+
+    opacity: .7;
 }
 .task-edit-icon,
 .category-edit-icon {
@@ -229,7 +251,6 @@
 
     transition: .4s ease;
 }
-.task-edit-icon:hover,
 .category-edit-icon:hover,
 .category-remove-icon:hover,
 .category-to-archive-icon:hover {
@@ -489,3 +510,33 @@
     text-align: center;
     border-radius: 5px
 }
+
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+.dropdown-show {
+    display: block !important;
+}
+/*.dropdown-content:not(:focus) {*/
+/*    display: none;*/
+/*}*/
