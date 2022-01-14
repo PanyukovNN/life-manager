@@ -1,30 +1,33 @@
 import '../../App.css';
-import {React, useEffect} from 'react';
+import {React, useState} from 'react';
 import {SelectorComponent} from './SelectorComponent'
-import {
-    CATEGORY_KEY,
-    CATEGORY_SELECT_ID,
-} from '../../Constants'
+import {CATEGORY_KEY, CATEGORY_SELECT_ID,} from '../../Constants'
+import {convertRawCategoriesToMap, FetchRawCategories} from "../../services/CategoryService";
 
 /**
  * Параметры поиска задач
  *
  * @param notifyRefresh уведомление об обновлении формы
- * @param categories список категорий
- * @param loading флаг загрузки
+ * @param setLoading хук окончания загрузки
  * @returns {*} селекторы с параметров поиска
  * @constructor
  */
-export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
+export const FiltrationForm = ({notifyRefresh}) => {
 
-    let categoriesWithDefault = {"": "Все"};
-    for (const [key, value] of Object.entries(categories)) {
-        categoriesWithDefault[key] = value;
-    }
+    const loadingCategories = {"": "Загрузка..."};
+    const [categories, setCategories] = useState(loadingCategories);
 
-    useEffect(() => {
-        notifyRefresh();
-    }, [])
+    FetchRawCategories(
+        (rawCategories) => {
+            let categoriesFromServer = convertRawCategoriesToMap(rawCategories);
+
+            setCategories(categoriesFromServer);
+
+            notifyRefresh();
+        },
+        undefined,
+        undefined,
+        alert);
 
     return (
         <>
@@ -35,10 +38,10 @@ export const FiltrationForm = ({notifyRefresh, categories, loading}) => {
                     <div className="selector-wrapper">
                         <SelectorComponent
                             id={CATEGORY_SELECT_ID}
-                            disabled={loading}
+                            disabled={categories === loadingCategories}
                             storageKey={CATEGORY_KEY}
-                            optionMap={categoriesWithDefault}
-                            notifySelection={() => notifyRefresh()}/>
+                            optionMap={categories}
+                            notifySelection={notifyRefresh}/>
                     </div>
                 </div>
             </div>

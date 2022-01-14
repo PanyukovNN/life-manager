@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
@@ -77,11 +74,20 @@ public class TaskController {
     public Map<Character, List<TaskDto>> findPriorityTaskListMap(@RequestBody @Valid FindTaskListRequest request, TimeZone timeZone) {
         List<TaskDto> taskList = findTaskList(request, timeZone);
 
-        return taskList.stream().collect(Collectors.groupingBy(
+        TreeMap<Character, List<TaskDto>> priorityTaskListMap = taskList.stream().collect(Collectors.groupingBy(
                 taskDto -> taskDto.getPriority().charAt(0),
                 TreeMap::new,
                 Collectors.toList()
         ));
+
+        // Если по какому-либо из имеющихся приоритетов нет задач, то добавляем пустой список в ответ
+        PRIORITIES.forEach(priority -> {
+            if (!priorityTaskListMap.containsKey(priority)) {
+                priorityTaskListMap.put(priority, new ArrayList<>());
+            }
+        });
+
+        return priorityTaskListMap;
     }
 
     /**

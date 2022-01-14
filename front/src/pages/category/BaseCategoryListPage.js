@@ -9,11 +9,10 @@ import {postReq, deleteReq} from "../../services/RequestService"
 /**
  * Базовая страница управления разделами
  *
- * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} страница управления разделами
  * @constructor
  */
-export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
+export const BaseCategoryListPage = ({inArchive}) => {
 
     const alert = useAlert();
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
@@ -111,8 +110,7 @@ export const BaseCategoryListPage = ({inArchive, showSpinner}) => {
                     }}
                     notifyToArchiveCategoryClick={setMoveToArchiveCategory}
                     notifyRemoveCategoryClick={setRemoveCategory}
-                    inArchive={inArchive}
-                    showSpinner={showSpinner}/>
+                    inArchive={inArchive}/>
             </div>
 
             {!inArchive ? addCategoryBtn : ""}

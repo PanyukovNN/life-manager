@@ -11,12 +11,11 @@ import {deleteReq, postReq} from "../../services/RequestService";
  * Карточка задачи
  *
  * @param task объект задачи
- * @param handleCheck обработка выбора задачи
  * @param refreshTaskList функция обновления списка задач
  * @param notifyTaskClick функция уведомления о клике на кнопке редактирования
  * @returns {*} компонент задачи
  */
-export const Task = ({task, handleCheck, refreshTaskList, notifyEditBtnClick}) => {
+export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
 
     const doneStatusStyle = task.status === DONE_TASK_STATUS ? " task-done " : "";
     const overdueStyle = task.overdue ? " task-overdue " : "";

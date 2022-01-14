@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
-import {React, useEffect, useState} from 'react'
+import {React, useState} from 'react'
 import {CategoryListPage} from "./pages/category/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
@@ -15,18 +15,16 @@ import {ToDoTaskListPage} from "./pages/task/ToDoTaskListPage";
 
 function App() {
 
-    const [spinnerCall, showSpinner] = useState(false);
-
     return (
         <div className="App">
-            <NavbarComponent spinnerCall={spinnerCall} />
+            <NavbarComponent />
 
             <Router>
                 <Routes>
-                    <Route path='/' element={<RequireAuth><ToDoTaskListPage showSpinner={showSpinner} /></RequireAuth>}/>
-                    <Route path='/done-tasks' element={<RequireAuth><DoneTaskListPage showSpinner={showSpinner} /></RequireAuth>}/>
-                    <Route path="/categories" element={<RequireAuth><CategoryListPage showSpinner={showSpinner} /></RequireAuth>} />
-                    <Route path="/categories/archive" element={<RequireAuth><ArchiveCategoryListPage showSpinner={showSpinner} /></RequireAuth>} />
+                    <Route path='/' element={<RequireAuth><ToDoTaskListPage /></RequireAuth>}/>
+                    <Route path='/done-tasks' element={<RequireAuth><DoneTaskListPage /></RequireAuth>}/>
+                    <Route path="/categories" element={<RequireAuth><CategoryListPage /></RequireAuth>} />
+                    <Route path="/categories/archive" element={<RequireAuth><ArchiveCategoryListPage /></RequireAuth>} />
 
                     <Route path="*" element={<NotFoundPage />} />
                     <Route path="/sign-in" element={<LoginPage />} />

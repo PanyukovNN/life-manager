@@ -4,6 +4,7 @@ import {Category} from "./Category";
 import {FetchRawCategories} from "../../services/CategoryService";
 import {React, useEffect, useState} from 'react';
 import {useAlert} from "react-alert";
+import {isLoading, setLoadingStart, setLoadingStop} from "../../services/Util";
 
 /**
  * Компонент со списком разделов
@@ -13,7 +14,6 @@ import {useAlert} from "react-alert";
  * @param notifyToArchiveCategoryClick фукнция уведомления о клике на кнопку "в архив" категории
  * @param notifyRemoveCategoryClick функция уведомления о клике на кнопку "удалить" категории
  * @param inArchive флаг в/вне архива
- * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} компонент со списком разделов
  * @constructor
  */
@@ -21,8 +21,7 @@ export const CategoryListComponent = ({refreshCategoryListCall,
                                           notifyUpdateCategoryClick,
                                           notifyToArchiveCategoryClick,
                                           notifyRemoveCategoryClick,
-                                          inArchive,
-                                          showSpinner}) => {
+                                          inArchive}) => {
 
     const alert = useAlert();
     const [categoryComponents, setCategoryComponents] = useState([]);
@@ -36,8 +35,8 @@ export const CategoryListComponent = ({refreshCategoryListCall,
 
     useEffect(
         () => {
-            if (loading) {
-                showSpinner(true);
+            if (isLoading()) {
+                setLoadingStart(true);
                 return;
             }
 
@@ -60,7 +59,7 @@ export const CategoryListComponent = ({refreshCategoryListCall,
                 return categoryComponents;
             });
 
-            showSpinner(false);
+            setLoadingStop();
         },
         [loading]
     );

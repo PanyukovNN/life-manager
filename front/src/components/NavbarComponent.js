@@ -2,14 +2,14 @@ import '../App.css';
 import {React} from 'react';
 import {Container, Nav, Navbar, Spinner, Button} from "react-bootstrap";
 import AuthService from "../services/AuthService";
+import {LOADING_SPINNER_ID} from "../Constants";
 
 /**
  * Навигационная панель
  *
- * @param spinnerCall флаг показа спиннера загрузки
  * @returns {*} компонент навигационной панели
  */
-export const NavbarComponent = ({spinnerCall}) => {
+export const NavbarComponent = () => {
 
     let auth = AuthService.isLoggedIn();
 
@@ -36,8 +36,8 @@ export const NavbarComponent = ({spinnerCall}) => {
                             {auth && <Nav.Link onClick={AuthService.signOut}>Выйти</Nav.Link>}
                         </Nav>
                     </Navbar.Collapse>
-                    <div className="navbar-spinner">
-                        {spinnerCall ? <Spinner animation="border" size="sm" variant="secondary" /> : ''}
+                    <div className="navbar-spinner" id={LOADING_SPINNER_ID}>
+                        <Spinner animation="border" size="sm" variant="secondary" />
                     </div>
                 </Container>
             </Navbar>

@@ -3,6 +3,8 @@ package org.panyukovnn.lifemanager.model;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Константы.
  */
@@ -62,4 +64,6 @@ public final class Constants {
     // Строка должна состоять из двух символов, первый от A до D, второй от 1 до 4
     public static final String PRIORITY_PATTERN = "^[A-D][1-4]$";
     public static final String PRIORITY_LETTER_PATTERN_OR_EMPTY = "^[A-D]$|";
+    // Список допустимых приоритетов
+    public static final List<Character> PRIORITIES = List.of('A', 'B', 'C', 'D');
 }

@@ -21,6 +21,7 @@
     margin-right: auto;
 }
 .navbar-spinner {
+    display: none;
     position: absolute;
     top: 15px;
     right: 15px;
@@ -537,6 +538,7 @@
 .dropdown-show {
     display: block !important;
 }
-/*.dropdown-content:not(:focus) {*/
-/*    display: none;*/
-/*}*/
+
+.show {
+    display: block !important;
+}

@@ -1,12 +1,10 @@
 package org.panyukovnn.lifemanager.service;
 
-import com.google.common.collect.ImmutableMap;
 import io.micrometer.core.instrument.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -21,16 +19,6 @@ public class ControllerHelper {
 
     public static final DateTimeFormatter FRONT_D_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public static final DateTimeFormatter FRONT_T_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
-
-    /**
-     * Карта для вывода на фронт описания каждого из приортетов
-     */
-    public static final Map<Character, String> priority2Definition = new ImmutableMap.Builder<Character, String>()
-            .put('A', "Важные и срочные")
-            .put('B', "Важные и несрочные")
-            .put('C', "Неважные и срочные")
-            .put('D', "Неважные и несрочные")
-            .build();
 
     /**
      * Конвертировать строчную запись приоритета в числовое значение.

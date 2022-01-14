@@ -1,39 +1,31 @@
 import '../../App.css';
 import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
-import {
-    CATEGORY_SELECT_ID,
-    NO_ELEMENTS_DIV
-} from '../../Constants'
+import {NO_ELEMENTS_DIV} from '../../Constants'
 import {useAlert} from "react-alert";
 import {postReq} from "../../services/RequestService";
 import {PriorityTaskBlock} from "./PriorityTaskBlock";
 import {TaskModal} from "./TaskModal";
+import {getCurrentCategory} from "../../services/CategoryService";
+import {setLoadingStart, setLoadingStop} from "../../services/Util";
 
 /**
  * Загружает и формирует список задач
  *
  * @param refreshTaskListCall хук обновления списка задач
  * @param refreshTaskList функция обновления списка задач
- * @param handleCheck обработка выбора задачи
  * @param taskStatus статус задач
- * @param spinnerCall хук показа спиннера загрузки
- * @param categories список категорий
  * @returns {*} список задач
  * @constructor
  */
 export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                                                 refreshTaskList,
-                                                handleCheck,
-                                                taskStatus,
-                                                showSpinner,
-                                                categories}) => {
+                                                taskStatus}) => {
     const alert = useAlert();
     const [taskComponentBlocks, setTaskComponentBlocks] = useState();
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalTask, setModalTask] = useState(null);
     const [modalPriority, setModalPriority] = useState('A');
-    const [currentCategory, setCurrentCategory] = useState("");
 
     useEffect(
         () => {
@@ -41,17 +33,17 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                 return;
             }
 
-            showSpinner(true);
-
-            setCurrentCategory(document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value);
+            setLoadingStart();
 
             const fetchTasks = async () => {
                 let body = {
                     taskStatuses: taskStatus !== "" ? [taskStatus] : [],
-                    categories: currentCategory !== "" ? [currentCategory] : [],
+                    categories: [getCurrentCategory()],
                     periodType: "ALL",
                     sortType: "NONE"
                 };
+
+                console.log(body)
 
                 let priorityTaskListMap = await postReq("http://localhost:80/api/task/find-priority-task-list-map", body, alert)
                     .then(response => {
@@ -75,7 +67,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                         tasks.forEach(task => {
                             taskComponents.push(
                                 <Task task={task}
-                                      handleCheck={handleCheck}
+                                      refreshTaskList={refreshTaskList}
                                       notifyEditBtnClick={task => {
                                           setShowModalCall(showModalCall => showModalCall + 1);
                                           setModalTask(task);
@@ -99,7 +91,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                     return taskComponentBlocks;
                 });
 
-                showSpinner(false);
+                setLoadingStop();
             }
 
             fetchTasks();
@@ -111,7 +103,6 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
         refreshTaskList={refreshTaskList}
         showModalCall={showModalCall}
         task={modalTask}
-        category={currentCategory}
         priorityLetter={modalPriority}/>
 
     return (

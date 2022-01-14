@@ -9,25 +9,26 @@ import {
 } from "../../Constants";
 import {useAlert} from "react-alert";
 import {postReq} from "../../services/RequestService";
+import {getCurrentCategory} from "../../services/CategoryService";
 
 /**
  * Кнопка с открытием модального окна добавления задачи
  *
  * @param refreshTaskList функция обновления списка задач
  * @param showModalCall хук показа окна
- * @param category категория
  * @param task задача
  * @param priorityLetter буква приоритета
  * @returns {*} кнопку с модальным окном
  * @constructor
  */
-export const TaskModal = ({refreshTaskList, showModalCall, category, task, priorityLetter}) => {
+export const TaskModal = ({refreshTaskList, showModalCall, task, priorityLetter}) => {
 
     const alert = useAlert();
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
     const handleClose = async () => setShow(false);
+    const [category, setCategory] = useState("");
 
     useEffect(
         () => {
@@ -36,6 +37,7 @@ export const TaskModal = ({refreshTaskList, showModalCall, category, task, prior
                 return;
             }
 
+            setCategory(getCurrentCategory());
             setDate(task !== null ? task.plannedDate : "")
             setTime(task !== null ? task.plannedTime : "")
 
@@ -81,12 +83,14 @@ export const TaskModal = ({refreshTaskList, showModalCall, category, task, prior
                 <Modal.Header closeButton>
                     <Modal.Title>
                         {task
-                            ? "Редактировать задачу в разделе \"" + category + "\""
-                            : "Новая задача в разделе \"" + category + "\""}
+                            ? "Редактировать задачу"
+                            : "Новая задача"}
                     </Modal.Title>
                 </Modal.Header>
 
                 <div className="task-modal-priority-wrap">
+                    Раздел: {category}
+                    <br/>
                     Приоритет: {PRIORITY_2_DEFINITION[priorityLetter]}
                 </div>
 

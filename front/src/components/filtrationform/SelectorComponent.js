@@ -16,11 +16,8 @@ import {React, useEffect, useState} from 'react';
  */
 export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, defaultValue, disabled}) => {
 
-    // Формируем варианты выбора
-    let options = [];
-    for (const [key, value] of Object.entries(optionMap)) {
-        options.push(<option value={key}>{value}</option>)
-    }
+    // Варианты выбора
+    const [options, setOptions] = useState([]);
 
     // Сохраняем/читаем значение из локального хранилица
     const [selected, setSelected] = useState(optionMap[0]);
@@ -35,6 +32,12 @@ export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, d
     }
 
     useEffect(() => {
+            let optionsFromServer = [];
+            for (const [key, value] of Object.entries(optionMap)) {
+                optionsFromServer.push(<option value={key}>{value}</option>)
+            }
+            setOptions(optionsFromServer);
+
             if (storageKey !== undefined) {
                 const storedValue = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
                 setSelected(storedValue);
@@ -42,7 +45,7 @@ export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, d
                 setSelected(defaultValue);
             }
         },
-        []
+        [optionMap]
     );
 
     return (

@@ -1,20 +1,21 @@
 import {useEffect} from "react";
 import {postReq} from "./RequestService";
+import {CATEGORY_SELECT_ID} from "../Constants";
+import {setLoadingStart, setLoadingStop} from "./Util";
 
 /**
  * Запрашивает с сервера список категорий и возвращает его
  *
- * @param setLoading задать флаг загрузки страницы
  * @param setCategories задать список объектов категорий
  * @param call хук загрузки категорий
  * @param inArchive флаг в/вне архива
  * @param alert всплывающее окно
  * @returns объекты категорий
  */
-export function FetchRawCategories(setLoading, setCategories, call, inArchive, alert) {
+export function FetchRawCategories(setCategories, call, inArchive, alert) {
     useEffect(
         () => {
-            setLoading(true);
+            setLoadingStart();
 
             let body = {
                 inArchive: inArchive === undefined ? false : inArchive.inArchive
@@ -27,7 +28,7 @@ export function FetchRawCategories(setLoading, setCategories, call, inArchive, a
                         }
 
                         setCategories(response.data);
-                        setLoading(false);
+                        setLoadingStop();
                     }
                 );
         },
@@ -45,4 +46,11 @@ export function convertRawCategoriesToMap(rawCategories) {
     rawCategories.forEach(category => categoryMap[category.name] = category.name);
 
     return categoryMap;
+}
+
+/**
+ * Получить выбранную в селекторе категорию
+ */
+export function getCurrentCategory() {
+    return document.getElementById(CATEGORY_SELECT_ID).selectedOptions[0].value;
 }

@@ -4,15 +4,13 @@ import {BaseCategoryListPage} from "./BaseCategoryListPage";
 /**
  * Страница управления разделами в архиве
  *
- * @param spinnerCall хук показа спиннера загрузки
  * @returns {*} страница управления разделами в архиве
  * @constructor
  */
-export const ArchiveCategoryListPage = ({showSpinner}) => {
+export const ArchiveCategoryListPage = () => {
 
     return (
         <BaseCategoryListPage
-            inArchive={true}
-            showSpinner={showSpinner}/>
+            inArchive={true}/>
     );
 }
