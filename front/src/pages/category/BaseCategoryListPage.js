@@ -3,47 +3,32 @@ import {React, useEffect, useState} from 'react'
 import {CategoryListComponent} from "../../components/categorilist/CategoryListComponent";
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../../components/categorilist/CategoryModal";
-import {useAlert} from "react-alert";
-import {postReq, deleteReq} from "../../services/RequestService"
+import {moveToFromArchive} from "../../services/CategoryService";
 
 /**
  * Базовая страница управления разделами
  *
- * @returns {*} страница управления разделами
+ * @returns страница управления разделами
  * @constructor
  */
 export const BaseCategoryListPage = ({inArchive}) => {
-
-    const alert = useAlert();
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
-    const [moveToArchiveCategory, setMoveToArchiveCategory] = useState(null);
+    const [categoryToFromArchive, setCategoryToFromArchive] = useState(null);
     const [removeCategory, setRemoveCategory] = useState(null);
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalCategory, setModalCategory] = useState(null);
 
     useEffect(() => {
-            if (moveToArchiveCategory == null) {
+            if (categoryToFromArchive == null) {
                 return;
             }
 
-            const moveToArchive = async () => {
-                let body = {
-                    name: moveToArchiveCategory.name,
-                    inArchive: !inArchive
-                };
-
-                await postReq("http://localhost:80/api/category/set-in-archive", body, alert)
-                    .then(response => {
-                        if (response && response.data) {
-                            alert.show(response.data)
-                        }
-                    });
-
-                setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
-            }
-            moveToArchive();
+            moveToFromArchive(categoryToFromArchive.name, !inArchive)
+                .then(() => {
+                    setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
+                })
         },
-        [moveToArchiveCategory]
+        [categoryToFromArchive]
     );
 
     useEffect(() => {
@@ -51,27 +36,7 @@ export const BaseCategoryListPage = ({inArchive}) => {
                 return;
             }
 
-            let result = window.confirm("Вы уверены, что хотите удалить категорию \"" + removeCategory.name + "\"?");
-
-            if (!result) {
-                return;
-            }
-
-            const remove = async () => {
-                let body = {
-                    name: removeCategory.name
-                };
-
-                await deleteReq("http://localhost:80/api/category/delete-by-name", body, alert)
-                    .then(response => {
-                        if (response && response.data) {
-                            alert.show(response.data)
-                        }
-                    });
-
-                setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
-            }
-            remove();
+            setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
         },
         [removeCategory]
     );
@@ -108,7 +73,7 @@ export const BaseCategoryListPage = ({inArchive}) => {
                         setShowModalCall(showModalCall => showModalCall + 1);
                         setModalCategory(category);
                     }}
-                    notifyToArchiveCategoryClick={setMoveToArchiveCategory}
+                    notifyToArchiveCategoryClick={setCategoryToFromArchive}
                     notifyRemoveCategoryClick={setRemoveCategory}
                     inArchive={inArchive}/>
             </div>

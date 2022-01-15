@@ -1,13 +1,10 @@
 import '../../App.css';
 import {React, useEffect, useState} from 'react';
-import {SelectorComponent} from "../filtrationform/SelectorComponent";
 import {TimePicker, DatePicker} from 'react-tempusdominus-bootstrap';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {
-    DESCRIPTION_TEXTAREA_ID, MODAL_CATEGORY_SELECT_ID, MODAL_PRIORITY_LETTER_SELECT_ID,
-    MODAL_PRIORITY_DIGIT_SELECT_ID, TO_DO_TASK_STATUS, PRIORITY_2_DEFINITION
+    DESCRIPTION_TEXTAREA_ID, TO_DO_TASK_STATUS, PRIORITY_2_DEFINITION
 } from "../../Constants";
-import {useAlert} from "react-alert";
 import {postReq} from "../../services/RequestService";
 import {getCurrentCategory} from "../../services/CategoryService";
 
@@ -23,7 +20,6 @@ import {getCurrentCategory} from "../../services/CategoryService";
  */
 export const TaskModal = ({refreshTaskList, showModalCall, task, priorityLetter}) => {
 
-    const alert = useAlert();
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
@@ -66,12 +62,7 @@ export const TaskModal = ({refreshTaskList, showModalCall, task, priorityLetter}
             plannedTime: time
         };
 
-        await postReq('http://localhost:80/api/task/create-update', body, alert)
-            .then(response => {
-                if (response && response.data) {
-                    alert.show(response.data)
-                }
-            });
+        await postReq('http://localhost:80/api/task/create-update', body);
 
         refreshTaskList();
         setShow(false);

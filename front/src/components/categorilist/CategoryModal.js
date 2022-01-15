@@ -2,12 +2,11 @@ import '../../App.css';
 import {React, useEffect, useState} from 'react';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import {NAME_TEXTAREA_ID} from "../../Constants";
-import {useAlert} from "react-alert";
 import {postReq} from "../../services/RequestService"
+import {showAlert} from "../../services/AlertService";
 
 export const CategoryModal = ({refreshCategoryList, showModalCall, category}) => {
 
-    const alert = useAlert();
     const [show, setShow] = useState(false);
 
     const handleClose = async () => setShow(false);
@@ -38,10 +37,10 @@ export const CategoryModal = ({refreshCategoryList, showModalCall, category}) =>
             name: name
         };
 
-        await postReq('http://localhost:80/api/category/create-update', body, alert)
+        await postReq('http://localhost:80/api/category/create-update', body)
             .then(response => {
                 if (response && response.data) {
-                    alert.show(response.data)
+                    showAlert(response.data)
                 }
             })
 

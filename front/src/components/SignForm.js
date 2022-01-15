@@ -3,8 +3,8 @@ import {React, useState} from 'react';
 import {Button, Form, FormControl, InputGroup} from "react-bootstrap";
 import profileIcon from "../resources/icon/profile.png";
 import loginLabelIcon from "../resources/icon/login-label-icon.png";
-import {useAlert} from "react-alert";
 import AuthService from "../services/AuthService";
+import {showAlert} from "../services/AlertService";
 
 /**
  * Форма логиа/регистрации
@@ -14,8 +14,6 @@ import AuthService from "../services/AuthService";
  * @constructor
  */
 export const SignForm = ({isRegistration} ) => {
-
-    const alert = useAlert();
 
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false);
@@ -42,7 +40,7 @@ export const SignForm = ({isRegistration} ) => {
             if (error.response.status === 400) {
                 setErrors(error.response.data);
             } else {
-                alert.show(error.response.data);
+                showAlert(error.response.data);
             }
         }
 

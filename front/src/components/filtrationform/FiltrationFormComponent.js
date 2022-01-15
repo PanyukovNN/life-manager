@@ -1,33 +1,31 @@
 import '../../App.css';
-import {React, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import {SelectorComponent} from './SelectorComponent'
 import {CATEGORY_KEY, CATEGORY_SELECT_ID,} from '../../Constants'
-import {convertRawCategoriesToMap, FetchRawCategories} from "../../services/CategoryService";
+import {convertRawCategoriesToMap, fetchRawCategories} from "../../services/CategoryService";
 
 /**
  * Параметры поиска задач
  *
  * @param notifyRefresh уведомление об обновлении формы
- * @param setLoading хук окончания загрузки
  * @returns {*} селекторы с параметров поиска
  * @constructor
  */
 export const FiltrationForm = ({notifyRefresh}) => {
-
     const loadingCategories = {"": "Загрузка..."};
     const [categories, setCategories] = useState(loadingCategories);
 
-    FetchRawCategories(
-        (rawCategories) => {
-            let categoriesFromServer = convertRawCategoriesToMap(rawCategories);
+    useEffect(() => {
+            fetchRawCategories(false)
+                .then(rawCategories => {
+                    let categoriesFromServer = convertRawCategoriesToMap(rawCategories);
+                    setCategories(categoriesFromServer);
 
-            setCategories(categoriesFromServer);
-
-            notifyRefresh();
+                    notifyRefresh();
+                }
+            );
         },
-        undefined,
-        undefined,
-        alert);
+        []);
 
     return (
         <>

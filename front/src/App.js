@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
-import {React, useState} from 'react'
+import {React} from 'react'
 import {CategoryListPage} from "./pages/category/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
@@ -12,8 +12,12 @@ import RequireAuth from "./services/RequireAuth";
 import {RegistrationPage} from "./pages/auth/RegistratioinPage";
 import {DoneTaskListPage} from "./pages/task/DoneTaskListPage";
 import {ToDoTaskListPage} from "./pages/task/ToDoTaskListPage";
+import {useAlert} from "react-alert";
+import * as AlertService from "./services/AlertService";
 
 function App() {
+
+    AlertService.setAlert(useAlert())
 
     return (
         <div className="App">

@@ -1,13 +1,9 @@
 import '../../App.css';
-import {Task} from "./Task";
 import {React, useEffect, useState} from 'react';
-import {NO_ELEMENTS_DIV} from '../../Constants'
-import {useAlert} from "react-alert";
-import {postReq} from "../../services/RequestService";
 import {PriorityTaskBlock} from "./PriorityTaskBlock";
 import {TaskModal} from "./TaskModal";
-import {getCurrentCategory} from "../../services/CategoryService";
 import {setLoadingStart, setLoadingStop} from "../../services/Util";
+import {fetchPriorityTaskListMap} from "../../services/TaskService";
 
 /**
  * Загружает и формирует список задач
@@ -21,8 +17,7 @@ import {setLoadingStart, setLoadingStop} from "../../services/Util";
 export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                                                 refreshTaskList,
                                                 taskStatus}) => {
-    const alert = useAlert();
-    const [taskComponentBlocks, setTaskComponentBlocks] = useState();
+    const [priorityTaskBlocks, setPriorityTaskBlocks] = useState();
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalTask, setModalTask] = useState(null);
     const [modalPriority, setModalPriority] = useState('A');
@@ -35,83 +30,58 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
 
             setLoadingStart();
 
-            const fetchTasks = async () => {
-                let body = {
-                    taskStatuses: taskStatus !== "" ? [taskStatus] : [],
-                    categories: [getCurrentCategory()],
-                    periodType: "ALL",
-                    sortType: "NONE"
-                };
+            const process = async () => {
+                let priorityTaskListMap = await fetchPriorityTaskListMap(taskStatus);
 
-                console.log(body)
+                let renderedPriorityTaskBlocks = [];
 
-                let priorityTaskListMap = await postReq("http://localhost:80/api/task/find-priority-task-list-map", body, alert)
-                    .then(response => {
-                        if (response && response.data) {
-                            return response.data;
-                        }
+                for (const [priorityLetter, tasks] of Object.entries(priorityTaskListMap)) {
+                    renderedPriorityTaskBlocks.push(
+                        renderPriorityTaskBlock(priorityLetter, tasks)
+                    );
+                }
 
-                        return null;
-                    });
-
-                setTaskComponentBlocks(() => {
-                    let taskComponentBlocks = [];
-
-                    if (!priorityTaskListMap || priorityTaskListMap.length === 0) {
-                        return NO_ELEMENTS_DIV;
-                    }
-
-                    for (const [priorityLetter, tasks] of Object.entries(priorityTaskListMap)) {
-                        let taskComponents = [];
-
-                        tasks.forEach(task => {
-                            taskComponents.push(
-                                <Task task={task}
-                                      refreshTaskList={refreshTaskList}
-                                      notifyEditBtnClick={task => {
-                                          setShowModalCall(showModalCall => showModalCall + 1);
-                                          setModalTask(task);
-                                      }}
-                                      key={task.id}/>
-                            )
-                        })
-
-                        taskComponentBlocks.push(
-                            <PriorityTaskBlock
-                                priorityLetter={priorityLetter}
-                                taskComponents={taskComponents}
-                                showModal={(chosenPriorityLetter) => {
-                                    setShowModalCall(showModalCall => showModalCall + 1);
-                                    setModalTask(null);
-                                    setModalPriority(chosenPriorityLetter);
-                                }} />
-                        );
-                    }
-
-                    return taskComponentBlocks;
-                });
+                setPriorityTaskBlocks(renderedPriorityTaskBlocks);
 
                 setLoadingStop();
             }
 
-            fetchTasks();
+            process();
         },
         [refreshTaskListCall]
     );
 
-    const createUpdateTaskModal = <TaskModal
+    const renderPriorityTaskBlock = (priorityLetter, tasks) => {
+        return (
+            <PriorityTaskBlock
+                priorityLetter={priorityLetter}
+                tasks={tasks}
+                showModal={(chosenPriorityLetter) => {
+                    setShowModalCall(showModalCall => showModalCall + 1);
+                    setModalTask(null);
+                    setModalPriority(chosenPriorityLetter);
+                }}
+                notifyEditButtonClick={task => {
+                    setShowModalCall(showModalCall => showModalCall + 1);
+                    setModalTask(task);
+                }} />
+        );
+    }
+
+    const renderUpdateTaskModal = <TaskModal
         refreshTaskList={refreshTaskList}
         showModalCall={showModalCall}
         task={modalTask}
         priorityLetter={modalPriority}/>
 
+
     return (
         <>
             <div className="task-component-blocks-wrap">
-                {taskComponentBlocks}
+                {priorityTaskBlocks}
             </div>
 
-            {createUpdateTaskModal}
+            {renderUpdateTaskModal}
         </>
     )
 }

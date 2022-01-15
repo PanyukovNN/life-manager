@@ -1,10 +1,9 @@
 import '../../App.css';
 import {NO_ELEMENTS_DIV} from '../../Constants'
 import {Category} from "./Category";
-import {FetchRawCategories} from "../../services/CategoryService";
+import {fetchRawCategories} from "../../services/CategoryService";
 import {React, useEffect, useState} from 'react';
-import {useAlert} from "react-alert";
-import {isLoading, setLoadingStart, setLoadingStop} from "../../services/Util";
+import {setLoadingStart, setLoadingStop} from "../../services/Util";
 
 /**
  * Компонент со списком разделов
@@ -22,47 +21,40 @@ export const CategoryListComponent = ({refreshCategoryListCall,
                                           notifyToArchiveCategoryClick,
                                           notifyRemoveCategoryClick,
                                           inArchive}) => {
-
-    const alert = useAlert();
     const [categoryComponents, setCategoryComponents] = useState([]);
-    const [rawCategories, setRawCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-    FetchRawCategories(setLoading,
-        setRawCategories,
-        refreshCategoryListCall,
-        {inArchive : inArchive},
-        alert);
 
     useEffect(
         () => {
-            if (isLoading()) {
-                setLoadingStart(true);
-                return;
-            }
+            setLoadingStart(true);
 
-            setCategoryComponents(() => {
-                let categoryComponents = [];
+            fetchRawCategories(inArchive)
+                .then(rawCategories => {
+                    if (!rawCategories || rawCategories.length === 0) {
+                        return [NO_ELEMENTS_DIV];
+                    }
 
-                if (rawCategories.length === 0) {
-                    return NO_ELEMENTS_DIV;
-                }
+                    let renderedCategoryComponents = [];
+                    rawCategories.forEach(category => renderedCategoryComponents.push(
+                        renderCategory(category)
+                    ));
 
-                rawCategories.forEach(category => categoryComponents.push(
-                    <Category category={category}
-                              notifyEditBtnClick={notifyUpdateCategoryClick}
-                              notifyMoveToArchiveClick={notifyToArchiveCategoryClick}
-                              notifyRemoveClick={notifyRemoveCategoryClick}
-                              inArchive={inArchive}
-                              key={category.id} />
-                ));
+                    setCategoryComponents(renderedCategoryComponents);
 
-                return categoryComponents;
-            });
-
-            setLoadingStop();
+                    setLoadingStop();
+                });
         },
-        [loading]
+        [refreshCategoryListCall]
     );
+
+    const renderCategory = (category) => {
+        return (
+            <Category category={category}
+                      notifyEditBtnClick={notifyUpdateCategoryClick}
+                      notifyMoveToArchiveClick={notifyToArchiveCategoryClick}
+                      notifyRemoveClick={notifyRemoveCategoryClick}
+                      inArchive={inArchive}
+                      key={category.id} />)
+    }
 
     return (
         <>

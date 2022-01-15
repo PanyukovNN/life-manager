@@ -1,38 +1,72 @@
-import {useEffect} from "react";
-import {postReq} from "./RequestService";
+import {deleteReq, postReq} from "./RequestService";
 import {CATEGORY_SELECT_ID} from "../Constants";
-import {setLoadingStart, setLoadingStop} from "./Util";
+import {showAlert} from "./AlertService";
 
 /**
  * Запрашивает с сервера список категорий и возвращает его
  *
- * @param setCategories задать список объектов категорий
- * @param call хук загрузки категорий
  * @param inArchive флаг в/вне архива
- * @param alert всплывающее окно
- * @returns объекты категорий
+ * @returns результат выполнения запроса к серверу
  */
-export function FetchRawCategories(setCategories, call, inArchive, alert) {
-    useEffect(
-        () => {
-            setLoadingStart();
+export function fetchRawCategories(inArchive) {
+    let body = {
+        inArchive: inArchive
+    };
 
-            let body = {
-                inArchive: inArchive === undefined ? false : inArchive.inArchive
-            };
+    return postReq("http://localhost:80/api/category/find-list", body)
+        .then((response) => {
+            if (response && response.data) {
+                return response.data;
+            }
 
-            postReq("http://localhost:80/api/category/find-list", body, alert)
-                .then((response) => {
-                        if (response === null) {
-                            return;
-                        }
+            return null;
+        });
+}
 
-                        setCategories(response.data);
-                        setLoadingStop();
-                    }
-                );
-        },
-        [call]);
+/**
+ * Переместить категори в/вне архива
+ *
+ * @param name имя категории
+ * @param inArchive флаг в/вне архива, куда перенести
+ * @returns результат выполнения запроса к серверу
+ */
+export function moveToFromArchive(name, inArchive) {
+    let body = {
+        name: name,
+        inArchive: inArchive
+    };
+
+    return postReq("http://localhost:80/api/category/set-in-archive", body)
+        .then(response => {
+            if (response && response.data) {
+                showAlert(response.data)
+            }
+        });
+}
+
+/**
+ * Удалить категорию
+ *
+ * @param name имя категории
+ * @returns {*}
+ */
+export function removeCategory(name) {
+    let result = window.confirm("Вы уверены, что хотите удалить категорию \"" + removeCategory.name + "\"?");
+
+    if (!result) {
+        return;
+    }
+
+    let body = {
+        name: name
+    };
+
+    return deleteReq("http://localhost:80/api/category/delete-by-name", body)
+        .then(response => {
+            if (response && response.data) {
+                showAlert(response.data)
+            }
+        });
 }
 
 /**

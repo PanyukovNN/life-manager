@@ -4,15 +4,14 @@ import {Button} from "react-bootstrap";
 import {DONE_TASK_STATUS} from "../../Constants";
 import editIcon from '../../resources/icon/edit-icon.svg.png'
 import ellipsisIcon from '../../resources/icon/ellipsis-icon.png'
-import {useAlert} from "react-alert";
-import {deleteReq, postReq} from "../../services/RequestService";
+import {deleteTask, markAsDone} from "../../services/TaskService";
 
 /**
  * Карточка задачи
  *
  * @param task объект задачи
  * @param refreshTaskList функция обновления списка задач
- * @param notifyTaskClick функция уведомления о клике на кнопке редактирования
+ * @param notifyEditBtnClick функция при нажатии на кнопку 'редактировать задачу'
  * @returns {*} компонент задачи
  */
 export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
@@ -20,45 +19,6 @@ export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
     const doneStatusStyle = task.status === DONE_TASK_STATUS ? " task-done " : "";
     const overdueStyle = task.overdue ? " task-overdue " : "";
     const dropdownContentId = "dropdownContent" + task.id;
-
-    const alert = useAlert();
-
-    async function markAsDone() {
-        let body = {
-            ids: [task.id],
-            status: DONE_TASK_STATUS
-        };
-
-
-        await postReq("http://localhost:80/api/task/set-status", body, alert)
-            .then(response => {
-                if (response && response.data) {
-                    alert.show(response.data)
-                }
-            });
-
-        refreshTaskList();
-    }
-
-    async function deleteTask() {
-        let result = window.confirm("Вы уверены, что хотите удалить задачу?");
-        if (!result) {
-            return;
-        }
-
-        let body = {
-            ids: [task.id]
-        };
-
-        await deleteReq("http://localhost:80/api/task/delete-by-ids", body, alert)
-            .then(response => {
-                if (response && response.data) {
-                    alert.show(response.data)
-                }
-            });
-
-        refreshTaskList();
-    }
 
     return (
         <div className={"task-block" + doneStatusStyle}>
@@ -68,9 +28,11 @@ export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
                 <div className="task-description">{task.description}</div>
 
                 <div className="task-buttons">
-                    {/* Кнопка задачи с выпадающим списком,
+                    {/*
+                        Кнопка с выпадающим списком,
                         все элементы должны быть помечены классом dropdown-element,
-                        чтобы корректно отрабатывала функция закрытия всех dropdown-show элементов
+                        для корректной работы функции закрытия всех dropdown-show элементов
+                        при клике вне элемента
                      */}
                     <div className="dropdown">
                         <Button className="task-ellipsis-button dropdown-element"
@@ -82,8 +44,8 @@ export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
                         </Button>
 
                         <div className="dropdown-content dropdown-element" id={dropdownContentId}>
-                            <a onClick={markAsDone}>Выполнена</a>
-                            <a onClick={deleteTask}>Удалить</a>
+                            <a onClick={() => markAsDone(task.id, refreshTaskList)}>Выполнена</a>
+                            <a onClick={() => deleteTask(task.id, refreshTaskList)}>Удалить</a>
                         </div>
                     </div>
 

@@ -1,19 +1,55 @@
 import '../../App.css';
-import {React} from 'react';
+import {React, useEffect, useState} from 'react';
 import {Button} from "react-bootstrap";
-import {PRIORITY_2_DEFINITION_PLURAL} from '../../Constants'
+import {NO_TASKS_DIV, PRIORITY_2_DEFINITION_PLURAL} from '../../Constants'
+import {Task} from "./Task";
 
 /**
  * Блок со списком задач с соответствующим приоритетом
  *
  * @param priorityLetter буква приоритета
- * @param taskComponents список задач
- * @param showModal функция показа модального окна
+ * @param refreshTaskList функция обновления списка задач
+ * @param tasks список задач
+ * @param notifyAddTaskBtnClick функция нажатия на кнопку добавления новой задачи
+ * @param notifyEditTaskBtnClick функция нажатия на кнопку редактирования задачи
  * @returns {*} компонент задачи
  */
 export const PriorityTaskBlock = ({priorityLetter,
-                                      taskComponents,
-                                      showModal}) => {
+                                      refreshTaskList,
+                                      tasks,
+                                      notifyAddTaskBtnClick,
+                                      notifyEditTaskBtnClick}) => {
+
+    const [taskComponents, setTaskComponents] = useState();
+
+    useEffect(
+        () => {
+            if (tasks.length === 0) {
+                setTaskComponents([NO_TASKS_DIV]);
+
+                return;
+            }
+
+            let renderedTaskComponents = [];
+            tasks.forEach((task) => {
+                renderedTaskComponents.push(
+                    renderTask(task)
+                )
+            })
+
+            setTaskComponents(renderedTaskComponents);
+        },
+        [tasks]
+    );
+
+    const renderTask = (task) => {
+        return (
+            <Task task={task}
+                  refreshTaskList={refreshTaskList}
+                  notifyEditBtnClick={notifyEditTaskBtnClick}
+                  key={task.id}
+            />)
+    }
 
     return (
         <div className="priority-task-block">
@@ -25,7 +61,7 @@ export const PriorityTaskBlock = ({priorityLetter,
 
             <Button className="add-task-button w-100"
                     variant="outline-secondary"
-                    onClick={() => showModal(priorityLetter)}>
+                    onClick={() => notifyAddTaskBtnClick(priorityLetter)}>
                 Добавить
             </Button>
         </div>
