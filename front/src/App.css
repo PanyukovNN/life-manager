@@ -27,12 +27,6 @@
     right: 15px;
 }
 
-.task-list-page {
-    /*display: flex;*/
-
-    min-height: calc(100vh);
-}
-
 .functional-block-wrap {
     /*width: 900px;*/
 
@@ -69,9 +63,6 @@
 
     min-width: 100%;
     width: fit-content;
-    /*height: 100vh;*/
-
-    /*background-color: #D4F2EF;*/
 
     padding: 0 60px 60px 60px;
 }
@@ -201,11 +192,19 @@
 .task-ellipsis-button:focus {
     background-color: #6c6c6c !important;
 }
+.task-remove-button {
+    position: relative;
+
+    padding: 0 !important;
+
+    background-color: rgba(0, 0, 0, 0) !important;
+    border: none !important;
+}
 .task-overdue {
     background-color: rgb(255, 229, 229);
 }
 .task-done {
-    background-color: whitesmoke;
+    /*background-color: whitesmoke;*/
 }
 .task-footer-wrap {
     display: flex;
@@ -215,10 +214,6 @@
     margin-left: 15px;
 }
 
-.task-remove-icon {
-    width: 30px;
-    height: 30px;
-}
 .task-ellipsis-icon {
     width: 15px;
     height: 15px;
@@ -234,6 +229,7 @@
 
     transition: .4s ease;
 }
+.task-remove-icon,
 .category-remove-icon {
     width: 30px;
     height: 30px;
@@ -289,14 +285,6 @@
 }
 
 /* Страница управления категориями */
-.CategoryListPage {
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
-
-    background-color: #D4F2EF;
-
-    min-height: calc(100vh);
-}
 .category-list-header-wrapper {
     display: flex;
     position: relative;
@@ -305,17 +293,27 @@
 
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 20px;
 }
 .category-list-header {
-    font-size: 50px;
+    font-size: 24px;
+
+    width: 100%;
 
     text-align: center;
-
-    margin: 38px auto;
 }
 .category-list-block {
+    width: 450px;
+
+    margin-top: 20px;
+
+    padding: 10px 5px;
+    background-color: #F4F5F7;
+
     margin-left: auto;
     margin-right: auto;
+
+    border-radius: 5px;
 }
 .category-list-spinner-wrap {
     margin-top: 15px;
@@ -327,15 +325,12 @@
 
     flex-wrap: wrap;
 
-    width: 450px;
-    min-height: calc(14px * 2 + 30px);
-
     align-items: center;
     align-content: space-between;
 
     padding: 14px;
     margin: 4px auto;
-    border-radius: 20px;
+    border-radius: 5px;
 
     background-color: white;
 }
@@ -372,10 +367,13 @@
 .category-archive-page-button {
     position: absolute;
 
-    bottom: 10px;
+    bottom: 5px;
     right: 20px;
 
     background-color: rgba(255, 255, 255, 1) !important;
+}
+.add-category-button {
+    margin-top: 10px;
 }
 
 .empty-task-list-label,
@@ -389,9 +387,9 @@
     background-color: white;
 }
 .empty-list-label {
-    width: 450px;
+    width: 100%;
 
-    border-radius: 20px;
+    border-radius: 5px;
 }
 .empty-task-list-label {
     width: 300px;

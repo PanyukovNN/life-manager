@@ -1,7 +1,7 @@
 import '../App.css';
 import {React} from 'react';
 import {Container, Nav, Navbar, Spinner, Button} from "react-bootstrap";
-import AuthService from "../services/AuthService";
+import {signOut, isLoggedIn} from "../services/AuthService";
 import {LOADING_SPINNER_ID} from "../Constants";
 
 /**
@@ -11,7 +11,7 @@ import {LOADING_SPINNER_ID} from "../Constants";
  */
 export const NavbarComponent = () => {
 
-    let auth = AuthService.isLoggedIn();
+    let auth = isLoggedIn();
 
     return (
         <>
@@ -33,7 +33,7 @@ export const NavbarComponent = () => {
                                     <Button variant="outline-secondary">Регистрация</Button>
                                 </a>
                             }
-                            {auth && <Nav.Link onClick={AuthService.signOut}>Выйти</Nav.Link>}
+                            {auth && <Nav.Link onClick={signOut}>Выйти</Nav.Link>}
                         </Nav>
                     </Navbar.Collapse>
                     <div className="navbar-spinner" id={LOADING_SPINNER_ID}>

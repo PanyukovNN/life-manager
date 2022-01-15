@@ -70,6 +70,31 @@ export function removeCategory(name) {
 }
 
 /**
+ * Создать/обновить категорию
+ *
+ * @param id идентификатор
+ * @param name наименование
+ * @returns результат выполнения запроса
+ */
+export function createUpdateCategory(id, name) {
+    if (name === null || name === "") {
+        return;
+    }
+
+    let body = {
+        id: id,
+        name: name
+    };
+
+    return postReq('http://localhost:80/api/category/create-update', body)
+        .then(response => {
+            if (response && response.data) {
+                showAlert(response.data)
+            }
+        })
+}
+
+/**
  * Преобразует объекты категорий в карту, где и ключом и значением выступает наименование
  *
  * @param rawCategories объекты категорий

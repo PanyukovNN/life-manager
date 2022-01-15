@@ -3,18 +3,19 @@ import {React, useEffect, useState} from 'react'
 import {CategoryListComponent} from "../../components/categorilist/CategoryListComponent";
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../../components/categorilist/CategoryModal";
-import {moveToFromArchive} from "../../services/CategoryService";
+import {moveToFromArchive, removeCategory} from "../../services/CategoryService";
 
 /**
  * Базовая страница управления разделами
  *
+ * @param inArchive флаг в/вне архива
  * @returns страница управления разделами
  * @constructor
  */
 export const BaseCategoryListPage = ({inArchive}) => {
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
     const [categoryToFromArchive, setCategoryToFromArchive] = useState(null);
-    const [removeCategory, setRemoveCategory] = useState(null);
+    const [categoryToRemove, setCategoryToRemove] = useState(null);
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalCategory, setModalCategory] = useState(null);
 
@@ -25,27 +26,30 @@ export const BaseCategoryListPage = ({inArchive}) => {
 
             moveToFromArchive(categoryToFromArchive.name, !inArchive)
                 .then(() => {
-                    setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
+                    setRefreshCategoryListCall(call => call + 1);
                 })
         },
         [categoryToFromArchive]
     );
 
     useEffect(() => {
-            if (removeCategory == null) {
+            if (categoryToRemove == null) {
                 return;
             }
 
-            setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1);
+            removeCategory(categoryToRemove.name)
+                .then(() => {
+                    setRefreshCategoryListCall(call => call + 1);
+                });
         },
-        [removeCategory]
+        [categoryToRemove]
     );
 
-    const addCategoryBtn = (
-        <Button className="add-category-button"
-                variant="primary"
+    const renderAddCategoryBtn = (
+        <Button className="add-category-button w-100"
+                variant="outline-secondary"
                 onClick={() => {
-                    setShowModalCall(showModalCall => showModalCall + 1);
+                    setShowModalCall(call => call + 1);
                     setModalCategory(null);
                 }}>
             Добавить
@@ -54,33 +58,33 @@ export const BaseCategoryListPage = ({inArchive}) => {
 
     return (
         <div className="CategoryListPage">
-            <div className="category-list-header-wrapper">
-                <div className="category-list-header">
-                    {inArchive ? "Архив разделов" : "Разделы"}
-
-                    <Button className="category-archive-page-button"
-                            href={inArchive ? "/categories" : "/categories/archive"}
-                            variant="primary">
-                        {inArchive ? "Разделы" : "Архив"}
-                    </Button>
-                </div>
-            </div>
-
             <div className="category-list-block">
+                <div className="category-list-header-wrapper">
+                    <div className="category-list-header">
+                        {inArchive ? "Архив разделов" : "Разделы"}
+
+                        <Button className="category-archive-page-button"
+                                href={inArchive ? "/categories" : "/categories/archive"}
+                                variant="primary">
+                            {inArchive ? "Разделы" : "Архив"}
+                        </Button>
+                    </div>
+                </div>
+
                 <CategoryListComponent
                     refreshCategoryListCall={refreshCategoryListCall}
                     notifyUpdateCategoryClick={(category) => {
-                        setShowModalCall(showModalCall => showModalCall + 1);
+                        setShowModalCall(call => call + 1);
                         setModalCategory(category);
                     }}
                     notifyToArchiveCategoryClick={setCategoryToFromArchive}
-                    notifyRemoveCategoryClick={setRemoveCategory}
+                    notifyRemoveCategoryClick={setCategoryToRemove}
                     inArchive={inArchive}/>
+
+                {!inArchive && renderAddCategoryBtn}
             </div>
 
-            {!inArchive ? addCategoryBtn : ""}
-
-            <CategoryModal refreshCategoryList={() => setRefreshCategoryListCall(refreshCategoryListCall => refreshCategoryListCall + 1)}
+            <CategoryModal refreshCategoryList={() => setRefreshCategoryListCall(call => call + 1)}
                            showModalCall={showModalCall}
                            category={modalCategory} />
         </div>

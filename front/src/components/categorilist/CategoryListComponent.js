@@ -13,8 +13,7 @@ import {setLoadingStart, setLoadingStop} from "../../services/Util";
  * @param notifyToArchiveCategoryClick фукнция уведомления о клике на кнопку "в архив" категории
  * @param notifyRemoveCategoryClick функция уведомления о клике на кнопку "удалить" категории
  * @param inArchive флаг в/вне архива
- * @returns {*} компонент со списком разделов
- * @constructor
+ * @returns компонент со списком разделов
  */
 export const CategoryListComponent = ({refreshCategoryListCall,
                                           notifyUpdateCategoryClick,
@@ -30,7 +29,10 @@ export const CategoryListComponent = ({refreshCategoryListCall,
             fetchRawCategories(inArchive)
                 .then(rawCategories => {
                     if (!rawCategories || rawCategories.length === 0) {
-                        return [NO_ELEMENTS_DIV];
+                        setCategoryComponents([NO_ELEMENTS_DIV]);
+                        setLoadingStop();
+
+                        return;
                     }
 
                     let renderedCategoryComponents = [];
@@ -39,7 +41,6 @@ export const CategoryListComponent = ({refreshCategoryListCall,
                     ));
 
                     setCategoryComponents(renderedCategoryComponents);
-
                     setLoadingStop();
                 });
         },
@@ -57,10 +58,8 @@ export const CategoryListComponent = ({refreshCategoryListCall,
     }
 
     return (
-        <>
-            <div className="task-components-wrap">
-                {categoryComponents}
-            </div>
-        </>
+        <div className="task-components-wrap">
+            {categoryComponents}
+        </div>
     )
 }

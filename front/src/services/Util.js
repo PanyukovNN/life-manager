@@ -1,19 +1,24 @@
 import {LOADING_SPINNER_ID} from "../Constants";
 
 /**
- * Получить выбранную в селекторе категорию
+ * Показать спиннер загрузки
  */
 export function setLoadingStart() {
-    return document.getElementById(LOADING_SPINNER_ID).classList.toggle("show");
+    document.getElementById(LOADING_SPINNER_ID).classList.toggle("show");
 }
 
 /**
- * Получить выбранную в селекторе категорию
+ * Получить скрыть спиннер загрузки
  */
 export function setLoadingStop() {
-    return document.getElementById(LOADING_SPINNER_ID).classList.remove("show");
+    document.getElementById(LOADING_SPINNER_ID).classList.remove("show");
 }
 
+/**
+ * Показывается ли спиннер в текущий момент
+ *
+ * @returns показывается ли спиннер
+ */
 export function isLoading() {
     return document.getElementById(LOADING_SPINNER_ID).classList.contains("show");
 }

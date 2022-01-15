@@ -8,8 +8,7 @@ import {convertRawCategoriesToMap, fetchRawCategories} from "../../services/Cate
  * Параметры поиска задач
  *
  * @param notifyRefresh уведомление об обновлении формы
- * @returns {*} селекторы с параметров поиска
- * @constructor
+ * @returns селекторы с параметров поиска
  */
 export const FiltrationForm = ({notifyRefresh}) => {
     const loadingCategories = {"": "Загрузка..."};

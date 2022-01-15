@@ -6,8 +6,8 @@ import {FiltrationForm} from "../../components/filtrationform/FiltrationFormComp
 /**
  * Главная страница со списком задачи и формой фильтрации
  *
- * @returns {*} главная страница со списком задач
- * @constructor
+ * @param taskStatus статус задач
+ * @returns главная страница со списком задач
  */
 export const BaseTaskListPage = ({taskStatus}) => {
 
@@ -32,13 +32,13 @@ export const BaseTaskListPage = ({taskStatus}) => {
         <div className="task-list-page">
             <div className="functional-block-wrap">
                 <FiltrationForm
-                    notifyRefresh={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}/>
+                    notifyRefresh={() => setFiltrationFormRefresh(call => call + 1)}/>
             </div>
 
             <div className="task-list-wrap">
                 <PriorityTaskBlocksComponent
                     refreshTaskListCall={refreshTaskListCall}
-                    refreshTaskList={() => setFiltrationFormRefresh(refreshTaskListCall => refreshTaskListCall + 1)}
+                    refreshTaskList={() => setFiltrationFormRefresh(call => call + 1)}
                     taskStatus={taskStatus}/>
             </div>
         </div>

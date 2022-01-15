@@ -12,7 +12,7 @@ import {Task} from "./Task";
  * @param tasks список задач
  * @param notifyAddTaskBtnClick функция нажатия на кнопку добавления новой задачи
  * @param notifyEditTaskBtnClick функция нажатия на кнопку редактирования задачи
- * @returns {*} компонент задачи
+ * @returns компонент задачи
  */
 export const PriorityTaskBlock = ({priorityLetter,
                                       refreshTaskList,

@@ -16,44 +16,64 @@ import {deleteTask, markAsDone} from "../../services/TaskService";
  */
 export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
 
-    const doneStatusStyle = task.status === DONE_TASK_STATUS ? " task-done " : "";
+    const taskDone = task.status === DONE_TASK_STATUS;
+    const doneStyle = taskDone ? " task-done " : "";
     const overdueStyle = task.overdue ? " task-overdue " : "";
     const dropdownContentId = "dropdownContent" + task.id;
 
+    const renderDropdownLinks = () => {
+        return (
+            <>
+                {!taskDone && <a onClick={() => markAsDone(task.id, refreshTaskList)}>Выполнена</a>}
+                <a onClick={() => deleteTask(task.id, refreshTaskList)}>Удалить</a>
+            </>
+        )
+    }
+
+    const renderTaskEditBtn = () => {
+        return (
+            <Button className="task-edit-button"
+                    onClick={() => notifyEditBtnClick(task)}>
+                <img className="task-edit-icon" src={editIcon} alt="Edit icon"/>
+            </Button>
+        )
+    }
+
+    const renderTaskBtns = () => {
+        return (<>
+            {/*
+                Кнопка с выпадающим списком,
+                все элементы должны быть помечены классом dropdown-element,
+                для корректной работы функции закрытия всех dropdown-show элементов
+                при клике вне элемента
+             */}
+            <div className="dropdown">
+                <Button className="task-ellipsis-button dropdown-element"
+                        variant="primary"
+                        onClick={() => {
+                            document.getElementById(dropdownContentId).classList.toggle('dropdown-show');
+                        }}>
+                    <img className="task-ellipsis-icon dropdown-element" src={ellipsisIcon} alt="Ellipsis"/>
+                </Button>
+
+                <div className="dropdown-content dropdown-element" id={dropdownContentId}>
+                    {renderDropdownLinks()}
+                </div>
+            </div>
+
+            {!taskDone && renderTaskEditBtn()}
+        </>)
+    }
+
     return (
-        <div className={"task-block" + doneStatusStyle}>
+        <div className={"task-block" + doneStyle}>
             <input className="task-id" type={"hidden"} value={task.id}/>
 
             <div className="task-description-buttons-wrap">
                 <div className="task-description">{task.description}</div>
 
                 <div className="task-buttons">
-                    {/*
-                        Кнопка с выпадающим списком,
-                        все элементы должны быть помечены классом dropdown-element,
-                        для корректной работы функции закрытия всех dropdown-show элементов
-                        при клике вне элемента
-                     */}
-                    <div className="dropdown">
-                        <Button className="task-ellipsis-button dropdown-element"
-                                variant="primary"
-                                onClick={() => {
-                                    document.getElementById(dropdownContentId).classList.toggle('dropdown-show');
-                                }}>
-                            <img className="task-ellipsis-icon dropdown-element" src={ellipsisIcon}/>
-                        </Button>
-
-                        <div className="dropdown-content dropdown-element" id={dropdownContentId}>
-                            <a onClick={() => markAsDone(task.id, refreshTaskList)}>Выполнена</a>
-                            <a onClick={() => deleteTask(task.id, refreshTaskList)}>Удалить</a>
-                        </div>
-                    </div>
-
-                    <Button className="task-edit-button"
-                            variant="primary"
-                            onClick={() => {notifyEditBtnClick(task)}}>
-                        <img className="task-edit-icon" src={editIcon}/>
-                    </Button>
+                    {renderTaskBtns()}
                 </div>
             </div>
 

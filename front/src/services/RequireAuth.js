@@ -1,11 +1,17 @@
 import React from 'react'
-import AuthService from './AuthService'
-import { Navigate } from "react-router";
+import {isLoggedIn} from './AuthService'
+import {Navigate} from "react-router";
 
+/**
+ * Обертка для компонентов, требующих аутентификации пользователя
+ *
+ * @param children дочерний компонент
+ * @returns обертка аутентификации
+ */
 export const RequireAuth = ({ children }) => {
-    let auth = AuthService.isLoggedIn();
-
-    return auth ? children : <Navigate to="/sign-in"/>;
+    return isLoggedIn()
+        ? children
+        : <Navigate to="/sign-in"/>;
 };
 
 export default RequireAuth

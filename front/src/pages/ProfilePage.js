@@ -4,10 +4,9 @@ import React from "react";
 /**
  * Страница профиля
  *
- * @returns {*} страница профиля
- * @constructor
+ * @returns страница профиля
  */
-export const LoginPage = () => {
+export const ProfilePage = () => {
 
     return (
         <div className="profile-page-wrap">

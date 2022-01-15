@@ -11,10 +11,14 @@ import {React, useEffect, useState} from 'react';
  * @param notifySelection функция, вызываемая при изменении значения
  * @param defaultValue значение по умолчанию
  * @param disabled флаг отключения селектора
- * @returns {*} селектор
- * @constructor
+ * @returns селектор
  */
-export const SelectorComponent = ({id, storageKey, optionMap, notifySelection, defaultValue, disabled}) => {
+export const SelectorComponent = ({id,
+                                      storageKey,
+                                      optionMap,
+                                      notifySelection,
+                                      defaultValue,
+                                      disabled}) => {
 
     // Варианты выбора
     const [options, setOptions] = useState([]);

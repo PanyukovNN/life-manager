@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const AUTH_URL = "http://localhost/api/auth/";
+import {AUTH_URL} from "../Constants";
 
 /**
  * Запрос на регистрацию пользователя
@@ -8,15 +7,15 @@ const AUTH_URL = "http://localhost/api/auth/";
  * @param username имя пользователя
  * @param email почтовый ящик
  * @param password пароль
- * @param comfirmPassword подтверждение пароля
+ * @param confirmPassword подтверждение пароля
  * @returns ответ на запрос
  */
-const signUp = (username, email, password, comfirmPassword) => {
+export function signUp(username, email, password, confirmPassword) {
     return axios.post(AUTH_URL + "sign-up", {
         username,
         email,
         password,
-        comfirmPassword
+        confirmPassword
     });
 };
 
@@ -27,7 +26,7 @@ const signUp = (username, email, password, comfirmPassword) => {
  * @param password пароль
  * @returns ответ на запрос
  */
-const signIn = (username, password) => {
+export function signIn(username, password) {
     return axios
         .post(AUTH_URL + "sign-in", {
             username,
@@ -45,7 +44,7 @@ const signIn = (username, password) => {
 /**
  * Выход пользователя
  */
-const signOut = () => {
+export function signOut() {
     localStorage.removeItem("user");
     window.location.href = "/sign-in";
 };
@@ -55,7 +54,7 @@ const signOut = () => {
  *
  * @returns {boolean} аутентифицирован ли пользователь
  */
-const isLoggedIn = () => {
+export function isLoggedIn() {
     return getAccessToken() !== null;
 }
 
@@ -64,7 +63,7 @@ const isLoggedIn = () => {
  *
  * @returns {boolean} аутентифицирован ли пользователь
  */
-const getAccessToken = () => {
+export function getAccessToken() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user && user.accessToken) {
@@ -73,11 +72,3 @@ const getAccessToken = () => {
         return null;
     }
 }
-
-export default {
-    signUp,
-    signIn,
-    signOut,
-    isLoggedIn,
-    getAccessToken
-};

@@ -1,12 +1,12 @@
 import axios from "axios";
-import AuthService from "./AuthService";
+import {getAccessToken} from "./AuthService";
 import {showAlert} from "./AlertService";
 
 export function postReq(url, body) {
     let postResponse = axios.post(url,
         JSON.stringify(body),
         {
-            headers : {'Authorization': AuthService.getAccessToken(), 'Content-Type': 'application/json'}
+            headers : {'Authorization': getAccessToken(), 'Content-Type': 'application/json'}
         });
 
     return processResponse(postResponse);
@@ -15,7 +15,7 @@ export function postReq(url, body) {
 export function getReq(url) {
     let getResponse = axios.get(url,
         {
-            headers : {'Authorization': AuthService.getAccessToken(), 'Content-Type': 'application/json'}
+            headers : {'Authorization': getAccessToken(), 'Content-Type': 'application/json'}
         });
 
     return processResponse(getResponse);
@@ -24,7 +24,7 @@ export function getReq(url) {
 export function deleteReq(url, body) {
     let deleteResponse = axios.delete(url,{
         data: JSON.stringify(body),
-        headers : {'Authorization': AuthService.getAccessToken(), 'Content-Type': 'application/json'}
+        headers : {'Authorization': getAccessToken(), 'Content-Type': 'application/json'}
     });
 
     return processResponse(deleteResponse);
@@ -46,12 +46,10 @@ const processResponse = (axiosResponse) => {
                 if (!error.status) {
                     showAlert("Отсутствует соединение с сервером");
 
-                    return null;
+                    return;
                 }
 
                 showAlert(error.message);
             }
-
-            return null;
         });
 }

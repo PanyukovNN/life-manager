@@ -13,48 +13,51 @@ import archiveIcon from "../../resources/icon/archive.png";
  * @param notifyMoveToArchiveClick функция уведомления о клике на кнопке "в архив"
  * @param notifyRemoveClick функция уведомления о клике на кнопке "удалить"
  * @param inArchive флаг в/вне архива
- * @returns {*} компонент категории
- * @constructor
+ * @returns компонент категории
  */
-export const Category = ({category, notifyEditBtnClick, notifyMoveToArchiveClick, notifyRemoveClick, inArchive}) => {
+export const Category = ({category,
+                             notifyEditBtnClick,
+                             notifyMoveToArchiveClick,
+                             notifyRemoveClick,
+                             inArchive}) => {
 
-    const editButton = (
+    const renderEditButton = (
         <Button className="category-edit-button"
                 variant="primary"
-                onClick={() => {notifyEditBtnClick(category)}}>
-            <img className="category-edit-icon" src={editIcon}/>
+                onClick={() => notifyEditBtnClick(category)}>
+            <img className="category-edit-icon" src={editIcon} alt="Edit"/>
         </Button>
     );
 
-    const toArchiveButton = (
+    const renderToArchiveButton = (
         <Button className="category-to-archive-button"
                 variant="primary"
                 onClick={() => {notifyMoveToArchiveClick(category)}}>
-            <img className="category-to-archive-icon" src={archiveIcon}/>
+            <img className="category-to-archive-icon" src={archiveIcon} alt="To archive"/>
         </Button>
     );
 
-    const removeButton = (
+    const renderRemoveButton = (
         <Button className="category-remove-button"
                 variant="primary"
                 onClick={() => {notifyRemoveClick(category)}}>
-            <img className="category-remove-icon" src={removeIcon}/>
+            <img className="category-remove-icon" src={removeIcon} alt="Remove"/>
         </Button>
     );
 
     return (
         <div className="category-block">
-            <input className="task-id" type={"hidden"} value={category.id}/>
+            <input className="category-id" type={"hidden"} value={category.id}/>
 
             <div className="category-name">
                 {category.name}
             </div>
 
-            {editButton}
+            {renderEditButton}
 
             {inArchive
-                ? removeButton
-                : toArchiveButton}
+                ? renderRemoveButton
+                : renderToArchiveButton}
         </div>
     )
 }

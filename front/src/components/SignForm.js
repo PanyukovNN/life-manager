@@ -3,7 +3,7 @@ import {React, useState} from 'react';
 import {Button, Form, FormControl, InputGroup} from "react-bootstrap";
 import profileIcon from "../resources/icon/profile.png";
 import loginLabelIcon from "../resources/icon/login-label-icon.png";
-import AuthService from "../services/AuthService";
+import {signUp, signIn} from "../services/AuthService";
 import {showAlert} from "../services/AlertService";
 
 /**
@@ -45,12 +45,12 @@ export const SignForm = ({isRegistration} ) => {
         }
 
         if (isRegistration) {
-            AuthService.signUp(form.username, form.email, form.password, form.confirmPassword).then(
+            signUp(form.username, form.email, form.password, form.confirmPassword).then(
                 processSuccessSubmit,
                 processErrorSubmit
             );
         } else {
-            AuthService.signIn(form.username, form.password).then(
+            signIn(form.username, form.password).then(
                 processSuccessSubmit,
                 processErrorSubmit
             );
@@ -60,7 +60,7 @@ export const SignForm = ({isRegistration} ) => {
     const usernameInput = (
         <InputGroup className="mb-3">
             <InputGroup.Text className="sign-from-fa-input-icon-wrap">
-                <img className="sign-form-login-label-icon" src={loginLabelIcon}/>
+                <img className="sign-form-login-label-icon" src={loginLabelIcon} alt="Login icon"/>
             </InputGroup.Text>
             <FormControl
                 placeholder="Имя пользователя"
@@ -131,7 +131,7 @@ export const SignForm = ({isRegistration} ) => {
 
     return (
         <Form>
-            <img className="sign-form-profile-icon" src={profileIcon}/>
+            <img className="sign-form-profile-icon" src={profileIcon} alt="Profile icon"/>
 
             <div className="text-center sign-form-header-wrap">
                 <h5>Введите свои данные</h5>

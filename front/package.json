@@ -22,6 +22,7 @@
     "react-dnd": "^14.0.5",
     "react-dnd-html5-backend": "^14.1.0",
     "react-dom": "^17.0.2",
+    "react-router": "^6.2.1",
     "react-router-dom": "^6.1.1",
     "react-scripts": "4.0.3",
     "react-tempusdominus-bootstrap": "^1.12.0",

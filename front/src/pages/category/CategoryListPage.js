@@ -10,7 +10,6 @@ import {BaseCategoryListPage} from "./BaseCategoryListPage";
 export const CategoryListPage = () => {
 
     return (
-        <BaseCategoryListPage
-            inArchive={false}/>
+        <BaseCategoryListPage inArchive={false}/>
     );
 }

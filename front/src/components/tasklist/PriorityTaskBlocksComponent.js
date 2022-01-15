@@ -6,13 +6,12 @@ import {setLoadingStart, setLoadingStop} from "../../services/Util";
 import {fetchPriorityTaskListMap} from "../../services/TaskService";
 
 /**
- * Загружает и формирует список задач
+ * Единый компонент с блоками задач по приоритетам
  *
  * @param refreshTaskListCall хук обновления списка задач
  * @param refreshTaskList функция обновления списка задач
  * @param taskStatus статус задач
- * @returns {*} список задач
- * @constructor
+ * @returns список задач
  */
 export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                                                 refreshTaskList,
@@ -55,25 +54,27 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
         return (
             <PriorityTaskBlock
                 priorityLetter={priorityLetter}
+                refreshTaskList={refreshTaskList}
                 tasks={tasks}
-                showModal={(chosenPriorityLetter) => {
-                    setShowModalCall(showModalCall => showModalCall + 1);
+                notifyAddTaskBtnClick={(chosenPriorityLetter) => {
+                    setShowModalCall(call => call + 1);
                     setModalTask(null);
                     setModalPriority(chosenPriorityLetter);
                 }}
                 notifyEditButtonClick={task => {
-                    setShowModalCall(showModalCall => showModalCall + 1);
+                    setShowModalCall(call => call + 1);
                     setModalTask(task);
                 }} />
         );
     }
 
-    const renderUpdateTaskModal = <TaskModal
-        refreshTaskList={refreshTaskList}
-        showModalCall={showModalCall}
-        task={modalTask}
-        priorityLetter={modalPriority}/>
-
+    const renderUpdateTaskModal = () => {
+        return (<TaskModal
+            refreshTaskList={refreshTaskList}
+            showModalCall={showModalCall}
+            task={modalTask}
+            priorityLetter={modalPriority}/>)
+    }
 
     return (
         <>
