@@ -2,23 +2,23 @@ import '../../App.css';
 import {React, useEffect, useState} from 'react';
 import {TimePicker, DatePicker} from 'react-tempusdominus-bootstrap';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
-import {
-    DESCRIPTION_TEXTAREA_ID, TO_DO_TASK_STATUS, PRIORITY_2_DEFINITION
-} from "../../Constants";
+import {DESCRIPTION_TEXTAREA_ID, TO_DO_TASK_STATUS, PRIORITY_2_DEFINITION} from "../../Constants";
 import {postReq} from "../../services/RequestService";
 import {getCurrentCategory} from "../../services/CategoryService";
 
 /**
- * Кнопка с открытием модального окна добавления задачи
+ * Модальное окно создания/удаления задачи
  *
  * @param refreshTaskList функция обновления списка задач
  * @param showModalCall хук показа окна
  * @param task задача
  * @param priorityLetter буква приоритета
- * @returns {*} кнопку с модальным окном
- * @constructor
+ * @returns кнопку с модальным окном
  */
-export const TaskModal = ({refreshTaskList, showModalCall, task, priorityLetter}) => {
+export const TaskModal = ({refreshTaskList,
+                              showModalCall,
+                              task,
+                              priorityLetter}) => {
 
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
@@ -69,71 +69,69 @@ export const TaskModal = ({refreshTaskList, showModalCall, task, priorityLetter}
     }
 
     return (
-        <>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        {task
-                            ? "Редактировать задачу"
-                            : "Новая задача"}
-                    </Modal.Title>
-                </Modal.Header>
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    {task
+                        ? "Редактировать задачу"
+                        : "Новая задача"}
+                </Modal.Title>
+            </Modal.Header>
 
-                <div className="task-modal-priority-wrap">
-                    Раздел: {category}
-                    <br/>
-                    Приоритет: {PRIORITY_2_DEFINITION[priorityLetter]}
+            <div className="task-modal-priority-wrap">
+                Раздел: {category}
+                <br/>
+                Приоритет: {PRIORITY_2_DEFINITION[priorityLetter]}
+            </div>
+
+            <div className="add-task-inputs-wrap">
+                {/* Поле ввода текста задачи */}
+                <div className="task-textarea-wrap">
+                    <FloatingLabel id="taskTextarea" controlId="floatingTextarea2" label="Описание задачи">
+                        <Form.Control
+                            id={DESCRIPTION_TEXTAREA_ID}
+                            as="textarea"
+                            placeholder=""
+                            defaultValue={task ? task.description : ""}
+                            style={{ height: '100px' }}
+                        />
+                    </FloatingLabel>
                 </div>
 
-                <div className="add-task-inputs-wrap">
-                    {/* Поле ввода текста задачи */}
-                    <div className="task-textarea-wrap">
-                        <FloatingLabel id="taskTextarea" controlId="floatingTextarea2" label="Описание задачи">
-                            <Form.Control
-                                id={DESCRIPTION_TEXTAREA_ID}
-                                as="textarea"
-                                placeholder=""
-                                defaultValue={task ? task.description : ""}
-                                style={{ height: '100px' }}
-                            />
-                        </FloatingLabel>
+                <div className="modal-selectors-group-wrap">
+                    <div className="modal-selector-block">
+                        <div className="modal-selector-header">Дата:</div>
+                        <DatePicker format={"DD.MM.YYYY"}
+                                    date={date}
+                                    onChange={(e) => {
+                                        if (e.date !== undefined) {
+                                            setDate(e.date.format("DD.MM.YYYY"));
+                                        }
+                                    }}/>
                     </div>
-
-                    <div className="modal-selectors-group-wrap">
-                        <div className="modal-selector-block">
-                            <div className="modal-selector-header">Дата:</div>
-                            <DatePicker format={"DD.MM.YYYY"}
-                                        date={date}
-                                        onChange={(e) => {
-                                            if (e.date !== undefined) {
-                                                setDate(e.date.format("DD.MM.YYYY"));
-                                            }
-                                        }}/>
-                        </div>
-                        <div className="modal-selector-block">
-                            <div className="modal-selector-header">Время:</div>
-                            <TimePicker format={"HH:mm"}
-                                        stepping={30}
-                                        date={time}
-                                        onChange={(e) => {
-                                            if (e.date !== undefined) {
-                                                setTime(e.date.format("HH:mm"));
-                                            }
-                                        }}/>
-                        </div>
+                    <div className="modal-selector-block">
+                        <div className="modal-selector-header">Время:</div>
+                        <TimePicker format={"HH:mm"}
+                                    stepping={30}
+                                    date={time}
+                                    onChange={(e) => {
+                                        if (e.date !== undefined) {
+                                            setTime(e.date.format("HH:mm"));
+                                        }
+                                    }}/>
                     </div>
                 </div>
+            </div>
 
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Закрыть
-                    </Button>
-                    <Button variant="primary"
-                            onClick={() => handleSave()}>
-                        Сохранить
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Закрыть
+                </Button>
+                <Button variant="primary"
+                        onClick={() => handleSave()}>
+                    Сохранить
+                </Button>
+            </Modal.Footer>
+        </Modal>
     )
 }

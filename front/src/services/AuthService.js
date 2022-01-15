@@ -8,7 +8,7 @@ import {AUTH_URL} from "../Constants";
  * @param email почтовый ящик
  * @param password пароль
  * @param confirmPassword подтверждение пароля
- * @returns ответ на запрос
+ * @returns результат выполнения запроса
  */
 export function signUp(username, email, password, confirmPassword) {
     return axios.post(AUTH_URL + "sign-up", {
@@ -24,7 +24,7 @@ export function signUp(username, email, password, confirmPassword) {
  *
  * @param username имя пользователя
  * @param password пароль
- * @returns ответ на запрос
+ * @returns результат выполнения запроса
  */
 export function signIn(username, password) {
     return axios

@@ -4,10 +4,11 @@ import {DONE_TASK_STATUS} from "../Constants";
 import {showAlert} from "./AlertService";
 
 /**
- * Загрузить карту задач, где в качестве ключа выступает буква приоритета, в качестве значения список задач
+ * Загрузить карту задач, где в качестве ключа выступает буква приоритета,
+ * а в качестве значения список задач
  *
  * @param taskStatus статус задач
- * @returns {*}
+ * @returns результат выполнения запроса
  */
 export function fetchPriorityTaskListMap(taskStatus) {
     let currentCategory = getCurrentCategory();

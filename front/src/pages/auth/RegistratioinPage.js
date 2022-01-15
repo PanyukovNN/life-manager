@@ -5,14 +5,11 @@ import {SignForm} from "../../components/SignForm";
 /**
  * Страница регистрации нового пользователя
  *
- * @returns {*} страница регистрации
- * @constructor
+ * @returns страница регистрации
  */
 export const RegistrationPage = () => {
 
     return (
-        <div className="sign-form-wrap">
-            <SignForm isRegistration={true}/>
-        </div>
+        <SignForm isRegistration={true}/>
     );
 }

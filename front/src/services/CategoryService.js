@@ -48,7 +48,7 @@ export function moveToFromArchive(name, inArchive) {
  * Удалить категорию
  *
  * @param name имя категории
- * @returns {*}
+ * @returns результат выполнения запроса
  */
 export function removeCategory(name) {
     let result = window.confirm("Вы уверены, что хотите удалить категорию \"" + removeCategory.name + "\"?");
@@ -95,10 +95,10 @@ export function createUpdateCategory(id, name) {
 }
 
 /**
- * Преобразует объекты категорий в карту, где и ключом и значением выступает наименование
+ * Преобразует объекты категорий в карту, где и ключом и значением выступает наименование категории
  *
  * @param rawCategories объекты категорий
- * @returns {{}}
+ * @returns карта категорий
  */
 export function convertRawCategoriesToMap(rawCategories) {
     let categoryMap = {};

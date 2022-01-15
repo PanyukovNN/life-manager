@@ -10,7 +10,6 @@ import {moveToFromArchive, removeCategory} from "../../services/CategoryService"
  *
  * @param inArchive флаг в/вне архива
  * @returns страница управления разделами
- * @constructor
  */
 export const BaseCategoryListPage = ({inArchive}) => {
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);

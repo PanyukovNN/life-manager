@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 /**
  * Страница с отображением ошибки 404
  *
- * @returns {*} страница 404
- * @constructor
+ * @returns страница 404
  */
 export const NotFoundPage = () => {
     return (

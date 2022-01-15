@@ -4,8 +4,7 @@ import '../LoadingPage.css'
 /**
  * Загрузочный экран
  *
- * @returns {*} загрузочный экран
- * @constructor
+ * @returns загрузочный экран
  */
 export const LoadingPage = () => {
     return (

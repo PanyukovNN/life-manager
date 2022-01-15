@@ -13,7 +13,7 @@ export const BaseTaskListPage = ({taskStatus}) => {
 
     const [refreshTaskListCall, setFiltrationFormRefresh] = useState(0);
 
-    // Функция закрытия всплывающих меню у задач, при клике мышкой вне меню
+    // Функция закрытия dropdown компонентов у задач, при клике мышкой вне компонента
     useEffect(() => {
         window.onclick = function(event) {
             if (event.target.matches('.dropdown-element')) {

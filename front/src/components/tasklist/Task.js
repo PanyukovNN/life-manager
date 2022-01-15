@@ -12,7 +12,7 @@ import {deleteTask, markAsDone} from "../../services/TaskService";
  * @param task объект задачи
  * @param refreshTaskList функция обновления списка задач
  * @param notifyEditBtnClick функция при нажатии на кнопку 'редактировать задачу'
- * @returns {*} компонент задачи
+ * @returns компонент задачи
  */
 export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
 

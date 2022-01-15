@@ -10,8 +10,7 @@ import {showAlert} from "../services/AlertService";
  * Форма логиа/регистрации
  *
  * @param isRegistration флаг регистрации (если false - логин, если true - регистрация)
- * @returns {*} форма логина/регистрации
- * @constructor
+ * @returns форма логина/регистрации
  */
 export const SignForm = ({isRegistration} ) => {
 
@@ -94,7 +93,7 @@ export const SignForm = ({isRegistration} ) => {
     const passwordInput = (
         <InputGroup className="mt-3">
             <InputGroup.Text className={"sign-from-fa-input-icon-wrap"}>
-                <i className="fa fa-lock sign-from-fa-lock-icon" aria-hidden="true"></i>
+                <i className="fa fa-lock sign-from-fa-lock-icon" aria-hidden="true"> </i>
             </InputGroup.Text>
             <FormControl
                 type="password"
@@ -113,7 +112,7 @@ export const SignForm = ({isRegistration} ) => {
     const confirmPasswordInput = (
         <InputGroup className="mt-3">
             <InputGroup.Text className={"sign-from-fa-input-icon-wrap"}>
-                <i className="fa fa-lock sign-from-fa-lock-icon" aria-hidden="true"></i>
+                <i className="fa fa-lock sign-from-fa-lock-icon" aria-hidden="true"> </i>
             </InputGroup.Text>
             <FormControl
                 type="password"
@@ -130,33 +129,35 @@ export const SignForm = ({isRegistration} ) => {
     )
 
     return (
-        <Form>
-            <img className="sign-form-profile-icon" src={profileIcon} alt="Profile icon"/>
+        <div className="sign-form-wrap">
+            <Form>
+                <img className="sign-form-profile-icon" src={profileIcon} alt="Profile icon"/>
 
-            <div className="text-center sign-form-header-wrap">
-                <h5>Введите свои данные</h5>
-            </div>
+                <div className="text-center sign-form-header-wrap">
+                    <h5>Введите свои данные</h5>
+                </div>
 
-            {usernameInput}
+                {usernameInput}
 
-            {isRegistration && emailInput}
+                {isRegistration && emailInput}
 
-            {passwordInput}
+                {passwordInput}
 
-            {isRegistration && confirmPasswordInput}
+                {isRegistration && confirmPasswordInput}
 
-            <Button variant="outline-primary w-100 mt-5 mb-3"
-                    type="submit"
-                    onClick={handleSubmit}>
-                {loading && <span className="spinner-border spinner-border-sm mr-2"></span>}
+                <Button variant="outline-primary w-100 mt-5 mb-3"
+                        type="submit"
+                        onClick={handleSubmit}>
+                    {loading && <span className="spinner-border spinner-border-sm mr-2"> </span>}
+                    {isRegistration
+                        ? <span>Зарегистрироваться</span>
+                        : <span>Войти на сайт</span>}
+                </Button>
+
                 {isRegistration
-                    ? <span>Зарегистрироваться</span>
-                    : <span>Войти на сайт</span>}
-            </Button>
-
-            {isRegistration
-                ? <a href="/sign-in">Уже зарегистрированы?</a>
-                : <a href="/sign-up">Ещё не зарегистрированы?</a>}
-        </Form>
+                    ? <a href="/sign-in">Уже зарегистрированы?</a>
+                    : <a href="/sign-up">Ещё не зарегистрированы?</a>}
+            </Form>
+        </div>
     )
 }

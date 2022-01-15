@@ -33,7 +33,6 @@ function App() {
                     <Route path="*" element={<NotFoundPage />} />
                     <Route path="/sign-in" element={<LoginPage />} />
                     <Route path="/sign-up" element={<RegistrationPage />} />
-                    {/*<Route path="/profile" component={<Profile />} />*/}
                 </Routes>
             </Router>
         </div>
