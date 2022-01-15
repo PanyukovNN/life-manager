@@ -52,6 +52,7 @@ allprojects {
 //        testImplementation libraryTest.powerMockito
 //        testImplementation libraryTest.powerMockitoJunit
         testImplementation libraryTest.springBootTest
+        testImplementation libraryTest.springSecurityTest
     }
 
     test {

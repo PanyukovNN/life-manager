@@ -55,6 +55,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
             <PriorityTaskBlock
                 priorityLetter={priorityLetter}
                 refreshTaskList={refreshTaskList}
+                taskStatus={taskStatus}
                 tasks={tasks}
                 notifyAddTaskBtnClick={(chosenPriorityLetter) => {
                     setShowModalCall(call => call + 1);

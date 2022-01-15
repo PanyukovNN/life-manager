@@ -47,6 +47,9 @@ public final class Constants {
     public static final String BLANK_PASSWORD_ERROR_MSG = "Пароль не может быть пустым";
     public static final String WRONG_EMAIL_ERROR_MSG = "Некорректный email";
     public static final String BLANK_EMAIL_ERROR_MSG = "Email не может быть пустым";
+    public static final String WRONG_PASSWORD_ERROR_MSG = "Неверный пароль.";
+    public static final String PASSWORDS_DO_NOT_MATCH_ERROR_MSG = "Пароли не совпадают";
+
 
     /**
      * Параметры.

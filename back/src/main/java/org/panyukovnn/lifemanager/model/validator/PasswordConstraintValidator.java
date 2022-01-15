@@ -1,5 +1,6 @@
 package org.panyukovnn.lifemanager.model.validator;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import org.panyukovnn.lifemanager.exception.LifeManagerException;
 import org.passay.*;
 
@@ -26,12 +27,17 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
 	@Override
 	public boolean isValid(String password, ConstraintValidatorContext context) {
+		if (StringUtils.isBlank(password)) {
+			return false;
+		}
+
 		MessageResolver messageResolver = loadValidationErrorMessages();
 
 		PasswordValidator validator = new PasswordValidator(
 				messageResolver,
 				List.of(new LengthRule(8, 100),
 						new CharacterRule(EnglishCharacterData.Digit, 1),
+						new CharacterRule(EnglishCharacterData.Alphabetical, 1),
 						new WhitespaceRule()
 				));
 

@@ -1,7 +1,7 @@
 import '../../App.css';
 import {React, useEffect, useState} from 'react';
 import {Button} from "react-bootstrap";
-import {NO_TASKS_DIV, PRIORITY_2_DEFINITION_PLURAL} from '../../Constants'
+import {NO_TASKS_DIV, PRIORITY_2_DEFINITION_PLURAL, TO_DO_TASK_STATUS} from '../../Constants'
 import {Task} from "./Task";
 
 /**
@@ -10,6 +10,7 @@ import {Task} from "./Task";
  * @param priorityLetter буква приоритета
  * @param refreshTaskList функция обновления списка задач
  * @param tasks список задач
+ * @param taskStatus статус задач
  * @param notifyAddTaskBtnClick функция нажатия на кнопку добавления новой задачи
  * @param notifyEditTaskBtnClick функция нажатия на кнопку редактирования задачи
  * @returns компонент задачи
@@ -17,6 +18,7 @@ import {Task} from "./Task";
 export const PriorityTaskBlock = ({priorityLetter,
                                       refreshTaskList,
                                       tasks,
+                                      taskStatus,
                                       notifyAddTaskBtnClick,
                                       notifyEditTaskBtnClick}) => {
 
@@ -51,6 +53,15 @@ export const PriorityTaskBlock = ({priorityLetter,
             />)
     }
 
+    const renderAddTaskBtn = () => {
+        return (
+            <Button className="add-task-button w-100"
+                    variant="outline-secondary"
+                    onClick={() => notifyAddTaskBtnClick(priorityLetter)}>
+                Добавить
+            </Button>)
+    }
+
     return (
         <div className="priority-task-block">
             <div className="priority-task-block-header">
@@ -59,11 +70,7 @@ export const PriorityTaskBlock = ({priorityLetter,
 
             {taskComponents}
 
-            <Button className="add-task-button w-100"
-                    variant="outline-secondary"
-                    onClick={() => notifyAddTaskBtnClick(priorityLetter)}>
-                Добавить
-            </Button>
+            {taskStatus === TO_DO_TASK_STATUS && renderAddTaskBtn()}
         </div>
     )
 }

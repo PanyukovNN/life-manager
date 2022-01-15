@@ -1,6 +1,6 @@
 import {getCurrentCategory} from "./CategoryService";
 import {deleteReq, postReq} from "./RequestService";
-import {DONE_TASK_STATUS} from "../Constants";
+import {DONE_TASK_STATUS, TO_DO_TASK_STATUS} from "../Constants";
 import {showAlert} from "./AlertService";
 
 /**
@@ -80,5 +80,36 @@ export function deleteTask(id, completed) {
 
             completed();
         });
+}
+
+/**
+ * Создание/обновление задачи
+ *
+ * @param id идентификатор
+ * @param description описание задачи
+ * @param priorityLetter приоритет
+ * @param category категория
+ * @param date планируемая дата завершения
+ * @param time планируемое время завершения
+ * @returns результат выполнения запроса
+ */
+export function createUpdateTask(id, description, priorityLetter, category, date, time) {
+    if (description === null
+        || description === ""
+        || category === null) {
+        return;
+    }
+
+    let body = {
+        id: id,
+        description: description,
+        priority: priorityLetter + 1,
+        category: category,
+        status: TO_DO_TASK_STATUS,
+        plannedDate: date,
+        plannedTime: time
+    };
+
+    return postReq('http://localhost:80/api/task/create-update', body);
 }
 

@@ -1,10 +1,10 @@
 import '../../App.css';
 import {React, useEffect, useState} from 'react';
-import {TimePicker, DatePicker} from 'react-tempusdominus-bootstrap';
+import {DatePicker, TimePicker} from 'react-tempusdominus-bootstrap';
 import {Button, FloatingLabel, Form, Modal} from "react-bootstrap";
-import {DESCRIPTION_TEXTAREA_ID, TO_DO_TASK_STATUS, PRIORITY_2_DEFINITION} from "../../Constants";
-import {postReq} from "../../services/RequestService";
+import {DESCRIPTION_TEXTAREA_ID, PRIORITY_2_DEFINITION} from "../../Constants";
 import {getCurrentCategory} from "../../services/CategoryService";
+import {createUpdateTask} from "../../services/TaskService";
 
 /**
  * Модальное окно создания/удаления задачи
@@ -23,7 +23,6 @@ export const TaskModal = ({refreshTaskList,
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
-    const handleClose = async () => setShow(false);
     const [category, setCategory] = useState("");
 
     useEffect(
@@ -42,30 +41,17 @@ export const TaskModal = ({refreshTaskList,
         [showModalCall]
     );
 
-    // Нажатие на кнопку добавления задачи
+    const handleClose = () => setShow(false);
+
     const handleSave = async () => {
+        let id = task ? task.id : null;
         let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
 
-        if (description === null || description === "") {
-            return;
-        }
-
-        let id = task ? task.id : null;
-
-        let body = {
-            id: id,
-            description: description,
-            priority: priorityLetter + 1,
-            category: category,
-            status: TO_DO_TASK_STATUS,
-            plannedDate: date,
-            plannedTime: time
-        };
-
-        await postReq('http://localhost:80/api/task/create-update', body);
-
-        refreshTaskList();
-        setShow(false);
+        createUpdateTask(id, description, priorityLetter, category, date, time)
+            .then(() => {
+                refreshTaskList();
+                setShow(false);
+            })
     }
 
     return (

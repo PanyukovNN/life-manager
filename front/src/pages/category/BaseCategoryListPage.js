@@ -4,6 +4,7 @@ import {CategoryListComponent} from "../../components/categorilist/CategoryListC
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../../components/categorilist/CategoryModal";
 import {moveToFromArchive, removeCategory} from "../../services/CategoryService";
+import {isLoading} from "../../services/Util";
 
 /**
  * Базовая страница управления разделами
@@ -47,6 +48,7 @@ export const BaseCategoryListPage = ({inArchive}) => {
     const renderAddCategoryBtn = (
         <Button className="add-category-button w-100"
                 variant="outline-secondary"
+                disabled={isLoading}
                 onClick={() => {
                     setShowModalCall(call => call + 1);
                     setModalCategory(null);

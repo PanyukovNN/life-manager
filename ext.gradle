@@ -39,4 +39,5 @@ ext.libraryTest = [
         'junit5api' : 'org.junit.jupiter:junit-jupiter-api:5.3.1',
         'junit5engine' : 'org.junit.jupiter:junit-jupiter-engine:5.3.1',
         'springBootTest' : 'org.springframework.boot:spring-boot-starter-test',
+        'springSecurityTest' : 'org.springframework.security:spring-security-test',
 ]
