@@ -20,6 +20,14 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     Optional<Category> findByName(String name);
 
     /**
+     * Существует ли не недавно удалённая категория с заданным наименованием.
+     *
+     * @param name наименование
+     * @return существует ли не недавно удалённая категория
+     */
+    Boolean existsByNameAndRecentlyDeletedIsFalse(String name);
+
+    /**
      * Существует ли категория с заданным наименованием.
      *
      * @param name наименование

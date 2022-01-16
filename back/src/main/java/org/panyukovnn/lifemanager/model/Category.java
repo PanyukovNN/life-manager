@@ -26,7 +26,8 @@ public class Category {
     private String name;
 
     /**
-     * Находится ли категория в архиве.
+     * Недавно удаленная.
+     * Удаляется окончательно по просшествии 30 дней.
      */
-    private boolean inArchive;
+    private boolean recentlyDeleted;
 }

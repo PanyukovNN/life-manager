@@ -30,38 +30,21 @@ public class CategoryService {
     /**
      * Создать/обновить категорию.
      * Запрещено создавать категорию с одинаковыми именами.
+     * Если категория с таким же именем находится в недавно удаленных, то её создание разрешено.
      *
-     * @param id идентификатор
-     * @param name наименование
+     * @param categoryTemplate частично заполненная сущность категории
      */
     @Transactional
-    public void createUpdate(String id, String name) {
-        Category category = new Category();
+    public void createUpdate(Category categoryTemplate) {
+        if (StringUtils.isBlank(categoryTemplate.getId())) {
+            boolean existsByName = categoryRepository.existsByNameAndRecentlyDeletedIsFalse(categoryTemplate.getName());
 
-        Category categoryFromDb = categoryRepository.findByName(name).orElse(null);
-
-        if (categoryFromDb != null) {
-            if (categoryFromDb.isInArchive()) {
-                categoryFromDb.setInArchive(false);
-
-                categoryRepository.save(categoryFromDb);
-
-                return;
+            if (existsByName) {
+                throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
             }
-
-            throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
         }
 
-        if (StringUtils.isNotBlank(id)) {
-            categoryRepository.findById(id).ifPresent(c -> {
-                category.setId(c.getId());
-                category.setInArchive(c.isInArchive());
-            });
-        }
-
-        category.setName(name);
-
-        categoryRepository.save(category);
+        categoryRepository.save(categoryTemplate);
     }
 
     /**
@@ -119,7 +102,7 @@ public class CategoryService {
         Category category = categoryRepository.findByName(name)
                 .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
 
-        if (category.isInArchive()) {
+        if (category.isRecentlyDeleted()) {
             throw new UnableToRemoveException(String.format(CATEGORY_ALREADY_IN_ARCHIVE_ERROR_MSG, name));
         }
 
@@ -129,7 +112,7 @@ public class CategoryService {
             throw new UnableToRemoveException(UNABLE_TO_SET_CATEGORY_IN_ARCHIVE_ERROR_MSG);
         }
 
-        category.setInArchive(inArchive);
+        category.setRecentlyDeleted(inArchive);
         categoryRepository.save(category);
     }
 }

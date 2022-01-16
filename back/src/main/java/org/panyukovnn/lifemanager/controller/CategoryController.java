@@ -31,7 +31,11 @@ public class CategoryController {
      */
     @PostMapping("/create-update")
     public String createUpdateCategory(@RequestBody CreateUpdateCategoryRequest request) {
-        categoryService.createUpdate(request.getId(), request.getName());
+        Category categoryTemplate = new Category();
+        categoryTemplate.setId(request.getId());
+        categoryTemplate.setName(request.getName());
+
+        categoryService.createUpdate(categoryTemplate);
 
         return String.format(CATEGORY_CREATED_UPDATED_SUCCESSFULLY, request.getName());
     }

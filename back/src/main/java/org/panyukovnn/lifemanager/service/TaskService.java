@@ -45,6 +45,7 @@ public class TaskService {
      * @param rawTask задача, сформированная из запроса
      * @param timeZone часовой пояс клиента
      */
+    @Transactional
     public void createUpdate(Task rawTask, TimeZone timeZone) {
         boolean notBlankId = StringUtils.isNotBlank(rawTask.getId());
         boolean wrongTaskId = notBlankId
