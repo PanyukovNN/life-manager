@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
-import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_LETTER_PATTERN_OR_EMPTY;
+import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_PATTERN_OR_EMPTY;
 import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
 
 /**
@@ -22,8 +22,8 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_V
 @NoArgsConstructor
 public class FindTaskListRequest {
 
-    @Pattern(regexp = PRIORITY_LETTER_PATTERN_OR_EMPTY, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
-    public String priorityLetter;
+    @Pattern(regexp = PRIORITY_PATTERN_OR_EMPTY, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
+    public String priority;
 
     @NotNull
     public List<TaskStatus> taskStatuses;

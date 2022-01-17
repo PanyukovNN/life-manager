@@ -27,7 +27,6 @@ public final class Constants {
      * Текстовки ошибок.
      */
     public static final String WRONG_PRIORITY_STRING_VALUE_ERROR_MSG = "Неверное строковое значение приоритета";
-    public static final String WRONG_PRIORITY_LETTER_VALUE_ERROR_MSG = "Неверная буква приоритета";
     public static final String WRONG_PRIORITY_INT_VALUE_ERROR_MSG = "Неверное числовое значение приоритета";
     public static final String CATEGORY_NOT_FOUND_ERROR_MSG = "Категория не найдена";
     public static final String NO_CATEGORY_FOR_TASK_ERROR_MSG = "Невозможно создать задачу без категории";
@@ -65,8 +64,8 @@ public final class Constants {
      * Другое.
      */
     // Строка должна состоять из двух символов, первый от A до D, второй от 1 до 4
-    public static final String PRIORITY_PATTERN = "^[A-D][1-4]$";
-    public static final String PRIORITY_LETTER_PATTERN_OR_EMPTY = "^[A-D]$|";
+    public static final String PRIORITY_PATTERN = "^[A-D]$";
+    public static final String PRIORITY_PATTERN_OR_EMPTY = "^[A-D]$|";
     // Список допустимых приоритетов
     public static final List<Character> PRIORITIES = List.of('A', 'B', 'C', 'D');
 }

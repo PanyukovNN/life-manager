@@ -16,9 +16,9 @@ import java.util.List;
 public class TaskListParams {
 
     /**
-     * Диапазон приоритетов.
+     * Приоритет.
      */
-    private final List<Integer> priorityRange;
+    private final String priority;
 
     /**
      * Список статусов.

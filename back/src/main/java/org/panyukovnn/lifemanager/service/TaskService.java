@@ -74,8 +74,8 @@ public class TaskService {
         Query query = new Query();
         List<Criteria> criteriaList = new ArrayList<>();
 
-        if (!CollectionUtils.isEmpty(params.getPriorityRange())) {
-            criteriaList.add(Criteria.where(PRIORITY).in(params.getPriorityRange()));
+        if (!StringUtils.isEmpty(params.getPriority())) {
+            criteriaList.add(Criteria.where(PRIORITY).is(params.getPriority()));
         }
 
         if (!CollectionUtils.isEmpty(params.getStatuses())) {
@@ -169,13 +169,12 @@ public class TaskService {
         Objects.requireNonNull(task, NULL_TASK_ERROR_MSG);
         Objects.requireNonNull(task.getCategoryName(), NULL_CATEGORY_NAME_ERROR_MSG);
 
-        String priority = ControllerHelper.priorityToParam(task.getPriority());
         String categoryName = task.getCategoryName();
 
         TaskDto.TaskDtoBuilder builder = TaskDto.builder()
                 .id(task.getId())
                 .description(task.getDescription())
-                .priority(priority)
+                .priority(task.getPriority())
                 .category(categoryName)
                 .status(task.getStatus().name());
 
