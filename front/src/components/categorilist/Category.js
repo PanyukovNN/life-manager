@@ -3,44 +3,54 @@ import {React} from 'react';
 import {Button} from "react-bootstrap";
 import editIcon from "../../resources/icon/edit-icon.svg.png";
 import removeIcon from "../../resources/icon/remove.svg.png";
-import archiveIcon from "../../resources/icon/archive.png";
+import recoverIcon from "../../resources/icon/recover-icon.png";
 
 /**
  * Карточка категории
  *
  * @param category объект категории
- * @param notifyEditBtnClick функция уведомления о клике на кнопке редактирования
- * @param notifyMoveToArchiveClick функция уведомления о клике на кнопке "в архив"
- * @param notifyRemoveClick функция уведомления о клике на кнопке "удалить"
- * @param inArchive флаг в/вне архива
+ * @param editCategory функция уведомления о клике на кнопке редактирования
+ * @param moveCategoryToRecentlyDeleted функция уведомления о клике на кнопке "поместить в недавно удаленные"
+ * @param recoverCategoryFromRecentlyDeleted функция уведомления о клике на кнопке "восстановить из недавно удаленных"
+ * @param removeCategory функция уведомления о клике на кнопке "удалить"
+ * @param recentlyDeleted флаг 'недавно удаленная'
  * @returns компонент категории
  */
 export const Category = ({category,
-                             notifyEditBtnClick,
-                             notifyMoveToArchiveClick,
-                             notifyRemoveClick,
-                             inArchive}) => {
+                             editCategory,
+                             moveCategoryToRecentlyDeleted,
+                             recoverCategoryFromRecentlyDeleted,
+                             removeCategory,
+                             recentlyDeleted}) => {
 
     const renderEditButton = (
         <Button className="category-edit-button"
                 variant="primary"
-                onClick={() => notifyEditBtnClick(category)}>
+                onClick={() => editCategory(category)}>
             <img className="category-edit-icon" src={editIcon} alt="Edit"/>
         </Button>
     );
 
-    const renderToArchiveButton = (
-        <Button className="category-to-archive-button"
+    const renderMoveToRecentlyDeletedBtn = (
+        <Button className="category-move-to-recently-deleted-button"
                 variant="primary"
-                onClick={() => {notifyMoveToArchiveClick(category)}}>
-            <img className="category-to-archive-icon" src={archiveIcon} alt="To archive"/>
+                onClick={() => {moveCategoryToRecentlyDeleted(category)}}>
+            <img className="category-move-to-recently-deleted-icon" src={removeIcon} alt="Move to recently deleted"/>
+        </Button>
+    );
+
+    const renderRecoverFromRecentlyDeletedBtn = (
+        <Button className="category-recover-from-recently-deleted-button"
+                variant="primary"
+                onClick={() => {recoverCategoryFromRecentlyDeleted(category)}}>
+            <img className="category-recover-from-recently-deleted-icon" src={recoverIcon} alt="Recover from recently deleted"/>
         </Button>
     );
 
     const renderRemoveButton = (
         <Button className="category-remove-button"
                 variant="primary"
-                onClick={() => {notifyRemoveClick(category)}}>
+                onClick={() => {removeCategory(category)}}>
             <img className="category-remove-icon" src={removeIcon} alt="Remove"/>
         </Button>
     );
@@ -53,11 +63,11 @@ export const Category = ({category,
                 {category.name}
             </div>
 
-            {renderEditButton}
+            {!recentlyDeleted && renderEditButton}
+            {!recentlyDeleted && renderMoveToRecentlyDeletedBtn}
 
-            {inArchive
-                ? renderRemoveButton
-                : renderToArchiveButton}
+            {recentlyDeleted && renderRecoverFromRecentlyDeletedBtn}
+            {recentlyDeleted && renderRemoveButton}
         </div>
     )
 }

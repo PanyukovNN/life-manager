@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_PATTERN;
-import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
+import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_ERROR_MSG;
 
 /**
  * Запрос на создание/изменение задачи.
@@ -29,7 +29,7 @@ public class CreateUpdateTaskRequest {
     private String description;
 
     @NotBlank
-    @Pattern(regexp = PRIORITY_PATTERN, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
+    @Pattern(regexp = PRIORITY_PATTERN, message = WRONG_PRIORITY_ERROR_MSG)
     private String priority;
 
     @NotBlank

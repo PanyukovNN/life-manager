@@ -20,12 +20,13 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     Optional<Category> findByName(String name);
 
     /**
-     * Существует ли не недавно удалённая категория с заданным наименованием.
+     * Найти по наименованию и флагу 'недавно удалена'.
      *
      * @param name наименование
-     * @return существует ли не недавно удалённая категория
+     * @param recentlyDeleted флаг 'недавно удалена'
+     * @return категория
      */
-    Boolean existsByNameAndRecentlyDeletedIsFalse(String name);
+    Optional<Category> findByNameAndRecentlyDeleted(String name, boolean recentlyDeleted);
 
     /**
      * Существует ли категория с заданным наименованием.
@@ -43,10 +44,10 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     void deleteByName(String name);
 
     /**
-     * Возвращает категории по флагу в/вне архива.
+     * Возвращает категории по флагу 'недавно удалена'.
      *
-     * @param inArchive флаг в/вне архива
+     * @param recentlyDeleted флаг 'недавно удалена'
      * @return спиоск категорий
      */
-    List<Category> findByInArchive(boolean inArchive);
+    List<Category> findByRecentlyDeleted(boolean recentlyDeleted);
 }

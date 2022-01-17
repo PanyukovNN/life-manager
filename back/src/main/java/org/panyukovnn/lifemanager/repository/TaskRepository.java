@@ -19,6 +19,13 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     List<Task> findByIdIn(List<String> ids);
 
     /**
+     * Вернуть список задач по наименованию категории.
+     *
+     * @param categoryName наименование категории
+     */
+    List<Task> findByCategoryName(String categoryName);
+
+    /**
      * Существуют ли задачи с заданной категорией и статусом.
      *
      * @param categoryName наименование категории

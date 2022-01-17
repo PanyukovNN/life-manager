@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_PATTERN_OR_EMPTY;
-import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_VALUE_ERROR_MSG;
+import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_ERROR_MSG;
 
 /**
  * Запрос на поиск задач по набору параметров.
@@ -22,7 +22,7 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_STRING_V
 @NoArgsConstructor
 public class FindTaskListRequest {
 
-    @Pattern(regexp = PRIORITY_PATTERN_OR_EMPTY, message = WRONG_PRIORITY_STRING_VALUE_ERROR_MSG)
+    @Pattern(regexp = PRIORITY_PATTERN_OR_EMPTY, message = WRONG_PRIORITY_ERROR_MSG)
     public String priority;
 
     @NotNull

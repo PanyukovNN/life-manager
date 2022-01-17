@@ -3,9 +3,8 @@ package org.panyukovnn.lifemanager.service;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.exception.NotFoundException;
-import org.panyukovnn.lifemanager.exception.UnableToRemoveException;
 import org.panyukovnn.lifemanager.model.Category;
-import org.panyukovnn.lifemanager.model.TaskStatus;
+import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.repository.CategoryRepository;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -29,19 +28,19 @@ public class CategoryService {
 
     /**
      * Создать/обновить категорию.
-     * Запрещено создавать категорию с одинаковыми именами.
-     * Если категория с таким же именем находится в недавно удаленных, то её создание разрешено.
+     * Запрещено создавать категории с одинаковыми именами.
      *
      * @param categoryTemplate частично заполненная сущность категории
      */
     @Transactional
     public void createUpdate(Category categoryTemplate) {
         if (StringUtils.isBlank(categoryTemplate.getId())) {
-            boolean existsByName = categoryRepository.existsByNameAndRecentlyDeletedIsFalse(categoryTemplate.getName());
-
-            if (existsByName) {
-                throw new EntityExistsException(CATEGORY_ALREADY_EXISTS_ERROR_MSG);
-            }
+            categoryRepository.findByName(categoryTemplate.getName())
+                    .ifPresent(sameNameCategory -> {
+                        throw new EntityExistsException(sameNameCategory.isRecentlyDeleted()
+                                ? RECENTLY_DELETED_CATEGORY_ALREADY_EXISTS_ERROR_MSG
+                                : CATEGORY_ALREADY_EXISTS_ERROR_MSG);
+                    });
         }
 
         categoryRepository.save(categoryTemplate);
@@ -60,18 +59,45 @@ public class CategoryService {
     /**
      * Вернуть список категорий по заданным параметрам.
      *
-     * @param inArchive флаг в/вне архива
+     * @param recentlyDeleted флаг недавно удаленной категории
      * @return список категорий
      */
-    public List<Category> findList(boolean inArchive) {
-        return categoryRepository.findByInArchive(inArchive);
+    public List<Category> findList(boolean recentlyDeleted) {
+        return categoryRepository.findByRecentlyDeleted(recentlyDeleted);
     }
 
     /**
-     * Удалить категорию по наименованию.
-     * Запрещено удалять категории, за которыми закреплены невыполненные задачи.
-     * Если у удаляемой категории есть выполненные задачи выставляется флаг previouslyExisted
-     * и она не удаляется.
+     * Поместить категорию в недавно удаленные.
+     *
+     * @param name наименование категории
+     */
+    @Transactional
+    public void moveToRecentlyDeleted(String name) {
+        Category category = categoryRepository.findByNameAndRecentlyDeleted(name, false)
+                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
+
+        category.setRecentlyDeleted(true);
+
+        categoryRepository.save(category);
+    }
+
+    /**
+     * Восстановить категорию из недавно удаленных.
+     *
+     * @param name наименование категории
+     */
+    @Transactional
+    public void recoverFromRecentlyDeleted(String name) {
+        Category category = categoryRepository.findByNameAndRecentlyDeleted(name, true)
+                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
+
+        category.setRecentlyDeleted(false);
+
+        categoryRepository.save(category);
+    }
+
+    /**
+     * Удалить категорию по наименованию и удалить все задачи, закреплённые за данной категорией.
      *
      * @param name наименование
      */
@@ -82,37 +108,9 @@ public class CategoryService {
             throw new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG);
         }
 
-        boolean doneTaskExists = taskRepository.existsByCategoryNameAndStatus(name, TaskStatus.DONE);
-
-        if (doneTaskExists) {
-            throw new UnableToRemoveException(UNABLE_TO_DELETE_CATEGORY_ERROR_MSG);
-        }
+        List<Task> categoryTasks = taskRepository.findByCategoryName(name);
+        taskRepository.deleteAll(categoryTasks);
 
         categoryRepository.deleteByName(name);
-    }
-
-    /**
-     * Установить флаг toArchive.
-     *
-     * @param name наименование категории
-     * @param inArchive флаг нахождения в архиве
-     */
-    @Transactional
-    public void setToArchiveByName(String name, boolean inArchive) {
-        Category category = categoryRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
-
-        if (category.isRecentlyDeleted()) {
-            throw new UnableToRemoveException(String.format(CATEGORY_ALREADY_IN_ARCHIVE_ERROR_MSG, name));
-        }
-
-        boolean todoTaskExists = taskRepository.existsByCategoryNameAndStatus(name, TaskStatus.TO_DO);
-
-        if (todoTaskExists) {
-            throw new UnableToRemoveException(UNABLE_TO_SET_CATEGORY_IN_ARCHIVE_ERROR_MSG);
-        }
-
-        category.setRecentlyDeleted(inArchive);
-        categoryRepository.save(category);
     }
 }

@@ -87,13 +87,13 @@ export function deleteTask(id, completed) {
  *
  * @param id идентификатор
  * @param description описание задачи
- * @param priorityLetter приоритет
+ * @param priority приоритет
  * @param category категория
  * @param date планируемая дата завершения
  * @param time планируемое время завершения
  * @returns результат выполнения запроса
  */
-export function createUpdateTask(id, description, priorityLetter, category, date, time) {
+export function createUpdateTask(id, description, priority, category, date, time) {
     if (description === null
         || description === ""
         || category === null) {
@@ -103,7 +103,7 @@ export function createUpdateTask(id, description, priorityLetter, category, date
     let body = {
         id: id,
         description: description,
-        priority: priorityLetter + 1,
+        priority: priority,
         category: category,
         status: TO_DO_TASK_STATUS,
         plannedDate: date,

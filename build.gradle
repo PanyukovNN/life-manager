@@ -14,7 +14,7 @@ allprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
-    group 'org.panyukovnn'
+    group 'org.panyukovnn.lifemanager'
     version '1.0'
 
     apply from: "$rootProject.projectDir/ext.gradle"
@@ -23,8 +23,6 @@ allprojects {
         mavenLocal()
         mavenCentral()
     }
-
-    sourceSets.main.java.srcDirs = ['src/main/java']
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'

@@ -5,12 +5,12 @@ import {showAlert} from "./AlertService";
 /**
  * Запрашивает с сервера список категорий и возвращает его
  *
- * @param inArchive флаг в/вне архива
+ * @param recentlyDeleted флаг 'недавно удаленные'
  * @returns результат выполнения запроса к серверу
  */
-export function fetchRawCategories(inArchive) {
+export function fetchRawCategories(recentlyDeleted) {
     let body = {
-        inArchive: inArchive
+        recentlyDeleted: recentlyDeleted
     };
 
     return postReq("http://localhost:80/api/category/find-list", body)
@@ -24,19 +24,17 @@ export function fetchRawCategories(inArchive) {
 }
 
 /**
- * Переместить категори в/вне архива
+ * Переместить категори в недавно удаленные
  *
- * @param name имя категории
- * @param inArchive флаг в/вне архива, куда перенести
+ * @param name наименование категории
  * @returns результат выполнения запроса к серверу
  */
-export function moveToFromArchive(name, inArchive) {
+export function moveToRecentlyDeleted(name) {
     let body = {
         name: name,
-        inArchive: inArchive
     };
 
-    return postReq("http://localhost:80/api/category/set-in-archive", body)
+    return postReq("http://localhost:80/api/category/move-to-recently-deleted", body)
         .then(response => {
             if (response && response.data) {
                 showAlert(response.data)
@@ -45,13 +43,33 @@ export function moveToFromArchive(name, inArchive) {
 }
 
 /**
+ * Восстановить категорию из недавно удаленных
+ *
+ * @param name наименование категории
+ * @returns результат выполнения запроса к серверу
+ */
+export function recoverFromRecentlyDeleted(name) {
+    let body = {
+        name: name,
+    };
+
+    return postReq("http://localhost:80/api/category/recover-from-recently-deleted", body)
+        .then(response => {
+            if (response && response.data) {
+                showAlert(response.data)
+            }
+        });
+}
+
+
+/**
  * Удалить категорию
  *
  * @param name имя категории
  * @returns результат выполнения запроса
  */
 export function removeCategory(name) {
-    let result = window.confirm("Вы уверены, что хотите удалить категорию \"" + removeCategory.name + "\"?");
+    let result = window.confirm("Вы уверены, что хотите полностью удалить категорию и её задачи \"" + removeCategory.name + "\"?");
 
     if (!result) {
         return;

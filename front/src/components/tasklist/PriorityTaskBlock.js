@@ -7,7 +7,7 @@ import {Task} from "./Task";
 /**
  * Блок со списком задач с соответствующим приоритетом
  *
- * @param priorityLetter буква приоритета
+ * @param priority приоритет
  * @param refreshTaskList функция обновления списка задач
  * @param tasks список задач
  * @param taskStatus статус задач
@@ -15,7 +15,7 @@ import {Task} from "./Task";
  * @param notifyEditTaskBtnClick функция нажатия на кнопку редактирования задачи
  * @returns компонент задачи
  */
-export const PriorityTaskBlock = ({priorityLetter,
+export const PriorityTaskBlock = ({priority,
                                       refreshTaskList,
                                       tasks,
                                       taskStatus,
@@ -57,7 +57,7 @@ export const PriorityTaskBlock = ({priorityLetter,
         return (
             <Button className="add-task-button w-100"
                     variant="outline-secondary"
-                    onClick={() => notifyAddTaskBtnClick(priorityLetter)}>
+                    onClick={() => notifyAddTaskBtnClick(priority)}>
                 Добавить
             </Button>)
     }
@@ -65,7 +65,7 @@ export const PriorityTaskBlock = ({priorityLetter,
     return (
         <div className="priority-task-block">
             <div className="priority-task-block-header">
-                {PRIORITY_2_DEFINITION_PLURAL[priorityLetter]}
+                {PRIORITY_2_DEFINITION_PLURAL[priority]}
             </div>
 
             {taskComponents}

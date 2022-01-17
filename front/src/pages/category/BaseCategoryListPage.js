@@ -3,33 +3,46 @@ import {React, useEffect, useState} from 'react'
 import {CategoryListComponent} from "../../components/categorilist/CategoryListComponent";
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../../components/categorilist/CategoryModal";
-import {moveToFromArchive, removeCategory} from "../../services/CategoryService";
-import {isLoading} from "../../services/Util";
+import {moveToRecentlyDeleted, removeCategory} from "../../services/CategoryService";
 
 /**
- * Базовая страница управления разделами
+ * Базовая страница управления категориями.
  *
- * @param inArchive флаг в/вне архива
+ * @param recentlyDeleted флаг 'недавно удаленные'
  * @returns страница управления разделами
  */
-export const BaseCategoryListPage = ({inArchive}) => {
+export const BaseCategoryListPage = ({recentlyDeleted}) => {
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
-    const [categoryToFromArchive, setCategoryToFromArchive] = useState(null);
+    const [categoryToRecentlyDeleted, setCategoryToRecentlyDeleted] = useState(null);
+    const [categoryToRecoverFromRecentlyDeleted, setCategoryToRecoverFromRecentlyDeleted] = useState(null);
     const [categoryToRemove, setCategoryToRemove] = useState(null);
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalCategory, setModalCategory] = useState(null);
 
     useEffect(() => {
-            if (categoryToFromArchive == null) {
+            if (categoryToRecentlyDeleted == null) {
                 return;
             }
 
-            moveToFromArchive(categoryToFromArchive.name, !inArchive)
+            moveToRecentlyDeleted(categoryToRecentlyDeleted.name)
                 .then(() => {
                     setRefreshCategoryListCall(call => call + 1);
                 })
         },
-        [categoryToFromArchive]
+        [categoryToRecentlyDeleted]
+    );
+
+    useEffect(() => {
+            if (categoryToRecoverFromRecentlyDeleted == null) {
+                return;
+            }
+
+            moveToRecentlyDeleted(categoryToRecoverFromRecentlyDeleted.name)
+                .then(() => {
+                    setRefreshCategoryListCall(call => call + 1);
+                })
+        },
+        [categoryToRecoverFromRecentlyDeleted]
     );
 
     useEffect(() => {
@@ -46,43 +59,43 @@ export const BaseCategoryListPage = ({inArchive}) => {
     );
 
     const renderAddCategoryBtn = (
-        <Button className="add-category-button w-100"
-                variant="outline-secondary"
-                disabled={isLoading}
-                onClick={() => {
-                    setShowModalCall(call => call + 1);
-                    setModalCategory(null);
-                }}>
-            Добавить
-        </Button>
-    );
+            <Button className="add-category-button w-100"
+                    variant="outline-secondary"
+                    onClick={() => {
+                        setShowModalCall(call => call + 1);
+                        setModalCategory(null);
+                    }}>
+                Добавить
+            </Button>
+        );
 
     return (
         <div className="CategoryListPage">
             <div className="category-list-block">
                 <div className="category-list-header-wrapper">
                     <div className="category-list-header">
-                        {inArchive ? "Архив разделов" : "Разделы"}
+                        {recentlyDeleted ? "Недавно удаленные разделы" : "Разделы"}
 
-                        <Button className="category-archive-page-button"
-                                href={inArchive ? "/categories" : "/categories/archive"}
+                        <Button className="category-recently-deleted-page-button"
+                                href={recentlyDeleted ? "/categories" : "/categories/recently-deleted"}
                                 variant="primary">
-                            {inArchive ? "Разделы" : "Архив"}
+                            {recentlyDeleted ? "Разделы" : "Недавно удаленные"}
                         </Button>
                     </div>
                 </div>
 
                 <CategoryListComponent
                     refreshCategoryListCall={refreshCategoryListCall}
-                    notifyUpdateCategoryClick={(category) => {
+                    editCategory={(category) => {
                         setShowModalCall(call => call + 1);
                         setModalCategory(category);
                     }}
-                    notifyToArchiveCategoryClick={setCategoryToFromArchive}
-                    notifyRemoveCategoryClick={setCategoryToRemove}
-                    inArchive={inArchive}/>
+                    moveCategoryToRecentlyDeleted={setCategoryToRecentlyDeleted}
+                    recoverCategoryFromRecentlyDeleted={setCategoryToRecoverFromRecentlyDeleted}
+                    removeCategory={setCategoryToRemove}
+                    recentlyDeleted={recentlyDeleted}/>
 
-                {!inArchive && renderAddCategoryBtn}
+                {!recentlyDeleted && renderAddCategoryBtn}
             </div>
 
             <CategoryModal refreshCategoryList={() => setRefreshCategoryListCall(call => call + 1)}

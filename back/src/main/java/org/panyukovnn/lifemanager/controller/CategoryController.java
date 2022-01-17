@@ -53,37 +53,50 @@ public class CategoryController {
     }
 
     /**
-     * Вернуть все категории по флагу inArchive.
+     * Вернуть все категории переданным параметрам.
      *
      * @param request запрос
      * @return список категорий
      */
     @PostMapping("/find-list")
-    public List<Category> findByInArchive(@RequestBody @Valid FindCategoryListRequest request) {
-        return categoryService.findList(request.getInArchive());
+    public List<Category> findList(@RequestBody @Valid FindCategoryListRequest request) {
+        return categoryService.findList(request.getRecentlyDeleted());
     }
 
     /**
-     * Установить флаг toArchive.
+     * Поместить категорию в недавно удаленные.
      *
      * @param request запрос
-     * @return сообщение об успешном перемещении в архив
+     * @return сообщение об успешном перемещении в 'недавно удаленные'
      */
-    @PostMapping("/set-in-archive")
-    public String setInArchive(@RequestBody @Valid SetCategoryInArchiveRequest request) {
-        categoryService.setToArchiveByName(request.getName(), request.isInArchive());
+    @PostMapping("/move-to-recently-deleted")
+    public String moveToRecentlyDeleted(@RequestBody @Valid CategoryNameRequest request) {
+        categoryService.moveToRecentlyDeleted(request.getName());
 
-        return String.format(CATEGORY_SET_IN_ARCHIVE_SUCCESSFULLY, request.getName());
+        return String.format(CATEGORY_MOVED_TO_RECENTLY_DELETED_SUCCESSFULLY, request.getName());
     }
 
     /**
-     * Удалить категорию по имени.
+     * Восстановить категорию из недавно удаленных.
+     *
+     * @param request запрос
+     * @return сообщение об успешном восстановлении из недавно удаленных
+     */
+    @PostMapping("/recover-from-recently-deleted")
+    public String recoverFromRecentlyDeleted(@RequestBody @Valid CategoryNameRequest request) {
+        categoryService.recoverFromRecentlyDeleted(request.getName());
+
+        return String.format(CATEGORY_RECOVERED_FROM_RECENTLY_DELETED_SUCCESSFULLY, request.getName());
+    }
+
+    /**
+     * Окончательно удалить категорию по имени.
      *
      * @param request запрос
      * @return сообщение об успешном удалении
      */
-    @DeleteMapping("/delete-by-name")
-    public String deleteById(@RequestBody @Valid DeleteByNameRequest request) {
+    @DeleteMapping("/delete-permanently-by-name")
+    public String deletePermanentlyByName(@RequestBody @Valid CategoryNameRequest request) {
         categoryService.deleteByName(request.getName());
 
         return String.format(CATEGORY_REMOVED_SUCCESSFULLY, request.getName());

@@ -12,13 +12,13 @@ import {createUpdateTask} from "../../services/TaskService";
  * @param refreshTaskList функция обновления списка задач
  * @param showModalCall хук показа окна
  * @param task задача
- * @param priorityLetter буква приоритета
+ * @param priority приоритет
  * @returns кнопку с модальным окном
  */
 export const TaskModal = ({refreshTaskList,
                               showModalCall,
                               task,
-                              priorityLetter}) => {
+                              priority}) => {
 
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
@@ -47,7 +47,7 @@ export const TaskModal = ({refreshTaskList,
         let id = task ? task.id : null;
         let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
 
-        createUpdateTask(id, description, priorityLetter, category, date, time)
+        createUpdateTask(id, description, priority, category, date, time)
             .then(() => {
                 refreshTaskList();
                 setShow(false);
@@ -67,7 +67,7 @@ export const TaskModal = ({refreshTaskList,
             <div className="task-modal-priority-wrap">
                 Раздел: {category}
                 <br/>
-                Приоритет: {PRIORITY_2_DEFINITION[priorityLetter]}
+                Приоритет: {PRIORITY_2_DEFINITION[priority]}
             </div>
 
             <div className="add-task-inputs-wrap">

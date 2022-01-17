@@ -240,7 +240,8 @@
 
     transition: .4s ease;
 }
-.category-to-archive-icon {
+.category-move-to-recently-deleted-icon,
+.category-recover-from-recently-deleted-icon {
     width: 18px;
     height: 18px;
 
@@ -250,7 +251,8 @@
 }
 .category-edit-icon:hover,
 .category-remove-icon:hover,
-.category-to-archive-icon:hover {
+.category-move-to-recently-deleted-icon:hover,
+.category-recover-from-recently-deleted-icon:hover {
     transform: scale(1.2);
 }
 
@@ -336,8 +338,9 @@
 }
 .category-edit-button,
 .category-remove-button,
-.category-archive-page-button,
-.category-to-archive-button {
+.category-recently-deleted-page-button,
+.category-move-to-recently-deleted-button,
+.category-recover-from-recently-deleted-button {
     height: 20px;
 
     padding: 0 15px;
@@ -355,7 +358,8 @@
 
     background-color: rgba(0, 0, 0, 0) !important;
 }
-.category-to-archive-button,
+.category-move-to-recently-deleted-button,
+.category-recover-from-recently-deleted-button,
 .category-remove-button {
     position: relative;
 
@@ -364,7 +368,7 @@
 
     background-color: rgba(0, 0, 0, 0) !important;
 }
-.category-archive-page-button {
+.category-recently-deleted-page-button {
     position: absolute;
 
     bottom: 5px;

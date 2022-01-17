@@ -7,13 +7,13 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Запрос на удаление по наименованию.
+ * Запрос, содержащий имя категории.
  */
 @Getter
 @Setter
 @NoArgsConstructor
-public class DeleteByNameRequest {
+public class CategoryNameRequest {
 
     @NotBlank
-    public String name;
+    private String name;
 }

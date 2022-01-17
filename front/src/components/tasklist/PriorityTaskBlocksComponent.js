@@ -34,9 +34,9 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
 
                 let renderedPriorityTaskBlocks = [];
 
-                for (const [priorityLetter, tasks] of Object.entries(priorityTaskListMap)) {
+                for (const [priority, tasks] of Object.entries(priorityTaskListMap)) {
                     renderedPriorityTaskBlocks.push(
-                        renderPriorityTaskBlock(priorityLetter, tasks)
+                        renderPriorityTaskBlock(priority, tasks)
                     );
                 }
 
@@ -50,17 +50,17 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
         [refreshTaskListCall]
     );
 
-    const renderPriorityTaskBlock = (priorityLetter, tasks) => {
+    const renderPriorityTaskBlock = (priority, tasks) => {
         return (
             <PriorityTaskBlock
-                priorityLetter={priorityLetter}
+                priorityLetter={priority}
                 refreshTaskList={refreshTaskList}
                 taskStatus={taskStatus}
                 tasks={tasks}
-                notifyAddTaskBtnClick={(chosenPriorityLetter) => {
+                notifyAddTaskBtnClick={(chosenPriority) => {
                     setShowModalCall(call => call + 1);
                     setModalTask(null);
-                    setModalPriority(chosenPriorityLetter);
+                    setModalPriority(chosenPriority);
                 }}
                 notifyEditButtonClick={task => {
                     setShowModalCall(call => call + 1);
@@ -74,7 +74,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
             refreshTaskList={refreshTaskList}
             showModalCall={showModalCall}
             task={modalTask}
-            priorityLetter={modalPriority}/>)
+            priority={modalPriority}/>)
     }
 
     return (
