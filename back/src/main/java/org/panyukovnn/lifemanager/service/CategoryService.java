@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
 
@@ -70,13 +73,15 @@ public class CategoryService {
      * Поместить категорию в недавно удаленные.
      *
      * @param name наименование категории
+     * @param timeZone часовой пояс клиента
      */
     @Transactional
-    public void moveToRecentlyDeleted(String name) {
+    public void moveToRecentlyDeleted(String name, TimeZone timeZone) {
         Category category = categoryRepository.findByNameAndRecentlyDeleted(name, false)
                 .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
 
         category.setRecentlyDeleted(true);
+        category.setDeletionDateTime(LocalDateTime.now(timeZone.toZoneId()));
 
         categoryRepository.save(category);
     }
@@ -92,6 +97,7 @@ public class CategoryService {
                 .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
 
         category.setRecentlyDeleted(false);
+        category.setDeletionDateTime(null);
 
         categoryRepository.save(category);
     }
@@ -112,5 +118,23 @@ public class CategoryService {
         taskRepository.deleteAll(categoryTasks);
 
         categoryRepository.deleteByName(name);
+    }
+
+    /**
+     * Удалить все категории и закрепленные за ними задачи.
+     *
+     * @param categories список категорий
+     */
+    @Transactional
+    public void deleteAll(List<Category> categories) {
+        List<Task> tasksToRemove = new ArrayList<>();
+
+        for (Category category : categories) {
+            List<Task> categoryTasks = taskRepository.findByCategoryName(category.getName());
+            tasksToRemove.addAll(categoryTasks);
+        }
+
+        taskRepository.deleteAll(tasksToRemove);
+        categoryRepository.deleteAll(categories);
     }
 }

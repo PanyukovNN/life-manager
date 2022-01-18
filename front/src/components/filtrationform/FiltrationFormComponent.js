@@ -17,6 +17,11 @@ export const FiltrationForm = ({notifyRefresh}) => {
     useEffect(() => {
             fetchRawCategories(false)
                 .then(rawCategories => {
+                    if (rawCategories.length === 0) {
+                        setCategories({"": "Не найдено"});
+                        return;
+                    }
+
                     let categoriesFromServer = convertRawCategoriesToMap(rawCategories);
                     setCategories(categoriesFromServer);
 

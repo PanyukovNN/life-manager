@@ -28,3 +28,4 @@ jwt:
 
 life-manager:
   front-url: http://localhost:3000
+  keepRecentlyDeletedCategoriesDays: 30

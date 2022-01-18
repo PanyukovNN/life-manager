@@ -15,4 +15,6 @@ import org.springframework.context.annotation.Configuration;
 public class LifeManagerProperties {
 
     private String frontUrl;
+
+    private int keepRecentlyDeletedCategoriesDays;
 }

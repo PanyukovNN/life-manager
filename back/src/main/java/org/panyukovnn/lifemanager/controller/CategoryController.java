@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
 
@@ -67,11 +68,12 @@ public class CategoryController {
      * Поместить категорию в недавно удаленные.
      *
      * @param request запрос
+     * @param timeZone часовой пояс клиента
      * @return сообщение об успешном перемещении в 'недавно удаленные'
      */
     @PostMapping("/move-to-recently-deleted")
-    public String moveToRecentlyDeleted(@RequestBody @Valid CategoryNameRequest request) {
-        categoryService.moveToRecentlyDeleted(request.getName());
+    public String moveToRecentlyDeleted(@RequestBody @Valid CategoryNameRequest request, TimeZone timeZone) {
+        categoryService.moveToRecentlyDeleted(request.getName(), timeZone);
 
         return String.format(CATEGORY_MOVED_TO_RECENTLY_DELETED_SUCCESSFULLY, request.getName());
     }

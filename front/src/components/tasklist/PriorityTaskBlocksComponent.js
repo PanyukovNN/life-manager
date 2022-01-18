@@ -53,7 +53,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
     const renderPriorityTaskBlock = (priority, tasks) => {
         return (
             <PriorityTaskBlock
-                priorityLetter={priority}
+                priority={priority}
                 refreshTaskList={refreshTaskList}
                 taskStatus={taskStatus}
                 tasks={tasks}
@@ -83,7 +83,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                 {priorityTaskBlocks}
             </div>
 
-            {renderUpdateTaskModal}
+            {renderUpdateTaskModal()}
         </>
     )
 }

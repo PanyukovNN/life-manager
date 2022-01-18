@@ -3,7 +3,7 @@ import {React, useEffect, useState} from 'react'
 import {CategoryListComponent} from "../../components/categorilist/CategoryListComponent";
 import {Button} from "react-bootstrap";
 import {CategoryModal} from "../../components/categorilist/CategoryModal";
-import {moveToRecentlyDeleted, removeCategory} from "../../services/CategoryService";
+import {moveToRecentlyDeleted, recoverFromRecentlyDeleted, removeCategory} from "../../services/CategoryService";
 
 /**
  * Базовая страница управления категориями.
@@ -37,7 +37,7 @@ export const BaseCategoryListPage = ({recentlyDeleted}) => {
                 return;
             }
 
-            moveToRecentlyDeleted(categoryToRecoverFromRecentlyDeleted.name)
+            recoverFromRecentlyDeleted(categoryToRecoverFromRecentlyDeleted.name)
                 .then(() => {
                     setRefreshCategoryListCall(call => call + 1);
                 })

@@ -19,7 +19,7 @@ export function fetchRawCategories(recentlyDeleted) {
                 return response.data;
             }
 
-            return null;
+            return [];
         });
 }
 

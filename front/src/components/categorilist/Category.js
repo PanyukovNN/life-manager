@@ -35,7 +35,7 @@ export const Category = ({category,
         <Button className="category-move-to-recently-deleted-button"
                 variant="primary"
                 onClick={() => {moveCategoryToRecentlyDeleted(category)}}>
-            <img className="category-move-to-recently-deleted-icon" src={removeIcon} alt="Move to recently deleted"/>
+            <img className="category-remove-icon" src={removeIcon} alt="Move to recently deleted"/>
         </Button>
     );
 
