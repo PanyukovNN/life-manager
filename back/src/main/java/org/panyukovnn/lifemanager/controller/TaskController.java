@@ -51,7 +51,7 @@ public class TaskController {
         task.setPriority(request.getPriority());
         task.setDescription(description);
         task.setStatus(request.getStatus());
-        task.setCategoryName(category.getName());
+        task.setCategoryId(category.getId());
         task.setPlannedDate(request.getPlannedDate());
         task.setPlannedTime(request.getPlannedTime());
 
@@ -71,6 +71,12 @@ public class TaskController {
     @PostMapping("/find-priority-task-list-map")
     public Map<Character, List<TaskDto>> findPriorityTaskListMap(@RequestBody @Valid FindTaskListRequest request, TimeZone timeZone) {
         List<TaskDto> taskList = findTaskList(request, timeZone);
+
+        List<Category> categories = categoryService.findByNameIn(request.getCategories());
+
+        if (categories.isEmpty()) {
+            throw new NotFoundException(NO_ONE_CATEGORY_FOUND_ERROR_MSG);
+        }
 
         TreeMap<Character, List<TaskDto>> priorityTaskListMap = taskList.stream().collect(Collectors.groupingBy(
                 taskDto -> taskDto.getPriority().charAt(0),
@@ -150,7 +156,7 @@ public class TaskController {
      * @return сообщение о результате
      */
     @DeleteMapping("/delete-by-id")
-    public String deleteById(@RequestBody @Valid DeleteByIdRequest request) {
+    public String deleteById(@RequestBody @Valid IdRequest request) {
         taskService.deleteById(request.getId());
 
         return String.format(TASK_REMOVED_SUCCESSFULLY, request.getId());

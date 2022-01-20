@@ -7,12 +7,12 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Запрос на удаление по идентификатору.
+ * Запрос для передачи идентификатора.
  */
 @Getter
 @Setter
 @NoArgsConstructor
-public class DeleteByIdRequest {
+public class IdRequest {
 
     @NotBlank
     public String id;

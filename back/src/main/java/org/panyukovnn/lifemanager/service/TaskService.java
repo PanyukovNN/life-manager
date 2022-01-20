@@ -83,7 +83,7 @@ public class TaskService {
         }
 
         if (!CollectionUtils.isEmpty(params.getCategories())) {
-            criteriaList.add(Criteria.where(CATEGORY_NAME).in(params.getCategories()));
+            criteriaList.add(Criteria.where(CATEGORY_ID).in(params.getCategories()));
         }
 
         if (params.getStartDate() != null) {
@@ -167,15 +167,13 @@ public class TaskService {
      */
     public TaskDto convertToDto(Task task, TimeZone timeZone) {
         Objects.requireNonNull(task, NULL_TASK_ERROR_MSG);
-        Objects.requireNonNull(task.getCategoryName(), NULL_CATEGORY_NAME_ERROR_MSG);
-
-        String categoryName = task.getCategoryName();
+        Objects.requireNonNull(task.getCategoryId(), NULL_CATEGORY_ID_ERROR_MSG);
 
         TaskDto.TaskDtoBuilder builder = TaskDto.builder()
                 .id(task.getId())
                 .description(task.getDescription())
                 .priority(task.getPriority())
-                .category(categoryName)
+                .categoryId(task.getCategoryId())
                 .status(task.getStatus().name());
 
         if (task.getPlannedDate() != null) {

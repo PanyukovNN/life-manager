@@ -39,9 +39,9 @@ public class Task {
     private String priority;
 
     /**
-     * Наименование категории (не может быть пустым).
+     * Идентификатор категории (не может быть пустым).
      */
-    private String categoryName;
+    private String categoryId;
 
     /**
      * Статус задачи.

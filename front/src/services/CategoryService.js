@@ -26,12 +26,12 @@ export function fetchRawCategories(recentlyDeleted) {
 /**
  * Переместить категори в недавно удаленные
  *
- * @param name наименование категории
+ * @param id идентификатор категории
  * @returns результат выполнения запроса к серверу
  */
-export function moveToRecentlyDeleted(name) {
+export function moveToRecentlyDeleted(id) {
     let body = {
-        name: name,
+        id: id,
     };
 
     return postReq("http://localhost:80/api/category/move-to-recently-deleted", body)
@@ -45,12 +45,12 @@ export function moveToRecentlyDeleted(name) {
 /**
  * Восстановить категорию из недавно удаленных
  *
- * @param name наименование категории
+ * @param id идентификатор категории
  * @returns результат выполнения запроса к серверу
  */
-export function recoverFromRecentlyDeleted(name) {
+export function recoverFromRecentlyDeleted(id) {
     let body = {
-        name: name,
+        id: id,
     };
 
     return postReq("http://localhost:80/api/category/recover-from-recently-deleted", body)
@@ -65,21 +65,21 @@ export function recoverFromRecentlyDeleted(name) {
 /**
  * Удалить категорию
  *
- * @param name имя категории
+ * @param category категория
  * @returns результат выполнения запроса
  */
-export function removeCategory(name) {
-    let result = window.confirm("Вы уверены, что хотите полностью удалить категорию и её задачи \"" + removeCategory.name + "\"?");
+export function removeCategory(category) {
+    let result = window.confirm("Вы уверены, что хотите полностью удалить категорию и её задачи \"" + category.name + "\"?");
 
     if (!result) {
         return;
     }
 
     let body = {
-        name: name
+        id: category.id
     };
 
-    return deleteReq("http://localhost:80/api/category/delete-by-name", body)
+    return deleteReq("http://localhost:80/api/category/delete-permanently-by-id", body)
         .then(response => {
             if (response && response.data) {
                 showAlert(response.data)

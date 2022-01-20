@@ -24,7 +24,7 @@ export const BaseCategoryListPage = ({recentlyDeleted}) => {
                 return;
             }
 
-            moveToRecentlyDeleted(categoryToRecentlyDeleted.name)
+            moveToRecentlyDeleted(categoryToRecentlyDeleted.id)
                 .then(() => {
                     setRefreshCategoryListCall(call => call + 1);
                 })
@@ -37,7 +37,7 @@ export const BaseCategoryListPage = ({recentlyDeleted}) => {
                 return;
             }
 
-            recoverFromRecentlyDeleted(categoryToRecoverFromRecentlyDeleted.name)
+            recoverFromRecentlyDeleted(categoryToRecoverFromRecentlyDeleted.id)
                 .then(() => {
                     setRefreshCategoryListCall(call => call + 1);
                 })
@@ -50,7 +50,7 @@ export const BaseCategoryListPage = ({recentlyDeleted}) => {
                 return;
             }
 
-            removeCategory(categoryToRemove.name)
+            removeCategory(categoryToRemove)
                 .then(() => {
                     setRefreshCategoryListCall(call => call + 1);
                 });

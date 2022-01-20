@@ -21,30 +21,6 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     Optional<Category> findByName(String name);
 
     /**
-     * Найти по наименованию и флагу 'недавно удалена'.
-     *
-     * @param name наименование
-     * @param recentlyDeleted флаг 'недавно удалена'
-     * @return категория
-     */
-    Optional<Category> findByNameAndRecentlyDeleted(String name, boolean recentlyDeleted);
-
-    /**
-     * Существует ли категория с заданным наименованием.
-     *
-     * @param name наименование
-     * @return существует ли категория
-     */
-    Boolean existsByName(String name);
-
-    /**
-     * Удалить по наименованию.
-     *
-     * @param name наименование
-     */
-    void deleteByName(String name);
-
-    /**
      * Возвращает категории по флагу 'недавно удалена'.
      *
      * @param recentlyDeleted флаг 'недавно удалена'
@@ -59,4 +35,12 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
      * @return список категорий
      */
     List<Category> findByRecentlyDeletedIsTrueAndDeletionDateTimeIsBefore(LocalDateTime deletionDateTime);
+
+    /**
+     * Найти категории по списку наименований наименованию.
+     *
+     * @param names список наименований
+     * @return список категорий
+     */
+    List<Category> findByNameIn(List<String> names);
 }

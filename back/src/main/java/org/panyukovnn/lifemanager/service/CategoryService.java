@@ -60,6 +60,16 @@ public class CategoryService {
     }
 
     /**
+     * Найти категории по списку наименований наименованию.
+     *
+     * @param names список наименований
+     * @return список категорий
+     */
+    public List<Category> findByNameIn(List<String> names) {
+        return categoryRepository.findByNameIn(names);
+    }
+
+    /**
      * Вернуть список категорий по заданным параметрам.
      *
      * @param recentlyDeleted флаг недавно удаленной категории
@@ -72,52 +82,52 @@ public class CategoryService {
     /**
      * Поместить категорию в недавно удаленные.
      *
-     * @param name наименование категории
+     * @param id идентификатор категории
      * @param timeZone часовой пояс клиента
      */
     @Transactional
-    public void moveToRecentlyDeleted(String name, TimeZone timeZone) {
-        Category category = categoryRepository.findByNameAndRecentlyDeleted(name, false)
+    public Category moveToRecentlyDeleted(String id, TimeZone timeZone) {
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
 
         category.setRecentlyDeleted(true);
         category.setDeletionDateTime(LocalDateTime.now(timeZone.toZoneId()));
 
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     /**
      * Восстановить категорию из недавно удаленных.
      *
-     * @param name наименование категории
+     * @param id идентификатор категории
      */
     @Transactional
-    public void recoverFromRecentlyDeleted(String name) {
-        Category category = categoryRepository.findByNameAndRecentlyDeleted(name, true)
+    public Category recoverFromRecentlyDeleted(String id) {
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
 
         category.setRecentlyDeleted(false);
         category.setDeletionDateTime(null);
 
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     /**
-     * Удалить категорию по наименованию и удалить все задачи, закреплённые за данной категорией.
+     * Удалить категорию по идентификатору и удалить все задачи, закреплённые за данной категорией.
      *
-     * @param name наименование
+     * @param id идентификатор
      */
     @Transactional
-    public void deleteByName(String name) {
-        boolean existsByName = categoryRepository.existsByName(name);
-        if (!existsByName) {
+    public void deleteById(String id) {
+        boolean categoryExists = categoryRepository.existsById(id);
+        if (!categoryExists) {
             throw new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG);
         }
 
-        List<Task> categoryTasks = taskRepository.findByCategoryName(name);
+        List<Task> categoryTasks = taskRepository.findByCategoryId(id);
         taskRepository.deleteAll(categoryTasks);
 
-        categoryRepository.deleteByName(name);
+        categoryRepository.deleteById(id);
     }
 
     /**
@@ -130,7 +140,7 @@ public class CategoryService {
         List<Task> tasksToRemove = new ArrayList<>();
 
         for (Category category : categories) {
-            List<Task> categoryTasks = taskRepository.findByCategoryName(category.getName());
+            List<Task> categoryTasks = taskRepository.findByCategoryId(category.getId());
             tasksToRemove.addAll(categoryTasks);
         }
 

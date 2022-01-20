@@ -72,10 +72,10 @@ public class CategoryController {
      * @return сообщение об успешном перемещении в 'недавно удаленные'
      */
     @PostMapping("/move-to-recently-deleted")
-    public String moveToRecentlyDeleted(@RequestBody @Valid CategoryNameRequest request, TimeZone timeZone) {
-        categoryService.moveToRecentlyDeleted(request.getName(), timeZone);
+    public String moveToRecentlyDeleted(@RequestBody @Valid IdRequest request, TimeZone timeZone) {
+        Category category = categoryService.moveToRecentlyDeleted(request.getId(), timeZone);
 
-        return String.format(CATEGORY_MOVED_TO_RECENTLY_DELETED_SUCCESSFULLY, request.getName());
+        return String.format(CATEGORY_MOVED_TO_RECENTLY_DELETED_SUCCESSFULLY, category.getName());
     }
 
     /**
@@ -85,22 +85,22 @@ public class CategoryController {
      * @return сообщение об успешном восстановлении из недавно удаленных
      */
     @PostMapping("/recover-from-recently-deleted")
-    public String recoverFromRecentlyDeleted(@RequestBody @Valid CategoryNameRequest request) {
-        categoryService.recoverFromRecentlyDeleted(request.getName());
+    public String recoverFromRecentlyDeleted(@RequestBody @Valid IdRequest request) {
+        Category category = categoryService.recoverFromRecentlyDeleted(request.getId());
 
-        return String.format(CATEGORY_RECOVERED_FROM_RECENTLY_DELETED_SUCCESSFULLY, request.getName());
+        return String.format(CATEGORY_RECOVERED_FROM_RECENTLY_DELETED_SUCCESSFULLY, category.getName());
     }
 
     /**
-     * Окончательно удалить категорию по имени.
+     * Окончательно удалить категорию по идентификатору.
      *
      * @param request запрос
      * @return сообщение об успешном удалении
      */
-    @DeleteMapping("/delete-permanently-by-name")
-    public String deletePermanentlyByName(@RequestBody @Valid CategoryNameRequest request) {
-        categoryService.deleteByName(request.getName());
+    @DeleteMapping("/delete-permanently-by-id")
+    public String deletePermanentlyById(@RequestBody @Valid IdRequest request) {
+        categoryService.deleteById(request.getId());
 
-        return String.format(CATEGORY_REMOVED_SUCCESSFULLY, request.getName());
+        return CATEGORY_REMOVED_SUCCESSFULLY;
     }
 }

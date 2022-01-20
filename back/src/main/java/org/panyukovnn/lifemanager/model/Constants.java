@@ -17,7 +17,7 @@ public final class Constants {
     public static final String TASK_REMOVED_SUCCESSFULLY = "Задача \"%s\" успешно удалена";
     public static final String TASKS_REMOVED_SUCCESSFULLY = "Задачи успешно удалены";
     public static final String TASKS_CREATED_UPDATED_SUCCESSFULLY = "Задача успешно создана/обновлена";
-    public static final String CATEGORY_REMOVED_SUCCESSFULLY = "Раздел \"%s\" и все его задачи успешно удалены";
+    public static final String CATEGORY_REMOVED_SUCCESSFULLY = "Раздел и все его задачи успешно удалены";
     public static final String CATEGORY_CREATED_UPDATED_SUCCESSFULLY = "Раздел \"%s\" успешно создан/обновлен";
     public static final String CATEGORY_MOVED_TO_RECENTLY_DELETED_SUCCESSFULLY = "Раздел \"%s\" успешно удалён";
     public static final String CATEGORY_RECOVERED_FROM_RECENTLY_DELETED_SUCCESSFULLY = "Раздел \"%s\" успешно восстановлен";
@@ -30,8 +30,9 @@ public final class Constants {
     public static final String WRONG_PRIORITY_ERROR_MSG = "Неверное значение приоритета";
     public static final String CATEGORY_NOT_FOUND_ERROR_MSG = "Категория не найдена";
     public static final String NO_CATEGORY_FOR_TASK_ERROR_MSG = "Невозможно создать задачу без категории";
+    public static final String NO_ONE_CATEGORY_FOUND_ERROR_MSG = "Не удалось найти категории";
     public static final String NULL_TASK_ERROR_MSG = "Задача не может быть пустой";
-    public static final String NULL_CATEGORY_NAME_ERROR_MSG = "Наименование раздела не может быть пустым";
+    public static final String NULL_CATEGORY_ID_ERROR_MSG = "Идентификатор раздела не может быть пустым";
     public static final String RECENTLY_DELETED_CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием находится в папке 'недавно удаленных'";
     public static final String CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием уже существует";
     public static final String WRONG_TASK_ID_ERROR_MSG = "Неверный идентификатор задачи.";
@@ -53,7 +54,7 @@ public final class Constants {
      */
     public static final String STATUS = "status";
     public static final String PRIORITY = "priority";
-    public static final String CATEGORY_NAME = "categoryName";
+    public static final String CATEGORY_ID = "categoryId";
     public static final String PLANNED_DATE = "plannedDate";
     public static final String CONFIRM_PASSWORD_KEY = "confirmPassword";
 
