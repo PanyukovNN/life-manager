@@ -26,12 +26,18 @@ export function fetchRawCategories(recentlyDeleted) {
 /**
  * Переместить категори в недавно удаленные
  *
- * @param id идентификатор категории
+ * @param category категория
  * @returns результат выполнения запроса к серверу
  */
-export function moveToRecentlyDeleted(id) {
+export function moveToRecentlyDeleted(category) {
+    let result = window.confirm("Вы уверены, что хотите удалить категорию \"" + category.name + "\" вместе с закрепленными задачами?");
+
+    if (!result) {
+        return Promise.resolve();
+    }
+
     let body = {
-        id: id,
+        id: category.id,
     };
 
     return postReq("http://localhost:80/api/category/move-to-recently-deleted", body)
@@ -69,10 +75,10 @@ export function recoverFromRecentlyDeleted(id) {
  * @returns результат выполнения запроса
  */
 export function removeCategory(category) {
-    let result = window.confirm("Вы уверены, что хотите полностью удалить категорию и её задачи \"" + category.name + "\"?");
+    let result = window.confirm("Вы уверены, что хотите окончательно удалить категорию \"" + category.name + "\" и её задачи?");
 
     if (!result) {
-        return;
+        return Promise.resolve();
     }
 
     let body = {

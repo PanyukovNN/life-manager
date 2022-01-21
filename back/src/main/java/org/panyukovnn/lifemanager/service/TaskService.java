@@ -82,8 +82,8 @@ public class TaskService {
             criteriaList.add(Criteria.where(STATUS).in(params.getStatuses()));
         }
 
-        if (!CollectionUtils.isEmpty(params.getCategories())) {
-            criteriaList.add(Criteria.where(CATEGORY_ID).in(params.getCategories()));
+        if (!CollectionUtils.isEmpty(params.getCategoryIds())) {
+            criteriaList.add(Criteria.where(CATEGORY_ID).in(params.getCategoryIds()));
         }
 
         if (params.getStartDate() != null) {

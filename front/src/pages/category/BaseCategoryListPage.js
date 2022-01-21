@@ -12,6 +12,7 @@ import {moveToRecentlyDeleted, recoverFromRecentlyDeleted, removeCategory} from 
  * @returns страница управления разделами
  */
 export const BaseCategoryListPage = ({recentlyDeleted}) => {
+
     const [refreshCategoryListCall, setRefreshCategoryListCall] = useState(0);
     const [categoryToRecentlyDeleted, setCategoryToRecentlyDeleted] = useState(null);
     const [categoryToRecoverFromRecentlyDeleted, setCategoryToRecoverFromRecentlyDeleted] = useState(null);
@@ -24,7 +25,7 @@ export const BaseCategoryListPage = ({recentlyDeleted}) => {
                 return;
             }
 
-            moveToRecentlyDeleted(categoryToRecentlyDeleted.id)
+            moveToRecentlyDeleted(categoryToRecentlyDeleted)
                 .then(() => {
                     setRefreshCategoryListCall(call => call + 1);
                 })

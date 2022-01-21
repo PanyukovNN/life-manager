@@ -29,7 +29,7 @@ public class FindTaskListRequest {
     public List<TaskStatus> taskStatuses;
 
     @NotNull
-    public List<String> categories;
+    public List<String> categoryNames;
 
     @NotNull
     public PeriodStrategyType periodType;

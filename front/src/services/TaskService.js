@@ -19,7 +19,7 @@ export function fetchPriorityTaskListMap(taskStatus) {
 
     let body = {
         taskStatuses: taskStatus !== "" ? [taskStatus] : [],
-        categories: [currentCategory],
+        categoryNames: [currentCategory],
         periodType: "ALL",
         sortType: "NONE"
     };
@@ -65,7 +65,7 @@ export function markAsDone(id, completed) {
 export function deleteTask(id, completed) {
     let result = window.confirm("Вы уверены, что хотите удалить задачу?");
     if (!result) {
-        return;
+        return Promise.resolve();
     }
 
     let body = {

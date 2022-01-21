@@ -72,12 +72,6 @@ public class TaskController {
     public Map<Character, List<TaskDto>> findPriorityTaskListMap(@RequestBody @Valid FindTaskListRequest request, TimeZone timeZone) {
         List<TaskDto> taskList = findTaskList(request, timeZone);
 
-        List<Category> categories = categoryService.findByNameIn(request.getCategories());
-
-        if (categories.isEmpty()) {
-            throw new NotFoundException(NO_ONE_CATEGORY_FOUND_ERROR_MSG);
-        }
-
         TreeMap<Character, List<TaskDto>> priorityTaskListMap = taskList.stream().collect(Collectors.groupingBy(
                 taskDto -> taskDto.getPriority().charAt(0),
                 TreeMap::new,
@@ -107,10 +101,16 @@ public class TaskController {
         LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
                 .getEndDate(startDate);
 
+        List<Category> categories = categoryService.findByNameIn(request.getCategoryNames());
+        List<String> categoryIds = categories
+                .stream()
+                .map(Category::getId)
+                .collect(Collectors.toList());
+
         TaskListParams params = TaskListParams.builder()
                 .priority(request.getPriority())
                 .statuses(request.getTaskStatuses())
-                .categories(request.getCategories())
+                .categoryIds(categoryIds)
                 .startDate(null) // мы хотим показывать просроченные задачи
                 .endDate(endDate)
                 .sortType(request.getSortType())

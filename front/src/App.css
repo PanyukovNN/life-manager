@@ -351,14 +351,14 @@
     border-radius: 20px !important;
     border: none !important;
 }
-.category-edit-button {
+.category-edit-button,
+.category-recover-from-recently-deleted-button {
     margin-left: auto;
     padding: 0 !important;
 
     background-color: rgba(0, 0, 0, 0) !important;
 }
 .category-move-to-recently-deleted-button,
-.category-recover-from-recently-deleted-button,
 .category-remove-button {
     position: relative;
 
