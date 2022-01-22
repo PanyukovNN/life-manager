@@ -14,7 +14,7 @@ public final class Constants {
     /**
      * Сообщения.
      */
-    public static final String TASK_REMOVED_SUCCESSFULLY = "Задача \"%s\" успешно удалена";
+    public static final String TASK_REMOVED_SUCCESSFULLY = "Задача успешно удалена";
     public static final String TASKS_REMOVED_SUCCESSFULLY = "Задачи успешно удалены";
     public static final String TASKS_CREATED_UPDATED_SUCCESSFULLY = "Задача успешно создана/обновлена";
     public static final String CATEGORY_REMOVED_SUCCESSFULLY = "Раздел и все его задачи успешно удалены";
@@ -32,6 +32,7 @@ public final class Constants {
     public static final String NO_CATEGORY_FOR_TASK_ERROR_MSG = "Невозможно создать задачу без категории";
     public static final String NO_ONE_CATEGORY_FOUND_ERROR_MSG = "Не удалось найти категории";
     public static final String NULL_TASK_ERROR_MSG = "Задача не может быть пустой";
+    public static final String NULL_CATEGORY_ERROR_MSG = "Раздел не может быть пустым";
     public static final String NULL_CATEGORY_ID_ERROR_MSG = "Идентификатор раздела не может быть пустым";
     public static final String RECENTLY_DELETED_CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием находится в папке 'недавно удаленных'";
     public static final String CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием уже существует";
@@ -47,6 +48,7 @@ public final class Constants {
     public static final String BLANK_EMAIL_ERROR_MSG = "Email не может быть пустым";
     public static final String WRONG_PASSWORD_ERROR_MSG = "Неверный пароль.";
     public static final String PASSWORDS_DO_NOT_MATCH_ERROR_MSG = "Пароли не совпадают";
+    public static final String EMPTY_DELETE_IDS_ERROR_MSG = "Не заданы идентификаторы удаляемых сущностей";
 
 
     /**
@@ -54,8 +56,8 @@ public final class Constants {
      */
     public static final String STATUS = "status";
     public static final String PRIORITY = "priority";
-    public static final String CATEGORY_ID = "categoryId";
-    public static final String PLANNED_DATE = "plannedDate";
+    public static final String CATEGORY = "category";
+    public static final String PLANNED_DATE = "planned_date";
     public static final String CONFIRM_PASSWORD_KEY = "confirmPassword";
 
 

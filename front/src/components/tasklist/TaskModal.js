@@ -23,7 +23,7 @@ export const TaskModal = ({refreshTaskList,
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
-    const [category, setCategory] = useState("");
+    const [categoryName, setCategoryName] = useState("");
 
     useEffect(
         () => {
@@ -32,7 +32,7 @@ export const TaskModal = ({refreshTaskList,
                 return;
             }
 
-            setCategory(getCurrentCategory());
+            setCategoryName(getCurrentCategory());
             setDate(task !== null ? task.plannedDate : "")
             setTime(task !== null ? task.plannedTime : "")
 
@@ -47,7 +47,7 @@ export const TaskModal = ({refreshTaskList,
         let id = task ? task.id : null;
         let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
 
-        createUpdateTask(id, description, priority, category, date, time)
+        createUpdateTask(id, description, priority, categoryName, date, time)
             .then(() => {
                 refreshTaskList();
                 setShow(false);
@@ -65,7 +65,7 @@ export const TaskModal = ({refreshTaskList,
             </Modal.Header>
 
             <div className="task-modal-priority-wrap">
-                Раздел: {category}
+                Раздел: {categoryName}
                 <br/>
                 Приоритет: {PRIORITY_2_DEFINITION[priority]}
             </div>

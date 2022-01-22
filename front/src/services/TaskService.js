@@ -14,7 +14,7 @@ export function fetchPriorityTaskListMap(taskStatus) {
     let currentCategory = getCurrentCategory();
 
     if (currentCategory === "") {
-        return null;
+        return {};
     }
 
     let body = {
@@ -30,7 +30,7 @@ export function fetchPriorityTaskListMap(taskStatus) {
                 return response.data;
             }
 
-            return null;
+            return {};
         });
 }
 
@@ -88,23 +88,23 @@ export function deleteTask(id, completed) {
  * @param id идентификатор
  * @param description описание задачи
  * @param priority приоритет
- * @param category категория
+ * @param categoryName наименование категории
  * @param date планируемая дата завершения
  * @param time планируемое время завершения
  * @returns результат выполнения запроса
  */
-export function createUpdateTask(id, description, priority, category, date, time) {
+export function createUpdateTask(id, description, priority, categoryName, date, time) {
     if (description === null
         || description === ""
-        || category === null) {
-        return;
+        || categoryName === null) {
+        return Promise.resolve();
     }
 
     let body = {
         id: id,
         description: description,
         priority: priority,
-        category: category,
+        categoryName: categoryName,
         status: TO_DO_TASK_STATUS,
         plannedDate: date,
         plannedTime: time

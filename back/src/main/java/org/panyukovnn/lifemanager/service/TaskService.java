@@ -9,20 +9,20 @@ import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.repository.TaskRepository;
 import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskSortStrategyResolver;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
 import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_D_FORMATTER;
@@ -35,8 +35,9 @@ import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_T_FORMAT
 @RequiredArgsConstructor
 public class TaskService {
 
+    private final EntityManager entityManager;
     private final TaskRepository taskRepository;
-    private final MongoTemplate mongoTemplate;
+    private final TaskPredicatesCreator taskPredicatesCreator;
     private final TaskSortStrategyResolver compareStrategyResolver;
 
     /**
@@ -47,15 +48,15 @@ public class TaskService {
      */
     @Transactional
     public void createUpdate(Task rawTask, TimeZone timeZone) {
-        boolean notBlankId = StringUtils.isNotBlank(rawTask.getId());
-        boolean wrongTaskId = notBlankId
+        boolean notNullId = rawTask.getId() != null && rawTask.getId() != 0L;
+        boolean wrongTaskId = notNullId
                 && !taskRepository.existsById(rawTask.getId());
 
         if (wrongTaskId) {
             throw new IllegalArgumentException(WRONG_TASK_ID_ERROR_MSG);
         }
 
-        if (notBlankId && rawTask.getCreationDateTime() == null) {
+        if (notNullId && rawTask.getCreationDateTime() == null) {
             LocalDateTime creationDateTime = LocalDateTime.now(timeZone.toZoneId());
             rawTask.setCreationDateTime(creationDateTime);
         }
@@ -71,40 +72,18 @@ public class TaskService {
      * @return список задач
      */
     public List<Task> findList(TaskListParams params) {
-        Query query = new Query();
-        List<Criteria> criteriaList = new ArrayList<>();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
 
-        if (!StringUtils.isEmpty(params.getPriority())) {
-            criteriaList.add(Criteria.where(PRIORITY).is(params.getPriority()));
-        }
+        Root<Task> task = criteriaQuery.from(Task.class);
 
-        if (!CollectionUtils.isEmpty(params.getStatuses())) {
-            criteriaList.add(Criteria.where(STATUS).in(params.getStatuses()));
-        }
+        Predicate[] predicates = taskPredicatesCreator.createPredicates(params, criteriaBuilder, task);
 
-        if (!CollectionUtils.isEmpty(params.getCategoryIds())) {
-            criteriaList.add(Criteria.where(CATEGORY_ID).in(params.getCategoryIds()));
-        }
+        criteriaQuery.where(predicates);
 
-        if (params.getStartDate() != null) {
-            criteriaList.add(new Criteria().orOperator(
-                    Criteria.where(PLANNED_DATE).is(null),
-                    Criteria.where(PLANNED_DATE).gte(params.getStartDate())
-            ));
-        }
+        TypedQuery<Task> query = entityManager.createQuery(criteriaQuery);
+        List<Task> tasks = query.getResultList();
 
-        if (params.getEndDate() != null && params.getEndDate() != LocalDate.MAX) {
-            criteriaList.add(new Criteria().orOperator(
-                    Criteria.where(PLANNED_DATE).is(null),
-                    Criteria.where(PLANNED_DATE).lte(params.getEndDate())
-            ));
-        }
-
-        if (!criteriaList.isEmpty()) {
-            query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
-        }
-
-        List<Task> tasks = mongoTemplate.find(query, Task.class);
         if (params.getSortType() != TaskSortType.NONE) {
             tasks.sort(compareStrategyResolver.resolve(params.getSortType()));
         }
@@ -119,7 +98,7 @@ public class TaskService {
      * @param status статус
      */
     @Transactional
-    public void setStatus(List<String> ids, TaskStatus status) {
+    public void setStatus(List<Long> ids, TaskStatus status) {
         List<Task> tasks = taskRepository.findByIdIn(ids);
 
         tasks.forEach(task -> task.setStatus(status));
@@ -145,7 +124,7 @@ public class TaskService {
      *
      * @param id идентификатор
      */
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         taskRepository.deleteById(id);
     }
 
@@ -154,7 +133,7 @@ public class TaskService {
      *
      * @param ids список идентификаторов
      */
-    public void deleteByIds(List<String> ids) {
+    public void deleteByIds(List<Long> ids) {
         taskRepository.deleteAllById(ids);
     }
 
@@ -167,13 +146,13 @@ public class TaskService {
      */
     public TaskDto convertToDto(Task task, TimeZone timeZone) {
         Objects.requireNonNull(task, NULL_TASK_ERROR_MSG);
-        Objects.requireNonNull(task.getCategoryId(), NULL_CATEGORY_ID_ERROR_MSG);
+        Objects.requireNonNull(task.getCategory(), NULL_CATEGORY_ERROR_MSG);
 
         TaskDto.TaskDtoBuilder builder = TaskDto.builder()
                 .id(task.getId())
                 .description(task.getDescription())
                 .priority(task.getPriority())
-                .categoryId(task.getCategoryId())
+                .categoryId(task.getCategory().getId())
                 .status(task.getStatus().name());
 
         if (task.getPlannedDate() != null) {

@@ -17,7 +17,7 @@ import java.util.List;
 public class SetStatusRequest {
 
     @NotNull
-    public List<String> ids;
+    public List<Long> ids;
 
     @NotNull
     public TaskStatus status;

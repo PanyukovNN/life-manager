@@ -4,13 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Objects;
@@ -19,26 +16,33 @@ import java.util.Set;
 /**
  * Пользователь.
  */
+@Entity
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Document(collection = "user_details")
+@Table(name = "user_details")
 public class User implements UserDetails {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column
     private String username;
+    @Column
     private String email;
+    @Column
     private String password;
 
     /**
      * Код активации
      * Присылается один раз на почтовый ящик при регистрации, после успешного подтверждения выставляется в null
      */
+    @Column
     private String activationCode;
 
+    @Column
     private LocalDate creationDate;
 
     @ManyToMany(fetch = FetchType.EAGER)

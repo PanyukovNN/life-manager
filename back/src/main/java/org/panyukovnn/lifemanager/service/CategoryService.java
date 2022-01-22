@@ -1,6 +1,5 @@
 package org.panyukovnn.lifemanager.service;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Category;
@@ -37,7 +36,7 @@ public class CategoryService {
      */
     @Transactional
     public void createUpdate(Category categoryTemplate) {
-        if (StringUtils.isBlank(categoryTemplate.getId())) {
+        if (categoryTemplate.getId() == null || categoryTemplate.getId() == 0L) {
             categoryRepository.findByName(categoryTemplate.getName())
                     .ifPresent(sameNameCategory -> {
                         throw new EntityExistsException(sameNameCategory.isRecentlyDeleted()
@@ -86,7 +85,7 @@ public class CategoryService {
      * @param timeZone часовой пояс клиента
      */
     @Transactional
-    public Category moveToRecentlyDeleted(String id, TimeZone timeZone) {
+    public Category moveToRecentlyDeleted(Long id, TimeZone timeZone) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
 
@@ -102,7 +101,7 @@ public class CategoryService {
      * @param id идентификатор категории
      */
     @Transactional
-    public Category recoverFromRecentlyDeleted(String id) {
+    public Category recoverFromRecentlyDeleted(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG));
 
@@ -118,7 +117,7 @@ public class CategoryService {
      * @param id идентификатор
      */
     @Transactional
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         boolean categoryExists = categoryRepository.existsById(id);
         if (!categoryExists) {
             throw new NotFoundException(CATEGORY_NOT_FOUND_ERROR_MSG);

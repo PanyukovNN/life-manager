@@ -5,13 +5,14 @@ ext.library = [
         'springBootWeb':'org.springframework.boot:spring-boot-starter-web',
         'springBootDevTools':'org.springframework.boot:spring-boot-devtools',
         'springBootActuator':'org.springframework.boot:spring-boot-starter-actuator',
-        'springBootDataJpa':'org.springframework.boot:spring-boot-starter-data-jpa:2.6.0',
-        'springBootDataMongo':'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.0',
+        'springBootDataJpa':'org.springframework.boot:spring-boot-starter-data-jpa',
         'springBootValidation':'org.springframework.boot:spring-boot-starter-validation',
         'springBootSecurity':'org.springframework.boot:spring-boot-starter-security',
         'springBootAOP':'org.springframework.boot:spring-boot-starter-aop',
         'springSwagger':'io.springfox:springfox-swagger2:3.0.0',
         'springSwaggerUI':'io.springfox:springfox-swagger-ui:3.0.0',
+
+        'postgres':'org.postgresql:postgresql:42.3.1',
 
         'jasypt':'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3',
 
@@ -29,7 +30,6 @@ ext.library = [
 
         // Поддержка JWT
         'jjwt' : 'io.jsonwebtoken:jjwt:0.9.1'
-
 ]
 
 ext.libraryTest = [
@@ -40,4 +40,6 @@ ext.libraryTest = [
         'junit5engine' : 'org.junit.jupiter:junit-jupiter-engine:5.3.1',
         'springBootTest' : 'org.springframework.boot:spring-boot-starter-test',
         'springSecurityTest' : 'org.springframework.security:spring-security-test',
+        'mockitoJunitJupiter':'org.mockito:mockito-junit-jupiter:4.2.0'
+
 ]

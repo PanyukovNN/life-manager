@@ -15,5 +15,5 @@ import javax.validation.constraints.NotBlank;
 public class IdRequest {
 
     @NotBlank
-    public String id;
+    public Long id;
 }

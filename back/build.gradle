@@ -4,12 +4,12 @@ dependencies {
     implementation library.guava
     implementation library.passay
     implementation library.jasypt
+    implementation library.postgres
     implementation library.springBootAOP
     implementation library.springBootWeb
     implementation library.springBootDataJpa
     implementation library.springBootSecurity
     implementation library.springBootActuator
     implementation library.springBootDevTools
-    implementation library.springBootDataMongo
     implementation library.springBootValidation
 }

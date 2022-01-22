@@ -1,7 +1,7 @@
 package org.panyukovnn.lifemanager.repository;
 
 import org.panyukovnn.lifemanager.model.user.User;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -10,7 +10,7 @@ import java.util.Optional;
  * Репозиторий пользователей.
  */
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Находит пользователя по имени (без учета регистра).

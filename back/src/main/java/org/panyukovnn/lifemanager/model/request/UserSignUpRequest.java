@@ -20,7 +20,7 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
 @NoArgsConstructor
 public class UserSignUpRequest {
 
-    private String id;
+    private Long id;
 
     @NotBlank(message = BLANK_USER_NAME_ERROR_MSG)
     private String username;

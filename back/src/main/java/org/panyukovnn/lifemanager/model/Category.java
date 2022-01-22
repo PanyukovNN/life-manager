@@ -4,24 +4,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
  * Категория задачи.
  */
+@Entity
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Document(collection = "category")
+@Table(name = "category")
 public class Category {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * Наименование.

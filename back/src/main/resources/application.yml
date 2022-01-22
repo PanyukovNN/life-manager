@@ -4,15 +4,17 @@ server:
     contextPath: /api
 
 spring:
-  data:
-    mongodb:
-      host: ${SPRING_DATA_MONGODB_HOST:localhost}
-      port: 27017
-      database: lifemanager
+  datasource:
+    url: jdbc:postgresql://${SPRING_DATA_MONGODB_HOST:localhost}:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   jpa:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
 
 logging:
   level:

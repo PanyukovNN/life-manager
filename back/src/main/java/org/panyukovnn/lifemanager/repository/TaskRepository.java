@@ -1,27 +1,28 @@
 package org.panyukovnn.lifemanager.repository;
 
 import org.panyukovnn.lifemanager.model.Task;
-import org.panyukovnn.lifemanager.model.TaskStatus;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Репозиторий задач.
  */
-public interface TaskRepository extends MongoRepository<Task, String> {
+@Repository
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
     /**
      * Вернуть список задач по идентификатору.
      *
      * @param ids список идентификаторов
      */
-    List<Task> findByIdIn(List<String> ids);
+    List<Task> findByIdIn(List<Long> ids);
 
     /**
      * Вернуть список задач по идентификатору категории.
      *
      * @param categoryId идентификатор категории
      */
-    List<Task> findByCategoryId(String categoryId);
+    List<Task> findByCategoryId(Long categoryId);
 }

@@ -42,7 +42,7 @@ public class TaskController {
      */
     @PostMapping("/create-update")
     public String createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request, TimeZone timeZone) {
-        Category category = categoryService.findByName(request.getCategory())
+        Category category = categoryService.findByName(request.getCategoryName())
                 .orElseThrow(() -> new NotFoundException(NO_CATEGORY_FOR_TASK_ERROR_MSG));
         String description = request.getDescription().trim();
 
@@ -51,7 +51,7 @@ public class TaskController {
         task.setPriority(request.getPriority());
         task.setDescription(description);
         task.setStatus(request.getStatus());
-        task.setCategoryId(category.getId());
+        task.setCategory(category);
         task.setPlannedDate(request.getPlannedDate());
         task.setPlannedTime(request.getPlannedTime());
 
@@ -102,7 +102,7 @@ public class TaskController {
                 .getEndDate(startDate);
 
         List<Category> categories = categoryService.findByNameIn(request.getCategoryNames());
-        List<String> categoryIds = categories
+        List<Long> categoryIds = categories
                 .stream()
                 .map(Category::getId)
                 .collect(Collectors.toList());
@@ -159,7 +159,7 @@ public class TaskController {
     public String deleteById(@RequestBody @Valid IdRequest request) {
         taskService.deleteById(request.getId());
 
-        return String.format(TASK_REMOVED_SUCCESSFULLY, request.getId());
+        return TASK_REMOVED_SUCCESSFULLY;
     }
 
     /**
@@ -172,6 +172,8 @@ public class TaskController {
     public String deleteByIds(@RequestBody @Valid DeleteByIdsRequest request) {
         taskService.deleteByIds(request.getIds());
 
-        return TASKS_REMOVED_SUCCESSFULLY;
+        return request.getIds().size() > 1
+                ? TASKS_REMOVED_SUCCESSFULLY
+                : TASK_REMOVED_SUCCESSFULLY;
     }
 }

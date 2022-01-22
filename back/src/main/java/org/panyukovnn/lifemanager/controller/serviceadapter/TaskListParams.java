@@ -28,7 +28,7 @@ public class TaskListParams {
     /**
      * Список идентификаторов категорий.
      */
-    private final List<String> categoryIds;
+    private final List<Long> categoryIds;
 
     /**
      * Дата начала периода.

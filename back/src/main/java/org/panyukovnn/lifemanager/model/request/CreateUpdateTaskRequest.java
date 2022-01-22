@@ -23,7 +23,7 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_ERROR_MS
 @NoArgsConstructor
 public class CreateUpdateTaskRequest {
 
-    private String id;
+    private Long id;
 
     @NotBlank
     private String description;
@@ -33,7 +33,7 @@ public class CreateUpdateTaskRequest {
     private String priority;
 
     @NotBlank
-    private String category;
+    private String categoryName;
 
     @NotNull
     private TaskStatus status;

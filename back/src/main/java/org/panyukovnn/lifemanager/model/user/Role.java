@@ -3,12 +3,9 @@ package org.panyukovnn.lifemanager.model.user;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
 
 /**
  * Роль пользователя.
@@ -17,12 +14,14 @@ import java.util.Objects;
 @Entity
 @ToString
 @NoArgsConstructor
-@Document(collection = "user_role")
+@Table(name = "user_role")
 public class Role implements GrantedAuthority {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column
     private String name;
 
     public Role(String name) {

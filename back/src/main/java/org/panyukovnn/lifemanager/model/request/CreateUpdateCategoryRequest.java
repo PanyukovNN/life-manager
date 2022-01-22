@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class CreateUpdateCategoryRequest {
 
-    private String id;
+    private Long id;
 
     @NotBlank
     private String name;

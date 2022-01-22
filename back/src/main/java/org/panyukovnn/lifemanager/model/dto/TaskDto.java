@@ -13,10 +13,10 @@ import org.panyukovnn.lifemanager.model.Task;
 @ToString
 public class TaskDto {
 
-    private final String id;
+    private final Long id;
     private final String description;
     private final String priority;
-    private final String categoryId;
+    private final Long categoryId;
     private final String plannedDate;
     private final String plannedTime;
     private final String status;

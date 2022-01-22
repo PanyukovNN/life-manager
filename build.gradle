@@ -46,9 +46,8 @@ allprojects {
 
         testImplementation libraryTest.junit5api
         testImplementation libraryTest.junit5engine
-//        testImplementation libraryTest.mockito
-//        testImplementation libraryTest.powerMockito
-//        testImplementation libraryTest.powerMockitoJunit
+        testImplementation libraryTest.mockitoJunitJupiter
+
         testImplementation libraryTest.springBootTest
         testImplementation libraryTest.springSecurityTest
     }
