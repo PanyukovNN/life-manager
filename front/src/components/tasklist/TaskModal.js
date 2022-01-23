@@ -48,9 +48,9 @@ export const TaskModal = ({refreshTaskList,
         let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
 
         createUpdateTask(id, description, priority, categoryName, date, time)
-            .then(() => {
-                refreshTaskList();
+            .then((response) => {
                 setShow(false);
+                refreshTaskList();
             })
     }
 

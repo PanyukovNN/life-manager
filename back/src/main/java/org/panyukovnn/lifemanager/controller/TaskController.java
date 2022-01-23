@@ -6,6 +6,7 @@ import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Category;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskSortType;
+import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.model.request.*;
 import org.panyukovnn.lifemanager.service.CategoryService;
@@ -123,16 +124,22 @@ public class TaskController {
     }
 
     /**
-     * Изменить статус задач.
+     * Изменить статус задачи.
      *
      * @param request запрос
      * @return сообщение о результате
      */
     @PostMapping("/set-status")
     public String setStatus(@RequestBody @Valid SetStatusRequest request) {
-        taskService.setStatus(request.getIds(), request.status);
+        taskService.setStatus(request.getId(), request.status);
 
-        return String.format(STATUS_SET_SUCCESSFULLY, request.getStatus(), request.getIds());
+        if (request.getStatus() == TaskStatus.DONE) {
+            return DONE_STATUS_SET_SUCCESSFULLY;
+        } else if (request.getStatus() == TaskStatus.TO_DO) {
+            return TO_DO_STATUS_SET_SUCCESSFULLY;
+        } else {
+            return String.format(STATUS_SET_SUCCESSFULLY, request.getStatus());
+        }
     }
 
     /**

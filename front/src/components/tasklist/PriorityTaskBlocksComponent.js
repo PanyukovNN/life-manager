@@ -4,6 +4,8 @@ import {PriorityTaskBlock} from "./PriorityTaskBlock";
 import {TaskModal} from "./TaskModal";
 import {setLoadingStart, setLoadingStop} from "../../services/Util";
 import {fetchPriorityTaskListMap} from "../../services/TaskService";
+import {getCurrentCategory} from "../../services/CategoryService";
+import {NO_CATEGORIES_VALUE} from "../../Constants";
 
 /**
  * Единый компонент с блоками задач по приоритетам
@@ -16,10 +18,31 @@ import {fetchPriorityTaskListMap} from "../../services/TaskService";
 export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                                                 refreshTaskList,
                                                 taskStatus}) => {
-    const [priorityTaskBlocks, setPriorityTaskBlocks] = useState();
+    const [priorityTaskBlocks, setPriorityTaskBlocks] = useState([]);
     const [showModalCall, setShowModalCall] = useState(0);
     const [modalTask, setModalTask] = useState(null);
     const [modalPriority, setModalPriority] = useState('A');
+    const [priorityTaskListMap, setPriorityTaskListMap] = useState({});
+    const [categoriesExists, setCategoriesExists] = useState(true);
+
+    useEffect(
+        () => {
+            if (priorityTaskListMap === {}) {
+                return;
+            }
+
+            let renderedPriorityTaskBlocks = [];
+
+            for (const [priority, tasks] of Object.entries(priorityTaskListMap)) {
+                renderedPriorityTaskBlocks.push(
+                    renderPriorityTaskBlock(priority, tasks)
+                );
+            }
+
+            setPriorityTaskBlocks(renderedPriorityTaskBlocks);
+        },
+        [priorityTaskListMap]
+    );
 
     useEffect(
         () => {
@@ -27,28 +50,32 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                 return;
             }
 
-            setLoadingStart();
+            let currentCategory = getCurrentCategory();
 
-            const process = async () => {
-                let priorityTaskListMap = await fetchPriorityTaskListMap(taskStatus);
+            if (getCurrentCategory() === "") {
+                setCategoriesExists(false);
 
-                let renderedPriorityTaskBlocks = [];
-
-                for (const [priority, tasks] of Object.entries(priorityTaskListMap)) {
-                    renderedPriorityTaskBlocks.push(
-                        renderPriorityTaskBlock(priority, tasks)
-                    );
-                }
-
-                setPriorityTaskBlocks(renderedPriorityTaskBlocks);
-
-                setLoadingStop();
+                return;
             }
 
-            process();
+            setLoadingStart();
+            fetchPriorityTaskListMap(currentCategory, taskStatus)
+                .then((priorityTaskListMapFromServer) => {
+                    setPriorityTaskListMap(priorityTaskListMapFromServer);
+
+                    setLoadingStop();
+                })
         },
         [refreshTaskListCall]
     );
+
+    const renderUpdateTaskModal = (
+            <TaskModal
+                refreshTaskList={refreshTaskList}
+                showModalCall={showModalCall}
+                task={modalTask}
+                priority={modalPriority}/>
+        );
 
     const renderPriorityTaskBlock = (priority, tasks) => {
         return (
@@ -62,28 +89,34 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                     setModalTask(null);
                     setModalPriority(chosenPriority);
                 }}
-                notifyEditButtonClick={task => {
+                notifyEditTaskBtnClick={task => {
                     setShowModalCall(call => call + 1);
                     setModalTask(task);
                 }} />
         );
     }
 
-    const renderUpdateTaskModal = () => {
-        return (<TaskModal
-            refreshTaskList={refreshTaskList}
-            showModalCall={showModalCall}
-            task={modalTask}
-            priority={modalPriority}/>)
-    }
+    const renderPriorityTaskBlocks = (
+        <div className="task-component-blocks-wrap">
+            {priorityTaskBlocks}
+        </div>
+    );
+
+    /**
+     * Информационный блок, если не найдена ни одна категори
+     */
+    const renderAppendCategoryBlock = (
+        <div className="task-component-blocks-wrap">
+            <div>Для начала работы, вам необходимо <a href="/categories">добавить раздел</a>.</div>
+        </div>
+    );
 
     return (
         <>
-            <div className="task-component-blocks-wrap">
-                {priorityTaskBlocks}
-            </div>
+            {categoriesExists && renderPriorityTaskBlocks}
+            {!categoriesExists && renderAppendCategoryBlock}
 
-            {renderUpdateTaskModal()}
+            {renderUpdateTaskModal}
         </>
     )
 }

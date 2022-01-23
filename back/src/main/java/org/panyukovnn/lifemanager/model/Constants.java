@@ -22,13 +22,16 @@ public final class Constants {
     public static final String CATEGORY_UPDATED_SUCCESSFULLY = "Раздел успешно обновлен";
     public static final String CATEGORY_MOVED_TO_RECENTLY_DELETED_SUCCESSFULLY = "Раздел \"%s\" успешно удалён";
     public static final String CATEGORY_RECOVERED_FROM_RECENTLY_DELETED_SUCCESSFULLY = "Раздел \"%s\" успешно восстановлен";
-    public static final String STATUS_SET_SUCCESSFULLY = "Успешно установлен статус \"%s\" задачам \"%s\"";
+    public static final String TO_DO_STATUS_SET_SUCCESSFULLY = "Задача возвращена в работу";
+    public static final String DONE_STATUS_SET_SUCCESSFULLY = "Ура, задача выполнена!";
+    public static final String STATUS_SET_SUCCESSFULLY = "Статус \"%s\" успешно установлен";
     public static final String SING_UP_SUCCESSFUL = "Пользователь успешно зарегистрирован.";
 
     /**
      * Текстовки ошибок.
      */
     public static final String WRONG_PRIORITY_ERROR_MSG = "Неверное значение приоритета";
+    public static final String TASK_NOT_FOUND_ERROR_MSG = "Задача не найдена";
     public static final String CATEGORY_NOT_FOUND_ERROR_MSG = "Категория не найдена";
     public static final String NO_CATEGORY_FOR_TASK_ERROR_MSG = "Невозможно создать задачу без категории";
     public static final String NO_ONE_CATEGORY_FOUND_ERROR_MSG = "Не удалось найти категории";

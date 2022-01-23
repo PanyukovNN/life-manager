@@ -1,6 +1,5 @@
-import {getCurrentCategory} from "./CategoryService";
 import {deleteReq, postReq} from "./RequestService";
-import {DONE_TASK_STATUS, TO_DO_TASK_STATUS} from "../Constants";
+import {NO_CATEGORIES_VALUE, TO_DO_TASK_STATUS} from "../Constants";
 import {showAlert} from "./AlertService";
 
 /**
@@ -8,18 +7,17 @@ import {showAlert} from "./AlertService";
  * а в качестве значения список задач
  *
  * @param taskStatus статус задач
+ * @param category категория
  * @returns результат выполнения запроса
  */
-export function fetchPriorityTaskListMap(taskStatus) {
-    let currentCategory = getCurrentCategory();
-
-    if (currentCategory === "") {
+export function fetchPriorityTaskListMap(category, taskStatus) {
+    if (category === "") {
         return {};
     }
 
     let body = {
         taskStatuses: taskStatus !== "" ? [taskStatus] : [],
-        categoryNames: [currentCategory],
+        categoryNames: [category],
         periodType: "ALL",
         sortType: "NONE"
     };
@@ -35,15 +33,16 @@ export function fetchPriorityTaskListMap(taskStatus) {
 }
 
 /**
- * Пометить задачу как выполненную
+ * Изменяет статус задачи
  *
  * @param id идентификатор задачи
+ * @param taskStatus стстус задачи, который необходимо выставить
  * @param completed хук уведомления о выполнении
  */
-export function markAsDone(id, completed) {
+export function changeStatus(id, taskStatus, completed) {
     let body = {
-        ids: [id],
-        status: DONE_TASK_STATUS
+        id: id,
+        status: taskStatus
     };
 
     postReq("http://localhost:80/api/task/set-status", body)

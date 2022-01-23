@@ -1,8 +1,8 @@
 package org.panyukovnn.lifemanager.service;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
+import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
@@ -11,7 +11,6 @@ import org.panyukovnn.lifemanager.repository.TaskRepository;
 import org.panyukovnn.lifemanager.service.taskcomparestrategy.TaskSortStrategyResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -19,10 +18,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
 import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_D_FORMATTER;
@@ -93,18 +93,19 @@ public class TaskService {
     }
 
     /**
-     * Изменяет статус задач.
+     * Изменяет статус задачи.
      *
-     * @param ids список идентификаторов задач
+     * @param id идентификатор
      * @param status статус
      */
     @Transactional
-    public void setStatus(List<Long> ids, TaskStatus status) {
-        List<Task> tasks = taskRepository.findByIdIn(ids);
+    public void setStatus(Long id, TaskStatus status) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND_ERROR_MSG));
 
-        tasks.forEach(task -> task.setStatus(status));
+        task.setStatus(status);
 
-        taskRepository.saveAll(tasks);
+        taskRepository.save(task);
     }
 
     /**

@@ -1,10 +1,10 @@
 import '../../App.css';
 import {React} from 'react';
 import {Button} from "react-bootstrap";
-import {DONE_TASK_STATUS} from "../../Constants";
+import {DONE_TASK_STATUS, TO_DO_TASK_STATUS} from "../../Constants";
 import editIcon from '../../resources/icon/edit-icon.svg.png'
 import ellipsisIcon from '../../resources/icon/ellipsis-icon.png'
-import {deleteTask, markAsDone} from "../../services/TaskService";
+import {deleteTask, changeStatus} from "../../services/TaskService";
 
 /**
  * Карточка задачи
@@ -24,7 +24,8 @@ export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
     const renderDropdownLinks = () => {
         return (
             <>
-                {!taskDone && <a onClick={() => markAsDone(task.id, refreshTaskList)}>Выполнена</a>}
+                {!taskDone && <a onClick={() => changeStatus(task.id, DONE_TASK_STATUS, refreshTaskList)}>Выполнена</a>}
+                {taskDone && <a onClick={() => changeStatus(task.id, TO_DO_TASK_STATUS, refreshTaskList)}>Вернуть в работу</a>}
                 <a onClick={() => deleteTask(task.id, refreshTaskList)}>Удалить</a>
             </>
         )

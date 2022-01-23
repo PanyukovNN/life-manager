@@ -49,18 +49,6 @@ const processResponse = (axiosResponse) => {
                     return;
                 }
 
-                if (!error.response.status) {
-                    showAlert("Отсутствует соединение с сервером");
-
-                    return;
-                }
-
-                console.log(error.response)
-
-                if (error.response.status === 500) {
-
-                }
-
                 showAlert(error.response.data);
             }
         });

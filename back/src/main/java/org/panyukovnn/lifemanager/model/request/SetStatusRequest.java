@@ -6,10 +6,9 @@ import lombok.Setter;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
- * Запрос на изменение статуса списка задач.
+ * Запрос на изменение статуса задачи.
  */
 @Getter
 @Setter
@@ -17,7 +16,7 @@ import java.util.List;
 public class SetStatusRequest {
 
     @NotNull
-    public List<Long> ids;
+    public Long id;
 
     @NotNull
     public TaskStatus status;

@@ -1,7 +1,7 @@
 import '../../App.css';
 import {React, useEffect, useState} from 'react';
 import {SelectorComponent} from './SelectorComponent'
-import {CATEGORY_KEY, CATEGORY_SELECT_ID,} from '../../Constants'
+import {CATEGORY_KEY, CATEGORY_SELECT_ID, NO_CATEGORIES_VALUE,} from '../../Constants'
 import {convertRawCategoriesToMap, fetchRawCategories} from "../../services/CategoryService";
 
 /**
@@ -12,18 +12,22 @@ import {convertRawCategoriesToMap, fetchRawCategories} from "../../services/Cate
  */
 export const FiltrationForm = ({notifyRefresh}) => {
     const loadingCategories = {"": "Загрузка..."};
+    const [formDisabled, setFormDisables] = useState(true);
     const [categories, setCategories] = useState(loadingCategories);
 
     useEffect(() => {
             fetchRawCategories(false)
                 .then(rawCategories => {
                     if (rawCategories.length === 0) {
-                        setCategories({"": "Не найдено"});
+                        setCategories({"": NO_CATEGORIES_VALUE});
+                        notifyRefresh();
+
                         return;
                     }
 
                     let categoriesFromServer = convertRawCategoriesToMap(rawCategories);
                     setCategories(categoriesFromServer);
+                    setFormDisables(false);
 
                     notifyRefresh();
                 }
@@ -40,7 +44,7 @@ export const FiltrationForm = ({notifyRefresh}) => {
                     <div className="selector-wrapper">
                         <SelectorComponent
                             id={CATEGORY_SELECT_ID}
-                            disabled={categories === loadingCategories}
+                            disabled={formDisabled}
                             storageKey={CATEGORY_KEY}
                             optionMap={categories}
                             notifySelection={notifyRefresh}/>

@@ -26,6 +26,7 @@ export const TO_DO_TASK_STATUS = "TO_DO";
 export const DONE_TASK_STATUS = "DONE";
 export const NO_ELEMENTS_DIV = (<div className="empty-list-label">Нет элементов</div>)
 export const NO_TASKS_DIV = (<div className="empty-task-list-label">Нет элементов</div>)
+export const NO_CATEGORIES_VALUE = "Не найдено";
 
 export const PRIORITY_2_DEFINITION_PLURAL = {
     "A":"Важные и срочные",
