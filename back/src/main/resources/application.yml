@@ -10,11 +10,13 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/changelog.xml
+    enabled: true
 
 logging:
   level:

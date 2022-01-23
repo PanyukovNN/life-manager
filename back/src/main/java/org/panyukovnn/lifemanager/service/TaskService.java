@@ -45,9 +45,10 @@ public class TaskService {
      *
      * @param rawTask задача, сформированная из запроса
      * @param timeZone часовой пояс клиента
+     * @return созданная/обновленная задача
      */
     @Transactional
-    public void createUpdate(Task rawTask, TimeZone timeZone) {
+    public Task createUpdate(Task rawTask, TimeZone timeZone) {
         boolean notNullId = rawTask.getId() != null && rawTask.getId() != 0L;
         boolean wrongTaskId = notNullId
                 && !taskRepository.existsById(rawTask.getId());
@@ -61,7 +62,7 @@ public class TaskService {
             rawTask.setCreationDateTime(creationDateTime);
         }
 
-        taskRepository.save(rawTask);
+        return taskRepository.save(rawTask);
     }
 
     /**

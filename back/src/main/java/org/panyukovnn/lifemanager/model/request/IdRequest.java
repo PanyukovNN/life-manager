@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Запрос для передачи идентификатора.
@@ -14,6 +14,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class IdRequest {
 
-    @NotBlank
+    @NotNull
     public Long id;
 }

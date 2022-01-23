@@ -38,7 +38,11 @@ public class CategoryController {
 
         categoryService.createUpdate(categoryTemplate);
 
-        return String.format(CATEGORY_CREATED_UPDATED_SUCCESSFULLY, request.getName());
+        boolean isCreating = request.getId() == null;
+
+        return isCreating
+                ? CATEGORY_CREATED_SUCCESSFULLY
+                : CATEGORY_UPDATED_SUCCESSFULLY;
     }
 
     /**

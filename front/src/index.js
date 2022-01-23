@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AlertTemplate from 'react-alert-template-basic'
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import {positions, Provider as AlertProvider, transitions} from 'react-alert'
 
 const options = {
     position: positions.BOTTOM_CENTER,

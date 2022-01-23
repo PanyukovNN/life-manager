@@ -18,7 +18,8 @@ public final class Constants {
     public static final String TASKS_REMOVED_SUCCESSFULLY = "Задачи успешно удалены";
     public static final String TASKS_CREATED_UPDATED_SUCCESSFULLY = "Задача успешно создана/обновлена";
     public static final String CATEGORY_REMOVED_SUCCESSFULLY = "Раздел и все его задачи успешно удалены";
-    public static final String CATEGORY_CREATED_UPDATED_SUCCESSFULLY = "Раздел \"%s\" успешно создан/обновлен";
+    public static final String CATEGORY_CREATED_SUCCESSFULLY = "Раздел успешно создан";
+    public static final String CATEGORY_UPDATED_SUCCESSFULLY = "Раздел успешно обновлен";
     public static final String CATEGORY_MOVED_TO_RECENTLY_DELETED_SUCCESSFULLY = "Раздел \"%s\" успешно удалён";
     public static final String CATEGORY_RECOVERED_FROM_RECENTLY_DELETED_SUCCESSFULLY = "Раздел \"%s\" успешно восстановлен";
     public static final String STATUS_SET_SUCCESSFULLY = "Успешно установлен статус \"%s\" задачам \"%s\"";

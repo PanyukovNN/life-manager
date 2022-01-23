@@ -5,6 +5,7 @@ dependencies {
     implementation library.passay
     implementation library.jasypt
     implementation library.postgres
+    implementation library.liquibase
     implementation library.springBootAOP
     implementation library.springBootWeb
     implementation library.springBootDataJpa
@@ -12,4 +13,9 @@ dependencies {
     implementation library.springBootActuator
     implementation library.springBootDevTools
     implementation library.springBootValidation
+}
+
+bootJar {
+    archiveVersion = ''
+    mainClass = 'org.panyukovnn.lifemanager.LifeManagerApplication'
 }

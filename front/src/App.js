@@ -8,12 +8,12 @@ import {NavbarComponent} from "./components/NavbarComponent";
 import {RecentlyDeletedCategoryListPage} from "./pages/category/RecentlyDeletedCategoryListPage";
 import {NotFoundPage} from "./pages/exception/NotFoundPage";
 import {LoginPage} from "./pages/auth/LoginPage";
-import RequireAuth from "./services/RequireAuth";
 import {RegistrationPage} from "./pages/auth/RegistratioinPage";
 import {DoneTaskListPage} from "./pages/task/DoneTaskListPage";
 import {ToDoTaskListPage} from "./pages/task/ToDoTaskListPage";
 import {useAlert} from "react-alert";
 import * as AlertService from "./services/AlertService";
+import RequireAuth from "./services/RequireAuth";
 
 function App() {
 

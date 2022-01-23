@@ -13,6 +13,7 @@ ext.library = [
         'springSwaggerUI':'io.springfox:springfox-swagger-ui:3.0.0',
 
         'postgres':'org.postgresql:postgresql:42.3.1',
+        'liquibase':'org.liquibase:liquibase-core',
 
         'jasypt':'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3',
 
@@ -41,5 +42,4 @@ ext.libraryTest = [
         'springBootTest' : 'org.springframework.boot:spring-boot-starter-test',
         'springSecurityTest' : 'org.springframework.security:spring-security-test',
         'mockitoJunitJupiter':'org.mockito:mockito-junit-jupiter:4.2.0'
-
 ]

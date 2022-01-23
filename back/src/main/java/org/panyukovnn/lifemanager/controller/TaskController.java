@@ -38,10 +38,10 @@ public class TaskController {
      *
      * @param request запрос
      * @param timeZone часовой пояс клиента
-     * @return сообщение об успешном сохранении/обновлении задачи
+     * @return созданная/обновленная задача
      */
     @PostMapping("/create-update")
-    public String createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request, TimeZone timeZone) {
+    public TaskDto createUpdateTask(@RequestBody @Valid CreateUpdateTaskRequest request, TimeZone timeZone) {
         Category category = categoryService.findByName(request.getCategoryName())
                 .orElseThrow(() -> new NotFoundException(NO_CATEGORY_FOR_TASK_ERROR_MSG));
         String description = request.getDescription().trim();
@@ -55,9 +55,9 @@ public class TaskController {
         task.setPlannedDate(request.getPlannedDate());
         task.setPlannedTime(request.getPlannedTime());
 
-        taskService.createUpdate(task, timeZone);
+        Task createdUpdatedTask = taskService.createUpdate(task, timeZone);
 
-        return TASKS_CREATED_UPDATED_SUCCESSFULLY;
+        return taskService.convertToDto(createdUpdatedTask, timeZone);
     }
 
     /**

@@ -24,7 +24,7 @@ public class LifeManagerUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsernameIgnoreCase(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_ERROR, username)));
+                .orElseThrow(() -> new AuthUserDetailServiceException(String.format(USER_NOT_FOUND_ERROR, username)));
 
         if (user.getActivationCode() != null) {
             throw new AuthUserDetailServiceException(String.format(Constants.USER_NOT_ACTIVATED, username));

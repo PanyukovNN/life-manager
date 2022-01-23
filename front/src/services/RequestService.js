@@ -43,13 +43,25 @@ const processResponse = (axiosResponse) => {
             if (error.response && error.response.data && error.response.message) {
                 showAlert(error.response.data.message);
             } else {
-                if (!error.status) {
+                if (error.message && error.message === "Network Error") {
                     showAlert("Отсутствует соединение с сервером");
 
                     return;
                 }
 
-                showAlert(error.message);
+                if (!error.response.status) {
+                    showAlert("Отсутствует соединение с сервером");
+
+                    return;
+                }
+
+                console.log(error.response)
+
+                if (error.response.status === 500) {
+
+                }
+
+                showAlert(error.response.data);
             }
         });
 }

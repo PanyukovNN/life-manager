@@ -19,7 +19,7 @@ import static org.panyukovnn.lifemanager.model.Constants.*;
  */
 public class UserSignUpRequestTest {
 
-    public static final String ID = "id";
+    public static final Long ID = 1L;
     public static final String USERNAME = "bob";
     public static final String EMAIL = "bob@domain.com";
     public static final String PWD = "qwerty12";
@@ -144,7 +144,7 @@ public class UserSignUpRequestTest {
                 .collect(Collectors.toList());
     }
 
-    private UserSignUpRequest createUserSignUpRequest(String id, String username, String email, String password, String confirmPassword) {
+    private UserSignUpRequest createUserSignUpRequest(Long id, String username, String email, String password, String confirmPassword) {
         UserSignUpRequest request = new UserSignUpRequest();
         request.setId(id);
         request.setUsername(username);
