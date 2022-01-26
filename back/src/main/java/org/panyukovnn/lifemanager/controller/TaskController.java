@@ -112,7 +112,6 @@ public class TaskController {
                 .priority(request.getPriority())
                 .statuses(request.getTaskStatuses())
                 .categoryIds(categoryIds)
-                .startDate(null) // мы хотим показывать просроченные задачи
                 .endDate(endDate)
                 .sortType(request.getSortType())
                 .build();
@@ -127,11 +126,12 @@ public class TaskController {
      * Изменить статус задачи.
      *
      * @param request запрос
+     * @param timeZone часовой пояс клиента
      * @return сообщение о результате
      */
     @PostMapping("/set-status")
-    public String setStatus(@RequestBody @Valid SetStatusRequest request) {
-        taskService.setStatus(request.getId(), request.status);
+    public String setStatus(@RequestBody @Valid SetStatusRequest request, TimeZone timeZone) {
+        taskService.setStatus(request.getId(), request.status, timeZone);
 
         if (request.getStatus() == TaskStatus.DONE) {
             return DONE_STATUS_SET_SUCCESSFULLY;

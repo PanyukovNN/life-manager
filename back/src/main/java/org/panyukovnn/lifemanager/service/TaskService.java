@@ -25,8 +25,7 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.*;
-import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_D_FORMATTER;
-import static org.panyukovnn.lifemanager.service.ControllerHelper.FRONT_T_FORMATTER;
+import static org.panyukovnn.lifemanager.service.ControllerHelper.*;
 
 /**
  * Сервис задач.
@@ -97,13 +96,18 @@ public class TaskService {
      *
      * @param id идентификатор
      * @param status статус
+     * @param timeZone часовой пояс клиента
      */
     @Transactional
-    public void setStatus(Long id, TaskStatus status) {
+    public void setStatus(Long id, TaskStatus status, TimeZone timeZone) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND_ERROR_MSG));
 
         task.setStatus(status);
+
+        if (status == TaskStatus.DONE) {
+            task.setDoneDateTime(LocalDateTime.now(timeZone.toZoneId()));
+        }
 
         taskRepository.save(task);
     }
@@ -173,6 +177,10 @@ public class TaskService {
                     builder.overdue(true);
                 }
             }
+        }
+
+        if (task.getDoneDateTime() != null) {
+            builder.doneDateTime(FRONT_DT_FORMATTER.format(task.getDoneDateTime()));
         }
 
         return builder.build();

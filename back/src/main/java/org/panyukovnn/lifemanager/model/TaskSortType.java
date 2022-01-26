@@ -23,5 +23,10 @@ public enum TaskSortType {
     /**
      * В порядке даты добавления.
      */
-    DATE_ADDED_FIRST
+    DATE_ADDED_FIRST,
+
+    /**
+     * В порядке последнего изменения статуса
+     */
+    LAST_STATUS_CHANGE_DATE_TIME_FIRST
 }

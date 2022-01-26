@@ -80,9 +80,13 @@ export const Task = ({task, refreshTaskList, notifyEditBtnClick}) => {
 
             <div className="task-footer-wrap">
                 <div className={"task-planned-date-time-wrap" + overdueStyle}>
-                    {task.plannedTime
-                        ? <div className="task-planned-time">{task.plannedTime}</div>
-                        : ""}
+                    {task.plannedTime && <div className="task-planned-time">{task.plannedTime}</div>}
+
+                    <div className="task-planned-date">{task.plannedDate}</div>
+                </div>
+
+                <div className={"task-planned-date-time-wrap" + overdueStyle}>
+                    {taskDone && <div className="task-planned-time">{task.doneDateTime}</div>}
 
                     <div className="task-planned-date">{task.plannedDate}</div>
                 </div>

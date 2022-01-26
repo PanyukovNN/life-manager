@@ -20,6 +20,7 @@ public class TaskDto {
     private final String plannedDate;
     private final String plannedTime;
     private final String status;
+    private final String doneDateTime;
 
     /**
      * Просрочена ли задача.

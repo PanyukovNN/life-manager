@@ -3,8 +3,7 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <changeSet id="1" author="Nikolay Panyukov">
         <createTable tableName="user_details">
@@ -87,6 +86,13 @@
             DROP TABLE category;
             DROP TABLE task;
         </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="Nikolay Panyukov">
+        <addColumn schemaName="public"
+                   tableName="task">
+            <column name="done_date_time" type="timestamp"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

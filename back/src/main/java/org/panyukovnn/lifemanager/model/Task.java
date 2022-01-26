@@ -72,4 +72,10 @@ public class Task {
      */
     @Column
     private LocalDateTime creationDateTime;
+
+    /**
+     * Дата и время выполнения задачи.
+     */
+    @Column
+    private LocalDateTime doneDateTime;
 }
