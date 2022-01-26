@@ -5,7 +5,6 @@ import {TaskModal} from "./TaskModal";
 import {setLoadingStart, setLoadingStop} from "../../services/Util";
 import {fetchPriorityTaskListMap} from "../../services/TaskService";
 import {getCurrentCategory} from "../../services/CategoryService";
-import {NO_CATEGORIES_VALUE} from "../../Constants";
 
 /**
  * Единый компонент с блоками задач по приоритетам
@@ -92,6 +91,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
                 notifyEditTaskBtnClick={task => {
                     setShowModalCall(call => call + 1);
                     setModalTask(task);
+                    setModalPriority(task.priority);
                 }} />
         );
     }

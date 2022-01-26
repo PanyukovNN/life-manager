@@ -48,20 +48,25 @@ public class TaskService {
      */
     @Transactional
     public Task createUpdate(Task rawTask, TimeZone timeZone) {
-        boolean notNullId = rawTask.getId() != null && rawTask.getId() != 0L;
-        boolean wrongTaskId = notNullId
-                && !taskRepository.existsById(rawTask.getId());
+        boolean taskCreation = rawTask.getId() == null || rawTask.getId() == 0L;
 
-        if (wrongTaskId) {
-            throw new IllegalArgumentException(WRONG_TASK_ID_ERROR_MSG);
-        }
-
-        if (notNullId && rawTask.getCreationDateTime() == null) {
+        if (taskCreation) {
             LocalDateTime creationDateTime = LocalDateTime.now(timeZone.toZoneId());
             rawTask.setCreationDateTime(creationDateTime);
+
+            return taskRepository.save(rawTask);
         }
 
-        return taskRepository.save(rawTask);
+        Task taskFromDb = taskRepository.findById(rawTask.getId())
+                .orElseThrow(() -> new IllegalArgumentException(WRONG_TASK_ID_ERROR_MSG));
+
+        taskFromDb.setDescription(rawTask.getDescription());
+        taskFromDb.setPriority(rawTask.getPriority());
+        taskFromDb.setCategory(rawTask.getCategory());
+        taskFromDb.setPlannedDate(rawTask.getPlannedDate());
+        taskFromDb.setPlannedTime(rawTask.getPlannedTime());
+
+        return taskRepository.save(taskFromDb);
     }
 
     /**

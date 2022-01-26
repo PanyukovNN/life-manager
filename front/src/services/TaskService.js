@@ -1,5 +1,5 @@
 import {deleteReq, postReq} from "./RequestService";
-import {NO_CATEGORIES_VALUE, TO_DO_TASK_STATUS} from "../Constants";
+import {DONE_TASK_STATUS, TO_DO_TASK_STATUS} from "../Constants";
 import {showAlert} from "./AlertService";
 
 /**
@@ -15,11 +15,16 @@ export function fetchPriorityTaskListMap(category, taskStatus) {
         return {};
     }
 
+    let sortType = "DATE_ADDED_LAST";
+    if (taskStatus && taskStatus === DONE_TASK_STATUS) {
+        sortType = "DONE_DATE_TIME_LAST";
+    }
+
     let body = {
         taskStatuses: taskStatus !== "" ? [taskStatus] : [],
         categoryNames: [category],
         periodType: "ALL",
-        sortType: "NONE"
+        sortType: sortType
     };
 
     return postReq("http://localhost:80/api/task/find-priority-task-list-map", body)

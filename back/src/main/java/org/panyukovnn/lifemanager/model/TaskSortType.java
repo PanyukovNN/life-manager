@@ -21,12 +21,12 @@ public enum TaskSortType {
     DATE_PLANNED_FIRST,
 
     /**
-     * В порядке даты добавления.
+     * В обратном порядке даты добавления.
      */
-    DATE_ADDED_FIRST,
+    DATE_ADDED_LAST,
 
     /**
-     * В порядке последнего изменения статуса
+     * В обратном порядке выполнения.
      */
-    LAST_STATUS_CHANGE_DATE_TIME_FIRST
+    DONE_DATE_TIME_LAST
 }
