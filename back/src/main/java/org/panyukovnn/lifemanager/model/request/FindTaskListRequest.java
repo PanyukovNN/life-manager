@@ -3,12 +3,12 @@ package org.panyukovnn.lifemanager.model.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.panyukovnn.lifemanager.model.PeriodStrategyType;
 import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_PATTERN_OR_EMPTY;
@@ -23,17 +23,18 @@ import static org.panyukovnn.lifemanager.model.Constants.WRONG_PRIORITY_ERROR_MS
 public class FindTaskListRequest {
 
     @Pattern(regexp = PRIORITY_PATTERN_OR_EMPTY, message = WRONG_PRIORITY_ERROR_MSG)
-    public String priority;
+    private String priority;
 
     @NotNull
-    public List<TaskStatus> taskStatuses;
+    private List<TaskStatus> taskStatuses;
 
     @NotNull
-    public List<String> categoryNames;
+    private List<String> categoryNames;
+
+    private LocalDate doneStartDate;
+
+    private LocalDate doneEndDate;
 
     @NotNull
-    public PeriodStrategyType periodType;
-
-    @NotNull
-    public TaskSortType sortType;
+    private TaskSortType sortType;
 }

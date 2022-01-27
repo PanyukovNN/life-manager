@@ -15,5 +15,5 @@ import javax.validation.constraints.NotNull;
 public class IdRequest {
 
     @NotNull
-    public Long id;
+    private Long id;
 }

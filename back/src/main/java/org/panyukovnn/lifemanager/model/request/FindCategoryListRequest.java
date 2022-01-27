@@ -15,5 +15,5 @@ import javax.validation.constraints.NotNull;
 public class FindCategoryListRequest {
 
     @NotNull
-    public Boolean recentlyDeleted;
+    private Boolean recentlyDeleted;
 }

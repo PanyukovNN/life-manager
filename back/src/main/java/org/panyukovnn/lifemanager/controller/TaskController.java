@@ -11,11 +11,9 @@ import org.panyukovnn.lifemanager.model.dto.TaskDto;
 import org.panyukovnn.lifemanager.model.request.*;
 import org.panyukovnn.lifemanager.service.CategoryService;
 import org.panyukovnn.lifemanager.service.TaskService;
-import org.panyukovnn.lifemanager.service.periodstrategy.PeriodStrategyResolver;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +30,6 @@ public class TaskController {
 
     private final TaskService taskService;
     private final CategoryService categoryService;
-    private final PeriodStrategyResolver periodStrategyResolver;
 
     /**
      * Создать/обновить задачу.
@@ -98,11 +95,7 @@ public class TaskController {
      */
     @PostMapping("/find-list")
     public List<TaskDto> findTaskList(@RequestBody @Valid FindTaskListRequest request, TimeZone timeZone) {
-        LocalDate startDate = LocalDate.now(timeZone.toZoneId());
-        LocalDate endDate = periodStrategyResolver.resolve(request.getPeriodType())
-                .getEndDate(startDate);
-
-        List<Category> categories = categoryService.findByNameIn(request.getCategoryNames());
+                List<Category> categories = categoryService.findByNameIn(request.getCategoryNames());
         List<Long> categoryIds = categories
                 .stream()
                 .map(Category::getId)
@@ -112,7 +105,8 @@ public class TaskController {
                 .priority(request.getPriority())
                 .statuses(request.getTaskStatuses())
                 .categoryIds(categoryIds)
-                .endDate(endDate)
+                .doneStartDate(request.getDoneStartDate())
+                .doneEndDate(request.getDoneEndDate())
                 .sortType(request.getSortType())
                 .build();
 
@@ -131,7 +125,7 @@ public class TaskController {
      */
     @PostMapping("/set-status")
     public String setStatus(@RequestBody @Valid SetStatusRequest request, TimeZone timeZone) {
-        taskService.setStatus(request.getId(), request.status, timeZone);
+        taskService.setStatus(request.getId(), request.getStatus(), timeZone);
 
         if (request.getStatus() == TaskStatus.DONE) {
             return DONE_STATUS_SET_SUCCESSFULLY;

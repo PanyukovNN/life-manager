@@ -3,12 +3,16 @@ import {React} from "react";
 /**
  * Ключи
  */
-export const CATEGORY_KEY   = "category";
+export const CATEGORY_KEY = "category";
+export const START_DONE_DATE_KEY = "doneStartDate";
+export const END_DONE_DATE_KEY = "doneEndDate";
 
 /**
  * Идентификаторы
  */
 export const CATEGORY_SELECT_ID = "categorySelectId";
+export const START_DONE_DATE_SELECT_ID = "startDateSelectId";
+export const END_DONE_DATE_SELECT_ID = "endDateSelectId";
 export const LOADING_SPINNER_ID = "loadingSpinnerId";
 export const NAME_TEXTAREA_ID = "nameTextAreaId";
 export const DESCRIPTION_TEXTAREA_ID = "descriptionTextareaId";

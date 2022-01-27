@@ -51,7 +51,7 @@ export const PriorityTaskBlocksComponent = ({refreshTaskListCall,
 
             let currentCategory = getCurrentCategory();
 
-            if (getCurrentCategory() === "") {
+            if (currentCategory === "") {
                 setCategoriesExists(false);
 
                 return;

@@ -16,8 +16,8 @@ import javax.validation.constraints.NotNull;
 public class SetStatusRequest {
 
     @NotNull
-    public Long id;
+    private Long id;
 
     @NotNull
-    public TaskStatus status;
+    private TaskStatus status;
 }

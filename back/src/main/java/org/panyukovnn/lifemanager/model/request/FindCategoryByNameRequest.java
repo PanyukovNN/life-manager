@@ -15,5 +15,5 @@ import javax.validation.constraints.NotBlank;
 public class FindCategoryByNameRequest {
 
     @NotBlank
-    public String name;
+    private String name;
 }

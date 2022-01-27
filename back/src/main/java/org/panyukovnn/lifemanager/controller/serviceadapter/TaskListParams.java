@@ -31,14 +31,14 @@ public class TaskListParams {
     private final List<Long> categoryIds;
 
     /**
-     * Дата начала периода.
+     * Начальная дата выполнения.
      */
-    private final LocalDate startDate;
+    private final LocalDate doneStartDate;
 
     /**
-     * Дата окончания периода.
+     * Конечная дата выполнения.
      */
-    private final LocalDate endDate;
+    private final LocalDate doneEndDate;
 
     /**
      * Способ сортировки.

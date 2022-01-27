@@ -61,7 +61,7 @@ public final class Constants {
     public static final String STATUS = "status";
     public static final String PRIORITY = "priority";
     public static final String CATEGORY = "category";
-    public static final String PLANNED_DATE = "planned_date";
+    public static final String DONE_DATE_TIME_KEY = "doneDateTime";
     public static final String CONFIRM_PASSWORD_KEY = "confirmPassword";
 
 

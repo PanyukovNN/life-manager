@@ -32,6 +32,7 @@ export const BaseTaskListPage = ({taskStatus}) => {
         <div className="task-list-page">
             <div className="functional-block-wrap">
                 <FiltrationForm
+                    taskStatus={taskStatus}
                     notifyRefresh={() => setFiltrationFormRefresh(call => call + 1)}/>
             </div>
 
