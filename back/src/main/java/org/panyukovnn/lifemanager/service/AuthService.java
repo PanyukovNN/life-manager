@@ -43,16 +43,7 @@ public class AuthService {
      * @param timeZone частовой пояс пользователя
      */
     public void signUp(User userTemplate, TimeZone timeZone) {
-        userRepository.findByUsernameIgnoreCase(userTemplate.getUsername())
-                .ifPresent(u -> {
-                    throw new AuthException(USER_ALREADY_EXISTS_BY_NAME);
-                });
-
-        boolean existsWithEmail = userRepository.existsByEmailIgnoreCase(userTemplate.getEmail());
-
-        if (existsWithEmail) {
-            throw new AuthException(USER_ALREADY_EXISTS_BY_EMAIL);
-        }
+        checkUserExistence(userTemplate);
 
         userTemplate.setPassword(bCryptPasswordEncoder.encode(userTemplate.getPassword()));
         userTemplate.setRoles(Set.of(roleService.findByRoleName(RoleName.USER)));
@@ -97,5 +88,22 @@ public class AuthService {
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
                 .compact();
+    }
+
+    /**
+     * Выбрасываем исключение, если пользователь с таким же логином или email'ом уже зарегистрирован.
+     *
+     * @param userTemplate частично заполенная сущность пользователя
+     */
+    private void checkUserExistence(User userTemplate) {
+        boolean existsByUsername = userRepository.existsByUsernameIgnoreCase(userTemplate.getUsername());
+        if (existsByUsername) {
+            throw new AuthException(USER_ALREADY_EXISTS_BY_NAME);
+        }
+
+        boolean existsByEmail = userRepository.existsByEmailIgnoreCase(userTemplate.getEmail());
+        if (existsByEmail) {
+            throw new AuthException(USER_ALREADY_EXISTS_BY_EMAIL);
+        }
     }
 }
