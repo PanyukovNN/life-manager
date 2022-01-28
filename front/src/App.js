@@ -14,6 +14,7 @@ import {ToDoTaskListPage} from "./pages/task/ToDoTaskListPage";
 import {useAlert} from "react-alert";
 import * as AlertService from "./services/AlertService";
 import RequireAuth from "./services/RequireAuth";
+import RedirectAfterAuth from "./services/RedirectAfterAuth";
 
 function App() {
 
@@ -31,8 +32,8 @@ function App() {
                     <Route path="/categories/recently-deleted" element={<RequireAuth><RecentlyDeletedCategoryListPage /></RequireAuth>} />
 
                     <Route path="*" element={<NotFoundPage />} />
-                    <Route path="/sign-in" element={<LoginPage />} />
-                    <Route path="/sign-up" element={<RegistrationPage />} />
+                    <Route path="/sign-in" element={<RedirectAfterAuth><LoginPage /></RedirectAfterAuth>} />
+                    <Route path="/sign-up" element={<RedirectAfterAuth><RegistrationPage /></RedirectAfterAuth>} />
                 </Routes>
             </Router>
         </div>

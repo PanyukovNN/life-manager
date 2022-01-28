@@ -1,5 +1,5 @@
 import {deleteReq, postReq} from "./RequestService";
-import {CATEGORY_SELECT_ID} from "../Constants";
+import {BACK_URL, CATEGORY_SELECT_ID} from "../Constants";
 import {showAlert} from "./AlertService";
 
 /**
@@ -13,7 +13,7 @@ export function fetchRawCategories(recentlyDeleted) {
         recentlyDeleted: recentlyDeleted
     };
 
-    return postReq("http://localhost:80/api/category/find-list", body)
+    return postReq(BACK_URL + "/category/find-list", body)
         .then((response) => {
             if (response && response.data) {
                 return response.data;
@@ -40,7 +40,7 @@ export function moveToRecentlyDeleted(category) {
         id: category.id,
     };
 
-    return postReq("http://localhost:80/api/category/move-to-recently-deleted", body)
+    return postReq(BACK_URL + "/category/move-to-recently-deleted", body)
         .then(response => {
             if (response && response.data) {
                 showAlert(response.data)
@@ -59,7 +59,7 @@ export function recoverFromRecentlyDeleted(id) {
         id: id,
     };
 
-    return postReq("http://localhost:80/api/category/recover-from-recently-deleted", body)
+    return postReq(BACK_URL + "/category/recover-from-recently-deleted", body)
         .then(response => {
             if (response && response.data) {
                 showAlert(response.data)
@@ -85,7 +85,7 @@ export function removeCategory(category) {
         id: category.id
     };
 
-    return deleteReq("http://localhost:80/api/category/delete-permanently-by-id", body)
+    return deleteReq(BACK_URL + "/category/delete-permanently-by-id", body)
         .then(response => {
             if (response && response.data) {
                 showAlert(response.data)
@@ -110,7 +110,7 @@ export function createUpdateCategory(id, name) {
         name: name
     };
 
-    return postReq('http://localhost:80/api/category/create-update', body)
+    return postReq(BACK_URL + "/category/create-update", body)
         .then(response => {
             if (response && response.data) {
                 showAlert(response.data)

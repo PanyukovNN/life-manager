@@ -1,7 +1,5 @@
 import React from 'react'
 import {isLoggedIn} from './AuthService'
-import {Navigate} from "react-router";
-import { useNavigate } from "react-router-dom";
 
 /**
  * Обертка для компонентов, требующих аутентификации пользователя

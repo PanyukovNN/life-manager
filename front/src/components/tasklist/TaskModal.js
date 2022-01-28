@@ -23,6 +23,7 @@ export const TaskModal = ({refreshTaskList,
     const [show, setShow] = useState(false);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
+    const [showSpinner, setShowSpinner] = useState(false);
     const [categoryName, setCategoryName] = useState("");
 
     useEffect(
@@ -44,6 +45,8 @@ export const TaskModal = ({refreshTaskList,
     const handleClose = () => setShow(false);
 
     const handleSave = async () => {
+        setShowSpinner(true);
+
         let id = task ? task.id : null;
         let description = document.getElementById(DESCRIPTION_TEXTAREA_ID).value;
 
@@ -51,6 +54,8 @@ export const TaskModal = ({refreshTaskList,
             .then((response) => {
                 setShow(false);
                 refreshTaskList();
+
+                setShowSpinner(false);
             })
     }
 
@@ -115,6 +120,7 @@ export const TaskModal = ({refreshTaskList,
                 </Button>
                 <Button variant="primary"
                         onClick={() => handleSave()}>
+                    {showSpinner && <span className="spinner-border spinner-border-sm mr-3"> </span>}
                     Сохранить
                 </Button>
             </Modal.Footer>

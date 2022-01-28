@@ -1,5 +1,5 @@
 import {deleteReq, postReq} from "./RequestService";
-import {DONE_TASK_STATUS, TO_DO_TASK_STATUS} from "../Constants";
+import {BACK_URL, DONE_TASK_STATUS, TO_DO_TASK_STATUS} from "../Constants";
 import {showAlert} from "./AlertService";
 import {getDoneEndDate, getDoneStartDate} from "./FiltrationFormService";
 
@@ -33,7 +33,7 @@ export function fetchPriorityTaskListMap(category, taskStatus) {
         sortType: sortType
     };
 
-    return postReq("http://localhost:80/api/task/find-priority-task-list-map", body)
+    return postReq(BACK_URL + "/task/find-priority-task-list-map", body)
         .then(response => {
             if (response && response.data) {
                 return response.data;
@@ -56,7 +56,7 @@ export function changeStatus(id, taskStatus, completed) {
         status: taskStatus
     };
 
-    postReq("http://localhost:80/api/task/set-status", body)
+    postReq(BACK_URL + "/task/set-status", body)
         .then((response) => {
             if (response && response.data) {
                 showAlert(response.data)
@@ -82,7 +82,7 @@ export function deleteTask(id, completed) {
         ids: [id]
     };
 
-    deleteReq("http://localhost:80/api/task/delete-by-ids", body)
+    deleteReq(BACK_URL + "/task/delete-by-ids", body)
         .then((response) => {
             if (response && response.data) {
                 showAlert(response.data)
@@ -120,6 +120,6 @@ export function createUpdateTask(id, description, priority, categoryName, date, 
         plannedTime: time
     };
 
-    return postReq('http://localhost:80/api/task/create-update', body);
+    return postReq(BACK_URL + "/task/create-update", body);
 }
 

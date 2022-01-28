@@ -14,6 +14,7 @@ import {createUpdateCategory} from "../../services/CategoryService";
  */
 export const CategoryModal = ({refreshCategoryList, showModalCall, category}) => {
 
+    const [showSpinner, setShowSpinner] = useState(false);
     const [show, setShow] = useState(false);
     const handleClose = async () => setShow(false);
 
@@ -31,6 +32,8 @@ export const CategoryModal = ({refreshCategoryList, showModalCall, category}) =>
 
     // Нажатие на кнопку добавления задачи
     const handleSave = async () => {
+        setShowSpinner(true);
+
         let id = category ? category.id : null;
         let name = document.getElementById(NAME_TEXTAREA_ID).value;
 
@@ -38,6 +41,8 @@ export const CategoryModal = ({refreshCategoryList, showModalCall, category}) =>
             .then(() => {
                 refreshCategoryList();
                 setShow(false);
+
+                setShowSpinner(false);
             });
     }
 
@@ -67,6 +72,7 @@ export const CategoryModal = ({refreshCategoryList, showModalCall, category}) =>
                     Закрыть
                 </Button>
                 <Button variant="primary" onClick={handleSave}>
+                    {showSpinner && <span className="spinner-border spinner-border-sm mr-3"> </span>}
                     Сохранить
                 </Button>
             </Modal.Footer>

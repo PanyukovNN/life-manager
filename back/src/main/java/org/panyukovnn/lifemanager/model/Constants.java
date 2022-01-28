@@ -32,14 +32,14 @@ public final class Constants {
      */
     public static final String WRONG_PRIORITY_ERROR_MSG = "Неверное значение приоритета";
     public static final String TASK_NOT_FOUND_ERROR_MSG = "Задача не найдена";
-    public static final String CATEGORY_NOT_FOUND_ERROR_MSG = "Категория не найдена";
-    public static final String NO_CATEGORY_FOR_TASK_ERROR_MSG = "Невозможно создать задачу без категории";
-    public static final String NO_ONE_CATEGORY_FOUND_ERROR_MSG = "Не удалось найти категории";
+    public static final String CATEGORY_NOT_FOUND_ERROR_MSG = "Раздел не найден";
+    public static final String NO_CATEGORY_FOR_TASK_ERROR_MSG = "Невозможно создать задачу без раздела";
+    public static final String NO_ONE_CATEGORY_FOUND_ERROR_MSG = "Не удалось найти ни одного раздела";
     public static final String NULL_TASK_ERROR_MSG = "Задача не может быть пустой";
     public static final String NULL_CATEGORY_ERROR_MSG = "Раздел не может быть пустым";
     public static final String NULL_CATEGORY_ID_ERROR_MSG = "Идентификатор раздела не может быть пустым";
-    public static final String RECENTLY_DELETED_CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием находится в папке 'недавно удаленных'";
-    public static final String CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Категория с данным наименованием уже существует";
+    public static final String RECENTLY_DELETED_CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Раздел с данным наименованием находится в папке 'недавно удаленных'";
+    public static final String CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Раздел с данным наименованием уже существует";
     public static final String WRONG_TASK_ID_ERROR_MSG = "Неверный идентификатор задачи.";
     public static final String RESOURCE_FILE_NOT_FOUND_ERROR_MSG = "Не найден файл ресурсов ";
     public static final String USER_NOT_FOUND_ERROR = "Пользователь \"%s\" не найден.";
