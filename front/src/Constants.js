@@ -4,8 +4,8 @@ import {React} from "react";
  * Ключи
  */
 export const CATEGORY_KEY = "category";
-export const START_DONE_DATE_KEY = "doneStartDate";
-export const END_DONE_DATE_KEY = "doneEndDate";
+export const START_DONE_DATE_KEY = "startDoneDate"; // дата начала периода, в течение которого задача была выполнена
+export const END_DONE_DATE_KEY = "endDoneDate"; // дата окончания периода, в течение которого задача была выполнена
 
 /**
  * Идентификаторы

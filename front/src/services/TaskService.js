@@ -1,7 +1,7 @@
 import {deleteReq, postReq} from "./RequestService";
 import {BACK_URL, DONE_TASK_STATUS, TO_DO_TASK_STATUS} from "../Constants";
 import {showAlert} from "./AlertService";
-import {getDoneEndDate, getDoneStartDate} from "./FiltrationFormService";
+import {getEndDoneDate, getStartDoneDate} from "./FiltrationFormService";
 
 /**
  * Загрузить карту задач, где в качестве ключа выступает буква приоритета,
@@ -16,21 +16,16 @@ export function fetchPriorityTaskListMap(category, taskStatus) {
         return {};
     }
 
-    let doneEndDate = null;
-    let doneStartDate = null;
-    let sortType = "DATE_ADDED_LAST";
-    if (taskStatus && taskStatus === DONE_TASK_STATUS) {
-        sortType = "DONE_DATE_TIME_LAST";
-        doneStartDate = getDoneStartDate();
-        doneEndDate = getDoneEndDate();
-    }
+    let doneTaskPage = taskStatus && taskStatus === DONE_TASK_STATUS;
 
     let body = {
         taskStatuses: taskStatus !== "" ? [taskStatus] : [],
         categoryNames: [category],
-        doneStartDate: doneStartDate,
-        doneEndDate: doneEndDate,
-        sortType: sortType
+        doneDatePeriod: {
+            start: doneTaskPage ? getStartDoneDate() : null,
+            end: doneTaskPage ? getEndDoneDate() : null
+        },
+        sortType: doneTaskPage ? "DONE_DATE_TIME_LAST" : "DATE_ADDED_LAST"
     };
 
     return postReq(BACK_URL + "/task/find-priority-task-list-map", body)

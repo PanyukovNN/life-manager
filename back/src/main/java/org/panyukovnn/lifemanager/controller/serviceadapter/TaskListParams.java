@@ -2,10 +2,10 @@ package org.panyukovnn.lifemanager.controller.serviceadapter;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.panyukovnn.lifemanager.model.DatePeriod;
 import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -31,14 +31,9 @@ public class TaskListParams {
     private final List<Long> categoryIds;
 
     /**
-     * Начальная дата выполнения.
+     * Период времени, в течение которого задача была выполнена.
      */
-    private final LocalDate doneStartDate;
-
-    /**
-     * Конечная дата выполнения.
-     */
-    private final LocalDate doneEndDate;
+    private final DatePeriod doneDatePeriod;
 
     /**
      * Способ сортировки.

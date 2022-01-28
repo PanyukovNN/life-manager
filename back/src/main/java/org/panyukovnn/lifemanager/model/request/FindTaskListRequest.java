@@ -3,12 +3,12 @@ package org.panyukovnn.lifemanager.model.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.panyukovnn.lifemanager.model.DatePeriod;
 import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.panyukovnn.lifemanager.model.Constants.PRIORITY_PATTERN_OR_EMPTY;
@@ -31,9 +31,10 @@ public class FindTaskListRequest {
     @NotNull
     private List<String> categoryNames;
 
-    private LocalDate doneStartDate;
-
-    private LocalDate doneEndDate;
+    /**
+     * Период времени, когда задача была выполнена.
+     */
+    private DatePeriod doneDatePeriod;
 
     @NotNull
     private TaskSortType sortType;

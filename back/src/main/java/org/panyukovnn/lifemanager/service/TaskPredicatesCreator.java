@@ -2,6 +2,7 @@ package org.panyukovnn.lifemanager.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import org.panyukovnn.lifemanager.controller.serviceadapter.TaskListParams;
+import org.panyukovnn.lifemanager.model.DatePeriod;
 import org.panyukovnn.lifemanager.model.Task;
 import org.panyukovnn.lifemanager.model.TaskStatus;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -42,9 +42,9 @@ public class TaskPredicatesCreator {
                 .ifPresent(predicates::add);
         createCategoryIdsPredicate(params.getCategoryIds(), criteriaBuilder, rootTask)
                 .ifPresent(predicates::add);
-        createDoneStartDatePredicate(params.getDoneStartDate(), criteriaBuilder, rootTask)
+        createStartDoneDatePredicate(params.getDoneDatePeriod(), criteriaBuilder, rootTask)
                 .ifPresent(predicates::add);
-        createDoneEndDatePredicate(params.getDoneEndDate(), criteriaBuilder, rootTask)
+        createEndDoneDatePredicate(params.getDoneDatePeriod(), criteriaBuilder, rootTask)
                 .ifPresent(predicates::add);
 
         return predicates.toArray(Predicate[]::new);
@@ -80,30 +80,30 @@ public class TaskPredicatesCreator {
         return Optional.of(categoryIdsPredicate);
     }
 
-    private Optional<Predicate> createDoneStartDatePredicate(LocalDate doneStartDate, CriteriaBuilder criteriaBuilder, Root<Task> rootTask) {
-        if (doneStartDate == null) {
+    private Optional<Predicate> createStartDoneDatePredicate(DatePeriod doneDatePeriod, CriteriaBuilder criteriaBuilder, Root<Task> rootTask) {
+        if (doneDatePeriod == null || doneDatePeriod.getStart() == null) {
             return Optional.empty();
         }
 
-        LocalDateTime doneStartDateTime = LocalDateTime.of(doneStartDate, LocalTime.MIN);
+        LocalDateTime startDoneDateTime = LocalDateTime.of(doneDatePeriod.getStart(), LocalTime.MIN);
 
         Predicate startDateIsNullPredicate = criteriaBuilder.isNull(rootTask.get(DONE_DATE_TIME_KEY));
-        Predicate startDateGtePredicate = criteriaBuilder.greaterThanOrEqualTo(rootTask.get(DONE_DATE_TIME_KEY), doneStartDateTime);
+        Predicate startDateGtePredicate = criteriaBuilder.greaterThanOrEqualTo(rootTask.get(DONE_DATE_TIME_KEY), startDoneDateTime);
 
         Predicate startDatePredicate = criteriaBuilder.or(startDateIsNullPredicate, startDateGtePredicate);
 
         return Optional.of(startDatePredicate);
     }
 
-    private Optional<Predicate> createDoneEndDatePredicate(LocalDate doneEndDate, CriteriaBuilder criteriaBuilder, Root<Task> rootTask) {
-        if (doneEndDate == null || doneEndDate == LocalDate.MAX) {
+    private Optional<Predicate> createEndDoneDatePredicate(DatePeriod doneDatePeriod, CriteriaBuilder criteriaBuilder, Root<Task> rootTask) {
+        if (doneDatePeriod == null || doneDatePeriod.getEnd() == null) {
             return Optional.empty();
         }
 
-        LocalDateTime doneEndDateTime = LocalDateTime.of(doneEndDate, LocalTime.MAX);
+        LocalDateTime endDoneDateTime = LocalDateTime.of(doneDatePeriod.getEnd(), LocalTime.MAX);
 
         Predicate endDateIsNullPredicate = criteriaBuilder.isNull(rootTask.get(DONE_DATE_TIME_KEY));
-        Predicate endDateLtePredicate = criteriaBuilder.lessThanOrEqualTo(rootTask.get(DONE_DATE_TIME_KEY), doneEndDateTime);
+        Predicate endDateLtePredicate = criteriaBuilder.lessThanOrEqualTo(rootTask.get(DONE_DATE_TIME_KEY), endDoneDateTime);
 
         Predicate endDatePredicate = criteriaBuilder.or(endDateIsNullPredicate, endDateLtePredicate);
 

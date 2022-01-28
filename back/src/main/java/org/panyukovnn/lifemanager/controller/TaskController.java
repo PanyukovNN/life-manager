@@ -105,8 +105,7 @@ public class TaskController {
                 .priority(request.getPriority())
                 .statuses(request.getTaskStatuses())
                 .categoryIds(categoryIds)
-                .doneStartDate(request.getDoneStartDate())
-                .doneEndDate(request.getDoneEndDate())
+                .doneDatePeriod(request.getDoneDatePeriod())
                 .sortType(request.getSortType())
                 .build();
 
