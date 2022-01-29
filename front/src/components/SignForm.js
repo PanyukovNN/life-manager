@@ -36,7 +36,7 @@ export const SignForm = ({isRegistration} ) => {
         const processErrorSubmit = (error) => {
             setLoading(false);
 
-            if (error.response.status === 400) {
+            if (error && error.response && error.response.status === 400) {
                 setErrors(error.response.data);
             } else {
                 showAlert(error.response.data);
@@ -44,15 +44,17 @@ export const SignForm = ({isRegistration} ) => {
         }
 
         if (isRegistration) {
-            signUp(form.username, form.email, form.password, form.confirmPassword).then(
-                processSuccessSubmit,
-                processErrorSubmit
-            );
+            signUp(form.username, form.email, form.password, form.confirmPassword)
+                .then(
+                    processSuccessSubmit,
+                    processErrorSubmit
+                );
         } else {
-            signIn(form.username, form.password).then(
-                processSuccessSubmit,
-                processErrorSubmit
-            );
+            signIn(form.username, form.password)
+                .then(
+                    processSuccessSubmit,
+                    processErrorSubmit
+                );
         }
     };
 

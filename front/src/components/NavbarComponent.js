@@ -1,7 +1,7 @@
 import '../App.css';
 import {React} from 'react';
-import {Container, Nav, Navbar, Spinner, Button} from "react-bootstrap";
-import {signOut, isLoggedIn} from "../services/AuthService";
+import {Container, Nav, Navbar, Spinner, Button, NavDropdown} from "react-bootstrap";
+import {signOut, isLoggedIn, getUser} from "../services/AuthService";
 import {LOADING_SPINNER_ID} from "../Constants";
 
 /**
@@ -11,7 +11,16 @@ import {LOADING_SPINNER_ID} from "../Constants";
  */
 export const NavbarComponent = () => {
 
-    let auth = isLoggedIn();
+    const auth = isLoggedIn();
+    const user = auth ? getUser() : null;
+
+    const renderProfileDropdown = (
+        <NavDropdown title={user ? user.username : "undefined"} id="basic-nav-dropdown" align="end" >
+            <NavDropdown.Item href="/profile">Профиль</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={signOut}>Выйти</NavDropdown.Item>
+        </NavDropdown>
+    );
 
     return (
         <Navbar expand="lg">
@@ -32,7 +41,7 @@ export const NavbarComponent = () => {
                                 <Button variant="outline-secondary">Регистрация</Button>
                             </a>
                         }
-                        {auth && <Nav.Link onClick={signOut}>Выйти</Nav.Link>}
+                        {auth && renderProfileDropdown}
                     </Nav>
                 </Navbar.Collapse>
                 <div className="navbar-spinner" id={LOADING_SPINNER_ID}>

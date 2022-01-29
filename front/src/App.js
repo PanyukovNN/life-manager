@@ -15,6 +15,7 @@ import {useAlert} from "react-alert";
 import * as AlertService from "./services/AlertService";
 import RequireAuth from "./services/RequireAuth";
 import RedirectAfterAuth from "./services/RedirectAfterAuth";
+import {ProfilePage} from "./pages/ProfilePage";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
                     <Route path="*" element={<NotFoundPage />} />
                     <Route path="/sign-in" element={<RedirectAfterAuth><LoginPage /></RedirectAfterAuth>} />
                     <Route path="/sign-up" element={<RedirectAfterAuth><RegistrationPage /></RedirectAfterAuth>} />
+                    <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
                 </Routes>
             </Router>
         </div>

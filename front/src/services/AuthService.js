@@ -11,13 +11,13 @@ import {AUTH_URL} from "../Constants";
  * @returns результат выполнения запроса
  */
 export function signUp(username, email, password, confirmPassword) {
-    return axios.post(AUTH_URL + "sign-up", {
+    return axios.post(AUTH_URL + "/sign-up", {
         username,
         email,
         password,
         confirmPassword
     });
-};
+}
 
 /**
  * Запрос на аутентификаци
@@ -28,26 +28,29 @@ export function signUp(username, email, password, confirmPassword) {
  */
 export function signIn(username, password) {
     return axios
-        .post(AUTH_URL + "sign-in", {
+        .post(AUTH_URL + "/sign-in", {
             username,
             password,
         })
         .then((response) => {
-            if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data));
+            if (response.data) {
+                localStorage.setItem("user", JSON.stringify(response.data.userDto));
+                localStorage.setItem("token", JSON.stringify(response.data.accessToken));
             }
 
-            return response.data;
+            return response;
         });
-};
+}
 
 /**
  * Выход пользователя
  */
 export function signOut() {
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
+
     window.location.href = "/sign-in";
-};
+}
 
 /**
  * Аутентифицирован ли пользователь
@@ -59,16 +62,23 @@ export function isLoggedIn() {
 }
 
 /**
- * Взять токен доступа из локального хранилища
+ * Получить токен доступа из локального хранилища.
  *
- * @returns {boolean} аутентифицирован ли пользователь
+ * @returns {boolean} токен доступа
  */
 export function getAccessToken() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = JSON.parse(localStorage.getItem("token"));
 
-    if (user && user.accessToken) {
-        return 'Bearer ' + user.accessToken;
-    } else {
-        return null;
-    }
+    return accessToken
+        ? 'Bearer ' + accessToken
+        : null;
+}
+
+/**
+ * Взять данные о пользователе из локально хранилища
+ *
+ * @returns {boolean} пользователь
+ */
+export function getUser() {
+    return JSON.parse(localStorage.getItem("user"));
 }

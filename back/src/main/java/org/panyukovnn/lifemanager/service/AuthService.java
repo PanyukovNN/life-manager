@@ -5,6 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.exception.AuthException;
 import org.panyukovnn.lifemanager.model.user.RoleName;
+import org.panyukovnn.lifemanager.model.user.SignInResult;
 import org.panyukovnn.lifemanager.model.user.User;
 import org.panyukovnn.lifemanager.properties.JWTProperties;
 import org.panyukovnn.lifemanager.repository.UserRepository;
@@ -60,17 +61,21 @@ public class AuthService {
      * @param username имя пользователя
      * @param password пароль
      * @param timeZone частовой пояс пользователя
-     * @return jwt токен
+     * @return результат аутентификации пользователя
      */
-    public String signIn(String username, String password, TimeZone timeZone) {
+    public SignInResult signIn(String username, String password, TimeZone timeZone) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authToken);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
+        String jwt = generateToken(user.getUsername(), timeZone);
 
-        return generateToken(user.getUsername(), timeZone);
+        return SignInResult.builder()
+                .user(user)
+                .jwt(jwt)
+                .build();
     }
 
     /**
