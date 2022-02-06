@@ -16,6 +16,7 @@ import * as AlertService from "./services/AlertService";
 import RequireAuth from "./services/RequireAuth";
 import RedirectAfterAuth from "./services/RedirectAfterAuth";
 import {ProfilePage} from "./pages/ProfilePage";
+import {NetworkErrorPage} from "./pages/exception/NetworkErrorPage";
 
 function App() {
 
@@ -32,10 +33,12 @@ function App() {
                     <Route path="/categories" element={<RequireAuth><CategoryListPage /></RequireAuth>} />
                     <Route path="/categories/recently-deleted" element={<RequireAuth><RecentlyDeletedCategoryListPage /></RequireAuth>} />
 
-                    <Route path="*" element={<NotFoundPage />} />
                     <Route path="/sign-in" element={<RedirectAfterAuth><LoginPage /></RedirectAfterAuth>} />
                     <Route path="/sign-up" element={<RedirectAfterAuth><RegistrationPage /></RedirectAfterAuth>} />
                     <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
+
+                    <Route path="*" element={<NotFoundPage />} />
+                    <Route path="/network-error" element={<NetworkErrorPage />} />
                 </Routes>
             </Router>
         </div>

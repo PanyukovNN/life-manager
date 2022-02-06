@@ -5,6 +5,8 @@ import org.panyukovnn.lifemanager.model.TaskSortType;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Менеджер стратегий сортировки задач.
@@ -12,7 +14,7 @@ import java.util.*;
 @Service
 public class TaskSortStrategyResolver {
 
-    private final Map<TaskSortType, TaskSortStrategy> strategyMap = new EnumMap<>(TaskSortType.class);
+    private final Map<TaskSortType, TaskSortStrategy> strategyMap;
 
     /**
      * Конструктор.
@@ -20,7 +22,10 @@ public class TaskSortStrategyResolver {
      * @param sortStrategies стратегии сортировки задач
      */
     public TaskSortStrategyResolver(Set<TaskSortStrategy> sortStrategies) {
-        sortStrategies.forEach(strategy -> strategyMap.put(strategy.getTaskCompareType(), strategy));
+        strategyMap = sortStrategies.stream().collect(Collectors.toMap(
+                TaskSortStrategy::getTaskCompareType,
+                Function.identity()
+        ));
     }
 
     /**

@@ -44,7 +44,7 @@ const processResponse = (axiosResponse) => {
                 showAlert(error.response.data.message);
             } else {
                 if (error.message && error.message === "Network Error") {
-                    showAlert("Отсутствует соединение с сервером");
+                    window.location.href = "/network-error";
 
                     return;
                 }

@@ -3,10 +3,10 @@ package org.panyukovnn.lifemanager.model.request;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import static org.panyukovnn.lifemanager.model.Constants.BLANK_PASSWORD_ERROR_MSG;
-import static org.panyukovnn.lifemanager.model.Constants.BLANK_USER_NAME_ERROR_MSG;
+import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
  * Запрос аутентификации пользователя.
@@ -15,8 +15,9 @@ import static org.panyukovnn.lifemanager.model.Constants.BLANK_USER_NAME_ERROR_M
 @Setter
 public class AuthRequest {
 
-	@NotBlank(message = BLANK_USER_NAME_ERROR_MSG)
-	private String username;
+	@Email(message = WRONG_EMAIL_ERROR_MSG)
+	@NotBlank(message = BLANK_EMAIL_ERROR_MSG)
+	private String email;
 
 	@NotBlank(message = BLANK_PASSWORD_ERROR_MSG)
 	private String password;

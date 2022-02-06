@@ -6,6 +6,7 @@ dependencies {
     implementation library.jasypt
     implementation library.postgres
     implementation library.liquibase
+    implementation library.commonsValidator
     implementation library.springBootAOP
     implementation library.springBootWeb
     implementation library.springBootDataJpa

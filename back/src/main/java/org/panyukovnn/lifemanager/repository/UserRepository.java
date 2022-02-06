@@ -21,6 +21,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsernameIgnoreCase(String username);
 
     /**
+     * Находит пользователя по почтовому ящику (без учета регистра).
+     *
+     * @param email почтовый ящик
+     * @return пользователь
+     */
+    Optional<User> findByEmailIgnoreCase(String email);
+
+    /**
      * Проверяет существует ли пользователь с заданным именем (без учета регистра).
      *
      * @param username имя пользователя

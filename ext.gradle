@@ -23,6 +23,7 @@ ext.library = [
         'springKafka':'org.springframework.kafka:spring-kafka:2.7.5',
 
         'commonsIo':'commons-io:commons-io:2.8.0',
+        'commonsValidator':'commons-validator:commons-validator:1.7',
 
         'guava':'com.google.guava:guava:31.0.1-jre',
 

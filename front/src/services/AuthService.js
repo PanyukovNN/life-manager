@@ -26,10 +26,10 @@ export function signUp(username, email, password, confirmPassword) {
  * @param password пароль
  * @returns результат выполнения запроса
  */
-export function signIn(username, password) {
+export function signIn(email, password) {
     return axios
         .post(AUTH_URL + "/sign-in", {
-            username,
+            email,
             password,
         })
         .then((response) => {

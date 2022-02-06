@@ -50,7 +50,7 @@ export const SignForm = ({isRegistration} ) => {
                     processErrorSubmit
                 );
         } else {
-            signIn(form.username, form.password)
+            signIn(form.email, form.password)
                 .then(
                     processSuccessSubmit,
                     processErrorSubmit
@@ -139,9 +139,9 @@ export const SignForm = ({isRegistration} ) => {
                     <h5>Введите свои данные</h5>
                 </div>
 
-                {usernameInput}
+                {isRegistration && usernameInput}
 
-                {isRegistration && emailInput}
+                {emailInput}
 
                 {passwordInput}
 

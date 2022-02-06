@@ -61,7 +61,7 @@ public class AuthController {
      */
     @PostMapping("/sign-in")
     public ResponseEntity<AuthResponse> signIn(@RequestBody @Valid AuthRequest request, TimeZone timeZone) {
-        SignInResult signInResult = authService.signIn(request.getUsername(), request.getPassword(), timeZone);
+        SignInResult signInResult = authService.signIn(request.getEmail(), request.getPassword(), timeZone);
 
         User user = signInResult.getUser();
 

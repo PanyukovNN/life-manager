@@ -38,8 +38,8 @@ public class JWTFilter extends GenericFilterBean {
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
 
         if (token != null && validateToken(token)) {
-            String userLogin = getLoginFromToken(token);
-            UserDetails customUserDetails = lifeManagerUserDetailService.loadUserByUsername(userLogin);
+            String userEmail = getEmailFromToken(token);
+            UserDetails customUserDetails = lifeManagerUserDetailService.loadUserByEmail(userEmail);
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
@@ -71,14 +71,17 @@ public class JWTFilter extends GenericFilterBean {
         } catch (SignatureException e) {
             log.error("Invalid signature");
         } catch (Exception e) {
-            log.error("invalid token");
+            log.error("Invalid token");
         }
 
         return false;
     }
 
-    private String getLoginFromToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(jwtProperties.getSecret()).parseClaimsJws(token).getBody();
+    private String getEmailFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtProperties.getSecret())
+                .parseClaimsJws(token)
+                .getBody();
 
         return claims.getSubject();
     }

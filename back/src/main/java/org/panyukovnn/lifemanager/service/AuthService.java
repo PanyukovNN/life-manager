@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.panyukovnn.lifemanager.exception.AuthException;
+import org.panyukovnn.lifemanager.exception.NotFoundException;
 import org.panyukovnn.lifemanager.model.user.RoleName;
 import org.panyukovnn.lifemanager.model.user.SignInResult;
 import org.panyukovnn.lifemanager.model.user.User;
@@ -22,7 +23,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import static org.panyukovnn.lifemanager.model.Constants.USER_ALREADY_EXISTS_BY_EMAIL;
-import static org.panyukovnn.lifemanager.model.Constants.USER_ALREADY_EXISTS_BY_NAME;
+import static org.panyukovnn.lifemanager.model.Constants.USER_NOT_FOUND_ERROR;
 
 /**
  * Сервис аутентификации.
@@ -58,19 +59,23 @@ public class AuthService {
     /**
      * Провести аутентификацию пользователя.
      *
-     * @param username имя пользователя
+     * @param email почтовый ящик
      * @param password пароль
      * @param timeZone частовой пояс пользователя
      * @return результат аутентификации пользователя
      */
-    public SignInResult signIn(String username, String password, TimeZone timeZone) {
+    public SignInResult signIn(String email, String password, TimeZone timeZone) {
+        String username = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_ERROR))
+                .getUsername();
+
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authToken);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
-        String jwt = generateToken(user.getUsername(), timeZone);
+        String jwt = generateToken(user.getEmail(), timeZone);
 
         return SignInResult.builder()
                 .user(user)
@@ -81,31 +86,26 @@ public class AuthService {
     /**
      * Сгенерировать токен пользователя.
      *
-     * @param username имя пользователя
+     * @param email почтовый ящик
      * @param timeZone часовой пояс пользователя
      * @return JWT токен
      */
-    private String generateToken(String username, TimeZone timeZone) {
+    private String generateToken(String email, TimeZone timeZone) {
         Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(timeZone.toZoneId()).toInstant());
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
                 .compact();
     }
 
     /**
-     * Выбрасываем исключение, если пользователь с таким же логином или email'ом уже зарегистрирован.
+     * Выбрасываем исключение, если пользователь с email'ом уже зарегистрирован.
      *
      * @param userTemplate частично заполенная сущность пользователя
      */
     private void checkUserExistence(User userTemplate) {
-        boolean existsByUsername = userRepository.existsByUsernameIgnoreCase(userTemplate.getUsername());
-        if (existsByUsername) {
-            throw new AuthException(USER_ALREADY_EXISTS_BY_NAME);
-        }
-
         boolean existsByEmail = userRepository.existsByEmailIgnoreCase(userTemplate.getEmail());
         if (existsByEmail) {
             throw new AuthException(USER_ALREADY_EXISTS_BY_EMAIL);

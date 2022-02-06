@@ -411,7 +411,7 @@
 }
 
 
-.not-found-page-wrap {
+.exception-page-wrap {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -423,25 +423,28 @@
     border-radius: 10px;
     overflow: hidden;
 }
-.not-found-page-text-wrap {
+.exception-page-text-wrap {
     text-align: center;
     padding-top: 118px;
     color: #cdd4de;
 }
-.not-found-page-text-wrap h1 {
+.exception-page-text-wrap h1 {
     font-weight: 900;
     font-size: 165px;
     line-height: 1;
     margin-bottom: -10px;
     opacity: 0.6;
 }
-.not-found-page-text-wrap h2 {
+.exception-page-text-wrap h2 {
     font-weight: 700;
     font-size: 34px;
     margin-bottom: 6px;
     opacity: 0.9;
 }
-.not-found-back-to-home-link {
+.exception-page-header {
+    margin-bottom: 30px !important;
+}
+.exception-page-back-to-home-link {
     display: inline-block;
     margin-top: 100px;
     font-weight: 300;
