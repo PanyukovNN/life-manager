@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${SPRING_DATA_MONGODB_HOST:localhost}:5432/lifemanager
+    url: jdbc:postgresql://${SPRING_DATA_MONGODB_HOST:localhost}:5433/lifemanager
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
