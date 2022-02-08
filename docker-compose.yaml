@@ -3,10 +3,22 @@ version: '3.3'
 volumes:
   lifemanager_postgres_volume:
 
+secrets:
+  jwt_master_password:
+    file: ./jwt-master-password.txt
+
 services:
   back:
     build: .
     container_name: back
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATA_POSTGRES_HOST: postgres
+      FRONT_URL: front
+      JWT_SECRET: jwt_master_password
+    secrets:
+      - jwt_master_password
 
   front:
     build: front/
@@ -18,7 +30,7 @@ services:
     image: postgres:latest
     container_name: postgres
     ports:
-      - 5433:5432
+      - 5432:5432
     environment:
       POSTGRES_DB: lifemanager
       POSTGRES_PASSWORD: postgres

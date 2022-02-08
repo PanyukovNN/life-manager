@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${SPRING_DATA_MONGODB_HOST:localhost}:5432/lifemanager
+    url: jdbc:postgresql://${SPRING_DATA_POSTGRES_HOST:localhost}:5432/lifemanager
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -31,5 +31,5 @@ jwt:
   secret: ENC(ho3x09YFe9sLlcHEaZb86nYoj/XB+o+GOsN5mxjIVUM=)
 
 life-manager:
-  front-url: http://localhost:3000
+  front-url: http://${FRONT_URL:localhost}:3000
   keepRecentlyDeletedCategoriesDays: 30
