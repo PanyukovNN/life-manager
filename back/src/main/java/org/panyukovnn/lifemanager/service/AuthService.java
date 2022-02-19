@@ -22,8 +22,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TimeZone;
 
-import static org.panyukovnn.lifemanager.model.Constants.USER_ALREADY_EXISTS_BY_EMAIL;
-import static org.panyukovnn.lifemanager.model.Constants.USER_NOT_FOUND_ERROR;
+import static org.panyukovnn.lifemanager.model.Constants.*;
 
 /**
  * Сервис аутентификации.
@@ -101,11 +100,16 @@ public class AuthService {
     }
 
     /**
-     * Выбрасываем исключение, если пользователь с email'ом уже зарегистрирован.
+     * Выбрасываем исключение, если пользователь уже зарегистрирован.
      *
      * @param userTemplate частично заполенная сущность пользователя
      */
     private void checkUserExistence(User userTemplate) {
+        boolean existsByUsername = userRepository.existsByUsernameIgnoreCase(userTemplate.getUsername());
+        if (existsByUsername) {
+            throw new AuthException(USER_ALREADY_EXISTS_BY_NAME);
+        }
+
         boolean existsByEmail = userRepository.existsByEmailIgnoreCase(userTemplate.getEmail());
         if (existsByEmail) {
             throw new AuthException(USER_ALREADY_EXISTS_BY_EMAIL);

@@ -42,7 +42,7 @@ public final class Constants {
     public static final String CATEGORY_ALREADY_EXISTS_ERROR_MSG = "Раздел с данным наименованием уже существует";
     public static final String WRONG_TASK_ID_ERROR_MSG = "Неверный идентификатор задачи.";
     public static final String RESOURCE_FILE_NOT_FOUND_ERROR_MSG = "Не найден файл ресурсов ";
-    public static final String USER_NOT_FOUND_ERROR = "Пользователь \"%s\" не найден.";
+    public static final String USER_NOT_FOUND_ERROR = "Пользователь не найден.";
     public static final String USER_WITH_EMAIL_NOT_FOUND_ERROR = "Пользователь с почтовым ящиком \"%s\" не найден.";
     public static final String USER_NOT_ACTIVATED = "Аккаунт \"%s\" не активирован.";
     public static final String USER_ALREADY_EXISTS_BY_NAME = "Пользователь с данным именем уже зарегистрирован";
