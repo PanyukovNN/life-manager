@@ -31,6 +31,6 @@ jwt:
   secret: ENC(ho3x09YFe9sLlcHEaZb86nYoj/XB+o+GOsN5mxjIVUM=)
 
 life-manager:
-  front-url: http://localhost:3000
+  front-url: ${FRONT_URL:http://localhost:3000}
   keepRecentlyDeletedCategoriesDays: 30
 
