@@ -20,7 +20,7 @@ export const DESCRIPTION_TEXTAREA_ID = "descriptionTextareaId";
 /**
  * Ссылки
  */
-export const BACK_URL = "http://back/api"
+export const BACK_URL = "http://localhost/api"
 export const AUTH_URL = BACK_URL + "/auth";
 
 /**
