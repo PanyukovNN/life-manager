@@ -74,6 +74,7 @@
     padding: 10px 5px;
 
     background-color: #F4F5F7;
+    height: fit-content;
 }
 .priority-task-block-header {
     margin-left: 10px;

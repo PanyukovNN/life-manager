@@ -1,8 +1,8 @@
 package org.panyukovnn.lifemanager.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.panyukovnn.lifemanager.service.jwt.JWTFilter;
 import org.panyukovnn.lifemanager.service.LifeManagerUserDetailService;
+import org.panyukovnn.lifemanager.service.jwt.JWTFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
