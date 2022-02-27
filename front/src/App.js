@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
-import {React} from 'react'
+import {React, useEffect} from 'react'
 import {CategoryListPage} from "./pages/category/CategoryListPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {NavbarComponent} from "./components/NavbarComponent";
@@ -21,6 +21,11 @@ import {NetworkErrorPage} from "./pages/exception/NetworkErrorPage";
 function App() {
 
     AlertService.setAlert(useAlert())
+
+    useEffect(() => {
+        fetch("http://back:7000/api/actuator").then(r => console.log(r));
+        console.log("Hello")
+    }, [])
 
     return (
         <div className="App">
