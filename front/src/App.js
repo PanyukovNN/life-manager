@@ -22,10 +22,10 @@ function App() {
 
     AlertService.setAlert(useAlert())
 
-    useEffect(() => {
-        fetch("http://back:7000/api/actuator").then(r => console.log(r));
-        console.log("Hello")
-    }, [])
+    // useEffect(() => {
+    //     fetch("http://back:7000/api/actuator").then(r => console.log(r));
+    //     console.log("Hello")
+    // }, [])
 
     return (
         <div className="App">
