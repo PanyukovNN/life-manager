@@ -37,6 +37,10 @@ export const TaskModal = ({refreshTaskList,
             setDate(task !== null ? task.plannedDate : "")
             setTime(task !== null ? task.plannedTime : "")
 
+            // При открытии модального окна устанавливаем фокус на поле воода описания задачи
+            let descriptionTextarea = document.getElementById(DESCRIPTION_TEXTAREA_ID);
+            descriptionTextarea.focus();
+
             setShow(true);
         },
         [showModalCall]
