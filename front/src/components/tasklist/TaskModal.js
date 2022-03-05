@@ -37,16 +37,20 @@ export const TaskModal = ({refreshTaskList,
             setDate(task !== null ? task.plannedDate : "")
             setTime(task !== null ? task.plannedTime : "")
 
-            // При открытии модального окна устанавливаем фокус на поле воода описания задачи
-            let descriptionTextarea = document.getElementById(DESCRIPTION_TEXTAREA_ID);
-            descriptionTextarea.focus();
-
             setShow(true);
         },
         [showModalCall]
     );
 
     const handleClose = () => setShow(false);
+
+    const handleShow = () => {
+        // При открытии модального окна устанавливаем фокус на поле воода описания задачи
+        let descriptionTextarea = document.getElementById(DESCRIPTION_TEXTAREA_ID);
+        let descriptionLength = descriptionTextarea.value.length;
+        descriptionTextarea.focus();
+        descriptionTextarea.setSelectionRange(descriptionLength, descriptionLength);
+    }
 
     const handleSave = async () => {
         setShowSpinner(true);
@@ -64,7 +68,7 @@ export const TaskModal = ({refreshTaskList,
     }
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onShow={handleShow} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {task
